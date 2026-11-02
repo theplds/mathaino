@@ -183,6 +183,7 @@ html[data-theme="dark"] .history-visual-intro p{color:#c1d7e8}
   text-align:center;
   box-sizing:border-box;
 }
+#gate.gate-day.hidden{display:none!important}
 #gate.gate-day #gateWord{
   font-size:clamp(3rem,11vw,5.25rem);
   font-weight:760;
