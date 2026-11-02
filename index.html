@@ -195,7 +195,7 @@ const historyStops=historyLocations.map(loc=>{const start=histXY(...loc.origin),
 const historyDuration=7500;
 const historyTotal=historyDuration*historyStops.length;
 function historyClock(ms){const seconds=Math.floor(ms/1000);return Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0')}
-function historyUpdateControls(){const seek=$('historySeek');seek.value=String(Math.round(historyElapsed));seek.style.setProperty('--progress',(100*historyElapsed/historyTotal)+'%');$('historyTime').textContent=historyClock(historyElapsed)+' / '+historyClock(historyTotal);$('historyPlayIndicator').textContent=historyPlaying?'Αναπαραγωγή':'Σε παύση';$('historyPlay').innerHTML=lineIcon(historyPlaying?'pause':'play');$('historyPlay').setAttribute('aria-label',historyPlaying?'Παύση':'Αναπαραγωγή')}
+function historyUpdateControls(){const seek=$('historySeek');seek.value=String(Math.round(historyElapsed));seek.style.setProperty('--progress',(100*historyElapsed/historyTotal)+'%');$('historyTime').textContent=historyClock(historyElapsed)+' / '+historyClock(historyTotal);$('historyPlayIndicator').textContent=historyPlaying?'Αναπαραγωγή':'Σε παύση';const icon=historyPlaying?'pause':'play';if($('historyPlay').dataset.icon!==icon){$('historyPlay').innerHTML=lineIcon(icon);$('historyPlay').dataset.icon=icon}$('historyPlay').setAttribute('aria-label',historyPlaying?'Παύση':'Αναπαραγωγή')}
 
 function historyStop(){historyPlaying=false;if(historyFrame)cancelAnimationFrame(historyFrame);historyFrame=0;historyUpdateControls()}
 function historyPosition(t,stop){const x=stop.start[0],y=stop.start[1],c=stop.control,e=stop.end;return [(1-t)*(1-t)*x+2*(1-t)*t*c[0]+t*t*e[0],(1-t)*(1-t)*y+2*(1-t)*t*c[1]+t*t*e[1]]}
