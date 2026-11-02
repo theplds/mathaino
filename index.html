@@ -678,6 +678,79 @@ $('historyPlay').innerHTML=lineIcon('play');
 $('historyPause').innerHTML=lineIcon('pause');
 $('historyReplay').innerHTML=lineIcon('repeat');
 $('historyFullscreen').innerHTML=lineIcon('fullscreen');
+
+// The profile picture is the only field children can edit from the child-facing UI.
+// All other account and learning settings remain behind the parent PIN screen.
+let avatarPickerIndex=-1,avatarReturnView='profiles',avatarSaving=false;
+function openAvatarPicker(index,origin='profiles'){
+if(!ready||!profiles[index])return;
+avatarPickerIndex=index;
+avatarReturnView=origin==='home'?'home':'profiles';
+const profile=profiles[index];
+$('profileNotice').textContent='';
+$('avatarPickerChild').textContent='Εικόνα για: '+profile.name;
+$('avatarStatus').textContent='';
+drawAvatarOptions(index);
+viewAll('avatarPicker')
+}
+function drawAvatarOptions(index){
+const library=window.MathainoAvatars;
+const options=library?.choices||['fox','bear','cat','owl','robot','astronaut'];
+const selected=avatarIcon(profiles[index].icon);
+const nodes=options.map(id=>{
+const button=document.createElement('button');
+button.type='button';button.className='avatar-choice';
+const label=library?.label(id)||id;
+button.innerHTML='<span class="avatar-art-wrap">'+avatarDrawing(id)+'</span><span class="avatar-choice-name"></span><span class="avatar-choice-current"></span>';
+button.querySelector('.avatar-choice-name').textContent=label;
+button.querySelector('.avatar-choice-current').textContent=selected===id?'Η εικόνα μου':'';
+button.setAttribute('aria-label','Επιλογή εικόνας: '+label);
+button.setAttribute('aria-pressed',String(selected===id));
+button.onclick=()=>saveChildAvatar(index,id);
+return button
+});
+$('avatarOptions').replaceChildren(...nodes)
+}
+async function saveChildAvatar(index,avatarId){
+if(avatarSaving||index!==avatarPickerIndex||!profiles[index])return;
+if(!window.MathainoAvatars?.choices.includes(avatarId))return;
+const current=avatarIcon(profiles[index].icon);
+if(avatarId===current){viewAll(avatarReturnView);return}
+const record=cloudChildren[index];
+if(!db||!ready||!record?.id){
+$('avatarStatus').textContent='Δεν υπάρχει ενεργή σύνδεση. Δοκίμασε ξανά όταν συνδεθείς.';
+return
+}
+avatarSaving=true;
+const buttons=[...$('avatarOptions').querySelectorAll('button')];
+buttons.forEach(button=>button.disabled=true);
+$('avatarCancel').disabled=true;
+$('avatarStatus').textContent='Αποθήκευση εικόνας…';
+try{
+// Update only the icon. Do not send grade, subject permissions, or parent settings.
+const {data,error}=await db.from('children').update({icon:avatarId}).eq('id',record.id).select('id,icon');
+if(error)throw error;
+if(!Array.isArray(data)||data.length!==1||data[0].id!==record.id||data[0].icon!==avatarId)
+throw new Error('Η αποθήκευση δεν επιβεβαιώθηκε από τον λογαριασμό.');
+profiles[index].icon=avatarId;
+record.icon=avatarId;
+saveProfiles();
+drawProfiles();
+if(child===index)avatarHeader(index);
+const dest=avatarReturnView;
+$('profileNotice').textContent='Η νέα εικόνα αποθηκεύτηκε για το παιδί: '+profiles[index].name+'.';
+viewAll(dest);
+}catch(error){
+$('avatarStatus').textContent='Η εικόνα δεν αποθηκεύτηκε. '+(error?.message||'Προσπάθησε ξανά.')
+}finally{
+avatarSaving=false;
+buttons.forEach(button=>button.disabled=false);
+$('avatarCancel').disabled=false
+}
+}
+$('avatarCancel').onclick=()=>{if(avatarSaving)return;viewAll(avatarReturnView)};
+$('changeAvatar').onclick=()=>{if(child>=0)openAvatarPicker(child,'home')};
+
 const grade5OldViewAll=viewAll;
 viewAll=function(id){grade5OldViewAll(id);$('grade5Lesson').classList.toggle('hidden',id!=='grade5Lesson')};
 function grade5UpdateEditor(p){
