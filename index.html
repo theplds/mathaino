@@ -102,7 +102,7 @@ function lineIcon(name){const paths={"next":"<path d=\"M5 5v14l10-7zM19 5v14\"/>
 const id=b.dataset.sub,title=b.textContent.trim(),library=window.MathainoIllustrations;
 const fallback=({math:'multiply',fr:'language',en:'language',addition:'plus',reading:'reading',history:'book',history5:'book',science5:'energy'})[id];
 const picture=library?.subject(id)||lineIcon(fallback);
-b.innerHTML='<span class="subject-illustration">'+picture+'</span><span class="subject-title"></span><span class="subject-desc"></span>';
+b.innerHTML='<span class="subject-illustration" aria-hidden="true">'+picture+'</span><span class="subject-title"></span><span class="subject-desc"></span>';
 b.querySelector('.subject-title').textContent=title;
 b.querySelector('.subject-desc').textContent=library?.descriptions[id]||'';
 b.setAttribute('aria-pressed',String(b.classList.contains('active')))
@@ -783,4 +783,28 @@ render=function(){mathainoReadingRender();if(sub==='reading'&&qs[i]&&qs[i].icon)
 for(const [id,name] of [['historyStudyMode','reading'],['historyAdventureMode','book'],['grade5Study','reading'],['grade5Explore','water'],['grade5Questions','pencil']]){
 const element=$(id);if(element)element.innerHTML=lineIcon(name)+' '+element.textContent
 }
+function refreshSubjectPanel(){
+const library=window.MathainoIllustrations;
+const heading=$('selectedSubjectDescription');
+if(heading)heading.textContent=library?.descriptions[sub]||'Διάλεξε ενότητα και τρόπο μάθησης.';
+const isFixedLesson=['history','history5','science5'].includes(sub);
+const options=$('topic');
+const topicCount=options.options?.length||0;
+$('topicGroup').hidden=topicCount<=1;
+$('topicSingle').hidden=topicCount>1;
+$('topicSingle').textContent=topicCount===1?'Ενότητα: '+options.selectedOptions[0].textContent:'';
+$('countGroup').hidden=isFixedLesson;
+$('study').innerHTML=lineIcon('reading')+' Μελέτη';
+$('practice').innerHTML=lineIcon('pencil')+' '+(isFixedLesson?'Ερωτήσεις':'Εξάσκηση');
+for(const button of document.querySelectorAll('#subjects [data-sub]')){
+const current=button.dataset.sub===sub&&!button.hidden;
+button.classList.toggle('active',current);
+button.setAttribute('aria-pressed',String(current))
+}
+}
+const originalTopicsBeforeIllustrationPanel=topics;
+topics=function(){originalTopicsBeforeIllustrationPanel();refreshSubjectPanel()};
+const originalChooseChildBeforeIllustrationPanel=chooseChild;
+chooseChild=function(index){originalChooseChildBeforeIllustrationPanel(index);refreshSubjectPanel()};
+
 </script></body></html>
