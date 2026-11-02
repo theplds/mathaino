@@ -213,6 +213,7 @@ const historyFacts=[
 {q:'Τι συνέβαινε όταν οι Έλληνες συναντούσαν άλλους λαούς;',a:'Αντάλλασσαν προϊόντα και ιδέες',opts:['Αντάλλασσαν προϊόντα και ιδέες','Σταματούσαν κάθε εμπόριο','Μιλούσαν όλοι την ίδια γλώσσα'],why:'Οι επαφές με άλλους λαούς ενίσχυσαν το εμπόριο και τις πολιτισμικές ανταλλαγές.'}
 ];
 let historyIndex=0,historyFrame=0,historyElapsed=0,historyStarted=0,historyPlaying=false;
+let historySpeed=1,historyCaptionsEnabled=false,historyIdleTimeout=null;
 // Natural Earth country boundaries (public-domain 110m GeoJSON); projected consistently with the historic locations.
 const historyBounds={west:-6,east:43,north:48,south:29};
 function histXY(lon,lat){return [Math.round((lon-historyBounds.west)/(historyBounds.east-historyBounds.west)*71400)/100,Math.round((historyBounds.north-lat)/(historyBounds.north-historyBounds.south)*39600)/100]}
@@ -223,7 +224,7 @@ const historyLocations=[
 ];
 function histInitPlaces(){const origins=document.getElementById('historyOrigins'),labels=document.getElementById('histPlaceLabels');origins.replaceChildren();labels.replaceChildren();historyLocations.forEach((loc,i)=>{const s=histXY(...loc.origin),e=histXY(...loc.colony);const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.setAttribute('cx',s[0]);circle.setAttribute('cy',s[1]);circle.setAttribute('r','5');circle.setAttribute('fill','#e7a447');circle.setAttribute('stroke','white');circle.setAttribute('stroke-width','2');origins.append(circle);const marker=document.getElementById('histMarker'+i);marker.setAttribute('cx',e[0]);marker.setAttribute('cy',e[1]);for(const [p,name] of [[s,loc.originName],[e,loc.colonyName]]){const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',p[0]+7);t.setAttribute('y',p[1]-7);t.textContent=name;labels.append(t)}})}
 histInitPlaces();
-async function histLoadGeography(){const status=document.getElementById('historyMapCaption');try{const r=await fetch('https://cdn.jsdelivr.net/gh/nvkelso/natural-earth-vector@master/geojson/ne_110m_admin_0_countries.geojson');if(!r.ok)throw Error('HTTP '+r.status);const geo=await r.json();const land=document.getElementById('geoLand'),ns='http://www.w3.org/2000/svg';const paths=[];for(const feature of geo.features){const g=feature.geometry;if(!g)continue;const polys=g.type==='Polygon'?[g.coordinates]:g.type==='MultiPolygon'?g.coordinates:[];for(const poly of polys){for(const ring of poly){let d='',active=false;for(const coord of ring){const [lon,lat]=coord;if(lon<historyBounds.west-2||lon>historyBounds.east+2||lat<historyBounds.south-2||lat>historyBounds.north+2){active=false;continue}const p=histXY(lon,lat);d+=(active?'L':'M')+p.join(' ');active=true}if(d)paths.push(d)}}}const path=document.createElementNS(ns,'path');path.setAttribute('d',paths.join(' '));land.replaceChildren(path);status.textContent='Γεωγραφικός χάρτης Natural Earth · Διάλεξε αναπαραγωγή'}catch(e){status.textContent='Ο γεωγραφικός χάρτης χρειάζεται σύνδεση στο Internet. Οι θέσεις των πόλεων παραμένουν ακριβείς.'}}
+async function histLoadGeography(){const status=document.getElementById('historyMapCaption');try{const r=await fetch('https://cdn.jsdelivr.net/gh/nvkelso/natural-earth-vector@master/geojson/ne_110m_admin_0_countries.geojson');if(!r.ok)throw Error('HTTP '+r.status);const geo=await r.json();const land=document.getElementById('geoLand'),ns='http://www.w3.org/2000/svg';const paths=[];for(const feature of geo.features){const g=feature.geometry;if(!g)continue;const polys=g.type==='Polygon'?[g.coordinates]:g.type==='MultiPolygon'?g.coordinates:[];for(const poly of polys){for(const ring of poly){let d='',active=false;for(const coord of ring){const [lon,lat]=coord;if(lon<historyBounds.west-2||lon>historyBounds.east+2||lat<historyBounds.south-2||lat>historyBounds.north+2){active=false;continue}const p=histXY(lon,lat);d+=(active?'L':'M')+p.join(' ');active=true}if(d)paths.push(d)}}}const path=document.createElementNS(ns,'path');path.setAttribute('d',paths.join(' '));land.replaceChildren(path);if(!historyPlaying&&historyElapsed===0)status.textContent='Κόρινθος → Συρακούσες · Θαλάσσια διαδρομή 1 από 3'}catch(e){status.textContent='Ο γεωγραφικός χάρτης χρειάζεται σύνδεση στο Internet. Οι θέσεις των πόλεων παραμένουν ακριβείς.'}}
 histLoadGeography();
 // Educational maritime routes. Each waypoint is [longitude,latitude] on water
 // according to the Natural Earth 110m coastline used by this map.
@@ -248,8 +249,63 @@ path:'M'+points.map(p=>p.join(' ')).join(' L'),text:historyRouteDescriptions[ind
 const historyDuration=10000;
 const historyTotal=historyDuration*historyStops.length;
 function historyClock(ms){const seconds=Math.floor(ms/1000);return Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0')}
-function historyUpdateControls(){const seek=$('historySeek');seek.value=String(Math.round(historyElapsed));seek.style.setProperty('--progress',(100*historyElapsed/historyTotal)+'%');$('historyTime').textContent=historyClock(historyElapsed)+' / '+historyClock(historyTotal);$('historyPlayIndicator').textContent=historyPlaying?'Αναπαραγωγή':'Σε παύση';const icon=historyPlaying?'pause':'play';if($('historyPlay').dataset.icon!==icon){$('historyPlay').innerHTML=lineIcon(icon);$('historyPlay').dataset.icon=icon}$('historyPlay').setAttribute('aria-label',historyPlaying?'Παύση':'Αναπαραγωγή')}
-function historyStop(){historyPlaying=false;if(historyFrame)cancelAnimationFrame(historyFrame);historyFrame=0;historyUpdateControls()}
+function historyClockTitle(ms){return historyClock(ms)+' / '+historyClock(historyTotal)}
+const historyCaptionLines=[
+'Κόρινθος → Συρακούσες: γύρω από την Πελοπόννησο και μέσω του Ιονίου.',
+'Φώκαια → Μασσαλία: νότια από τη Σικελία και δυτικά από τη Σαρδηνία.',
+'Μίλητος → Σινώπη: Ελλήσποντος, Προποντίδα, Βόσπορος, Εύξεινος Πόντος.'
+];
+function historyUpdateCaptions(){
+const el=$('historySubtitles');
+el.classList.toggle('hidden',!historyCaptionsEnabled);
+if(!historyCaptionsEnabled)return;
+const index=Math.min(Math.floor(historyElapsed/historyDuration),historyStops.length-1);
+const fraction=Math.min((historyElapsed-index*historyDuration)/historyDuration,1);
+const caption=fraction>.84?'Άφιξη: '+historyStops[index].name+'.':historyCaptionLines[index];
+if(el.textContent!==caption)el.textContent=caption
+}
+function historyRevealControls(){
+const stage=$('historyStage');
+stage.classList.remove('history-idle');
+if(historyIdleTimeout)clearTimeout(historyIdleTimeout);
+historyIdleTimeout=null;
+if(historyPlaying)historyIdleTimeout=setTimeout(()=>{
+if(historyPlaying&&!stage.matches(':focus-within'))stage.classList.add('history-idle')
+},2800)
+}
+function historyUpdateControls(){
+const seek=$('historySeek');
+historyElapsed=Math.max(0,Math.min(historyTotal,historyElapsed));
+seek.value=String(Math.round(historyElapsed));
+seek.style.setProperty('--progress',(100*historyElapsed/historyTotal)+'%');
+seek.setAttribute('aria-valuetext',historyClockTitle(historyElapsed));
+$('historyTime').textContent=historyClockTitle(historyElapsed);
+$('historyPlayIndicator').textContent=historyPlaying?'Αναπαραγωγή':'Σε παύση';
+const ended=historyElapsed>=historyTotal;
+const icon=historyPlaying?'pause':ended?'repeat':'play';
+const play=$('historyPlay'),center=$('historyCenterPlay');
+if(play.dataset.icon!==icon){play.innerHTML=lineIcon(icon);play.dataset.icon=icon}
+const centerIcon=ended?'repeat':'play';
+if(center.dataset.icon!==centerIcon){center.innerHTML=lineIcon(centerIcon);center.dataset.icon=centerIcon}
+play.setAttribute('aria-label',historyPlaying?'Παύση':ended?'Αναπαραγωγή από την αρχή':'Αναπαραγωγή');
+play.title=historyPlaying?'Παύση (K)':ended?'Από την αρχή':'Αναπαραγωγή (K)';
+center.setAttribute('aria-label',ended?'Επανάληψη από την αρχή':'Αναπαραγωγή χάρτη');
+center.title=ended?'Επανάληψη':'Αναπαραγωγή';
+$('historyStage').classList.toggle('history-playing',historyPlaying);
+const chapter=Math.min(Math.floor(historyElapsed/historyDuration),historyStops.length-1);
+$('historyNextRoute').disabled=chapter>=historyStops.length-1;
+$('historyCC').setAttribute('aria-pressed',String(historyCaptionsEnabled));
+historyUpdateCaptions();
+}
+function historyStop(){
+historyPlaying=false;
+if(historyFrame)cancelAnimationFrame(historyFrame);
+historyFrame=0;
+if(historyIdleTimeout)clearTimeout(historyIdleTimeout);
+historyIdleTimeout=null;
+$('historyStage').classList.remove('history-idle');
+historyUpdateControls()
+}
 function historyPosition(t,stop){
 const distance=Math.max(0,Math.min(t,1))*stop.length;
 let segment=1;
@@ -283,7 +339,7 @@ $('historyNarrative').textContent=fraction>.84?'Οι άποικοι φτάνου
 if(elapsed>=total){historyStop();$('historyMapCaption').textContent='Το θαλάσσιο ταξίδι ολοκληρώθηκε · 3 αποικίες'}
 historyUpdateControls();
 }
-function historyTick(now){if(!historyPlaying)return;historyElapsed+=Math.min(now-historyStarted,100);historyStarted=now;historyPaint();if(historyPlaying)historyFrame=requestAnimationFrame(historyTick)}
+function historyTick(now){if(!historyPlaying)return;historyElapsed=Math.min(historyTotal,historyElapsed+Math.min(now-historyStarted,100)*historySpeed);historyStarted=now;historyPaint();if(historyPlaying)historyFrame=requestAnimationFrame(historyTick)}
 function historyReset(){
 historyStop();historyElapsed=0;
 const stop=historyStops[0];historyDrawRoute(stop,0);historyDrawShip(stop.start,stop,0);
@@ -293,15 +349,130 @@ $('historyMapCaption').textContent='Αφετηρία: Κόρινθος · Ενδ
 $('historyNarrative').textContent='Πριν από περίπου 2.700 χρόνια, Έλληνες ταξίδευαν με πλοία και ίδρυαν νέες πόλεις σε μακρινές ακτές.';
 historyUpdateControls();
 }
-$('historyPlay').onclick=()=>{if(historyPlaying){historyStop();return}if(historyElapsed>=historyDuration*historyStops.length)historyReset();historyPlaying=true;historyStarted=performance.now();historyUpdateControls();historyFrame=requestAnimationFrame(historyTick)};
-$('historyPause').onclick=()=>historyStop();
-$('historyReplay').onclick=()=>{historyReset();$('historyPlay').click()};
+function historySetElapsed(value){
+historyElapsed=Math.max(0,Math.min(historyTotal,Number(value)||0));
+historyStarted=performance.now();
+historyPaint()
+}
+function historyTogglePlay(){
+if(historyPlaying){historyStop();return}
+if(historyElapsed>=historyTotal)historyReset();
+historyPlaying=true;
+historyStarted=performance.now();
+historyUpdateControls();
+historyRevealControls();
+historyFrame=requestAnimationFrame(historyTick)
+}
+$('historyPlay').onclick=historyTogglePlay;
+$('historyCenterPlay').onclick=historyTogglePlay;
+$('historyPause').onclick=historyStop;
+$('historyReplay').onclick=()=>{historyReset();historyTogglePlay()};
 $('historyBack').onclick=()=>{historyStop();viewAll('home')};
-
+$('historyNextRoute').onclick=()=>{
+const chapter=Math.min(Math.floor(historyElapsed/historyDuration),historyStops.length-1);
+if(chapter>=historyStops.length-1)return;
+historySetElapsed((chapter+1)*historyDuration);
+historyRevealControls();
+};
 $('historySeek').max=String(historyTotal);
-$('historySeek').addEventListener('input',e=>{historyElapsed=Math.min(historyTotal,Math.max(0,Number(e.target.value)));historyStarted=performance.now();historyPaint()});
-$('historyFullscreen').onclick=async()=>{const stage=$('historyStage');try{if(document.fullscreenElement){await document.exitFullscreen()}else if(stage.requestFullscreen){await stage.requestFullscreen()}else{stage.classList.toggle('history-expanded');$('historyFullscreen').innerHTML=lineIcon(stage.classList.contains('history-expanded')?'close':'fullscreen')}}catch(e){stage.classList.toggle('history-expanded')}};
-document.addEventListener('fullscreenchange',()=>{$('historyFullscreen').innerHTML=lineIcon(document.fullscreenElement?'close':'fullscreen')});
+$('historySeek').addEventListener('input',event=>{
+historySetElapsed(event.target.value);
+historyRevealControls();
+});
+$('historyProgress').addEventListener('pointermove',event=>{
+const progress=$('historySeek').getBoundingClientRect();
+if(!progress.width)return;
+const percent=Math.max(0,Math.min(1,(event.clientX-progress.left)/progress.width));
+const preview=$('historyHoverTime');
+preview.textContent=historyClock(percent*historyTotal);
+preview.style.left=(percent*100)+'%';
+});
+$('historyCC').onclick=()=>{
+historyCaptionsEnabled=!historyCaptionsEnabled;
+historyUpdateControls();
+historyRevealControls();
+};
+function historyCloseSettings(){
+$('historySpeedMenu').classList.add('hidden');
+$('historySettings').setAttribute('aria-expanded','false');
+}
+$('historySettings').onclick=()=>{
+const opening=$('historySpeedMenu').classList.contains('hidden');
+$('historySpeedMenu').classList.toggle('hidden',!opening);
+$('historySettings').setAttribute('aria-expanded',String(opening));
+historyRevealControls()
+};
+for(const b of $('historySpeedMenu').querySelectorAll('[data-speed]')){
+b.onclick=()=>{
+historySpeed=Number(b.dataset.speed);
+for(const other of $('historySpeedMenu').querySelectorAll('[data-speed]'))
+other.setAttribute('aria-checked',String(other===b));
+$('historySettings').title='Ταχύτητα: '+(historySpeed===1?'Κανονική':historySpeed+'×');
+historyStarted=performance.now();
+historyCloseSettings();
+$('historySettings').focus();
+historyRevealControls()
+}
+}
+document.addEventListener('pointerdown',event=>{
+if(!$('historySpeedMenu').contains(event.target)&&!$('historySettings').contains(event.target))historyCloseSettings()
+});
+$('historyTheater').onclick=()=>{
+const stage=$('historyStage');
+const active=stage.classList.toggle('history-theater');
+$('historyTheater').setAttribute('aria-pressed',String(active));
+$('historyTheater').title=active?'Κανονική προβολή (T)':'Λειτουργία κινηματογράφου (T)';
+historyRevealControls()
+};
+function historySyncFullscreen(){
+const stage=$('historyStage'),active=document.fullscreenElement===stage||stage.classList.contains('history-expanded');
+$('historyFullscreen').innerHTML=lineIcon(active?'close':'fullscreen');
+$('historyFullscreen').setAttribute('aria-label',active?'Έξοδος από πλήρη οθόνη':'Πλήρης οθόνη');
+$('historyFullscreen').title=active?'Έξοδος από πλήρη οθόνη (F)':'Πλήρης οθόνη (F)';
+}
+$('historyFullscreen').onclick=async()=>{
+const stage=$('historyStage');
+try{
+if(document.fullscreenElement===stage){await document.exitFullscreen()}
+else if(stage.classList.contains('history-expanded'))stage.classList.remove('history-expanded');
+else if(stage.requestFullscreen)await stage.requestFullscreen();
+else stage.classList.add('history-expanded')
+}catch(e){stage.classList.toggle('history-expanded')}
+historySyncFullscreen();
+historyRevealControls()
+};
+document.addEventListener('fullscreenchange',historySyncFullscreen);
+const historyStage=$('historyStage');
+historyStage.addEventListener('pointermove',historyRevealControls);
+historyStage.addEventListener('click',event=>{
+if(event.target.closest('#historyPlayer,#historyCenterPlay'))return;
+if(event.target.closest('svg')){
+historyStage.focus({preventScroll:true});
+historyTogglePlay()
+}
+});
+historyStage.addEventListener('keydown',event=>{
+if(event.target!==historyStage&&event.target.closest('button,input,select,textarea,[contenteditable]'))return;
+const key=event.key.toLowerCase();
+if(key===' '||key==='k'){event.preventDefault();historyTogglePlay()}
+else if(key==='arrowleft'||key==='j'){event.preventDefault();historySetElapsed(historyElapsed-(key==='j'?10000:5000))}
+else if(key==='arrowright'||key==='l'){event.preventDefault();historySetElapsed(historyElapsed+(key==='l'?10000:5000))}
+else if(key==='home'){event.preventDefault();historySetElapsed(0)}
+else if(key==='end'){event.preventDefault();historySetElapsed(historyTotal)}
+else if(key==='c'){event.preventDefault();$('historyCC').click()}
+else if(key==='t'){event.preventDefault();$('historyTheater').click()}
+else if(key==='f'){event.preventDefault();$('historyFullscreen').click()}
+else if(key==='escape'){
+historyCloseSettings();
+if(historyStage.classList.contains('history-expanded')){historyStage.classList.remove('history-expanded');historySyncFullscreen()}
+}
+});
+$('historyNoSound').innerHTML=lineIcon('volume-off');
+$('historyCC').innerHTML=lineIcon('captions');
+$('historySettings').innerHTML=lineIcon('settings');
+$('historyTheater').innerHTML=lineIcon('theater');
+$('historyNextRoute').innerHTML=lineIcon('next');
+historySyncFullscreen();
 function showHistoryQuestion(){const item=historyFacts[historyIndex];$('historyQuestion').textContent=(historyIndex+1)+' / '+historyFacts.length+' · '+item.q;$('historyFeedback').textContent='';$('historyNext').classList.add('hidden');$('historyChoices').replaceChildren(...item.opts.map(option=>{const b=document.createElement('button');b.textContent=option;b.onclick=()=>{if(option===item.a){b.classList.add('good');$('historyFeedback').textContent='Σωστά! '+item.why;$('historyChoices').querySelectorAll('button').forEach(x=>x.disabled=true);$('historyNext').textContent=historyIndex===historyFacts.length-1?'Ξανά από την αρχή':'Επόμενη ερώτηση →';$('historyNext').classList.remove('hidden')}else{b.classList.add('bad');b.disabled=true;$('historyFeedback').textContent='Δοκίμασε ξανά.'}};return b}))}
 $('historyNext').onclick=()=>{historyIndex=(historyIndex+1)%historyFacts.length;showHistoryQuestion()};
 const oldChooseChildHistory=chooseChild;
