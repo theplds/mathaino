@@ -109,3 +109,18 @@ All energy art is original vector source, not raster screenshots or external pho
 - App assets are precached in the PWA service worker: both avatar JS and CSS must be available after the first successful load.
 
 Additional checks: Profile avatars persist after a logout/login; parent Exit returns to the origin screen; no child-facing avatar operation modifies `allowed_subjects`; allow retry after a failed write.
+
+## 9. Curriculum dashboard and beginner reading illustrations (v0.6.41)
+
+The subject menu is now a responsive grid of **eight fully drawn SVG subject cards** using the same consistent palette, rounded lines, and quiet, functional style as the Energy FE1 lesson. Unlike the previous icon-sized drawings, each illustration is large enough for a child to recognise the underlying subject. The eight subjects are mathematics tables, addition, beginner reading, English, French, History Δ΄, History Ε΄, and Physics Ε΄.
+
+- `curriculum-art.js` provides `MathainoIllustrations.subject(id)` and `MathainoIllustrations.word(id)`, with the descriptions and titles for each card. The assets are SVG source, not images downloaded at runtime.
+- `curriculum-art.css` defines the responsive subject-card grid, currently selected card styling, lesson selection panel, and responsive reading exercises. On 320–410 px phones cards remain in a two-column layout without horizontal scrolling; large tap targets and text remain visible.
+- The lesson selection panel displays a context-specific description; it hides **number of questions** on lessons with fixed question counts (History and Physics) to avoid implying the user can adjust an ignored setting. When the lesson has only one unit, its title is shown as static text instead of a meaningless dropdown.
+- The source-of-truth for which subjects appear is unchanged: existing per-child `allowed_subjects`, the Ε΄ Δημοτικού default behavior, and explicit parent settings. Selecting a card still runs the original `topics()` flow. Grade 5 Physics and History still open their existing lessons.
+- Beginner reading activities, including the gate, study cards, and practice question images, now use **eight larger original educational SVGs** for duck, ball, apple, cat, house, fish, water, sun. The educational meaning is the same, but the images share the Physics aesthetic instead of displaying rudimentary line icons.
+- Visual selection is conveyed through both a stronger outline and textual `επιλεγμένο` state, with `aria-pressed` on each subject button. The drawings are `aria-hidden` on subject cards because the text duplicates their subject information; exercise drawings keep descriptive labels.
+- Both code and CSS files are bundled in the service-worker cache. The standalone `curriculum-preview.html` gallery displays both subject and reading sets for design inspection.
+- Preserve all existing parent PIN behavior, personal icon choices, cloud permissions and billing/learning logs while changing presentation.
+
+Test: choose each grade profile; verify only assigned subjects render; pick each subject and verify its illustration, description, unit and actions; test Physics Energy, both History grades, reading gate/study/exercise, phone viewport, dark mode, reduced-motion setting and offline behavior.
