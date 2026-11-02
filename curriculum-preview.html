@@ -1,5 +1,5 @@
 <!doctype html><html lang="el"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Μαθαίνω! · Εικονογραφήσεις μαθημάτων</title>
-<link rel="stylesheet" href="./curriculum-art.css?v=641">
+<link rel="stylesheet" href="./curriculum-art.css?v=642">
 <style>
 :root{color-scheme:light;font-family:system-ui,-apple-system,sans-serif;color:#234b65;background:#edf5fb}
 *{box-sizing:border-box}body{margin:0;padding:19px 15px 60px}main{max-width:960px;margin:auto}
@@ -13,8 +13,8 @@ p{line-height:1.55;color:#546e80}.tabs{display:flex;gap:9px;flex-wrap:wrap;margi
 .card strong{display:block;font-size:1.06rem;margin:10px 0 3px}
 .card p{font-size:.84rem;margin:2px 0 3px}
 .note{font-size:.87rem}
-</style></head><body><main><a href="./?v=641">Επιστροφή στο Μαθαίνω!</a><h1>Οι νέες εικονογραφήσεις</h1><p>Η ίδια οπτική γλώσσα από τα Φυσικά, σε όλα τα μαθήματα και τις ασκήσεις ανάγνωσης. Πρωτότυπα SVG, χωρίς emoji ή εξωτερικές εικόνες.</p><div class="tabs"><button id="subjectTab" aria-pressed="true">Μαθήματα</button><button id="wordTab" aria-pressed="false">Ανάγνωση</button></div><div id="previewGrid"></div><p class="note">Όλες οι εικόνες είναι ενσωματωμένα SVG με εναλλακτικές περιγραφές και λειτουργούν χωρίς σύνδεση μετά την αρχική φόρτωση.</p></main>
-<script src="./curriculum-art.js?v=641"></script><script>
+</style></head><body><main><a href="./?v=642">Επιστροφή στο Μαθαίνω!</a><h1>Οι νέες εικονογραφήσεις</h1><p>Η ίδια οπτική γλώσσα από τα Φυσικά, σε όλα τα μαθήματα και τις ασκήσεις ανάγνωσης. Πρωτότυπα SVG, χωρίς emoji ή εξωτερικές εικόνες.</p><div class="tabs"><button id="subjectTab" aria-pressed="true">Μαθήματα</button><button id="wordTab" aria-pressed="false">Ανάγνωση</button></div><div id="previewGrid"></div><p class="note">Όλες οι εικόνες είναι ενσωματωμένα SVG με εναλλακτικές περιγραφές και λειτουργούν χωρίς σύνδεση μετά την αρχική φόρτωση.</p></main>
+<script src="./curriculum-art.js?v=642"></script><script>
 let tab='subject';const ids={subject:['math','addition','reading','en','fr','history','history5','science5'],word:['duck','ball','apple','cat','house','fish','water','sun']};const labels={duck:'Παπί',ball:'Μπάλα',apple:'Μήλο',cat:'Γάτα',house:'Σπίτι',fish:'Ψάρι',water:'Νερό',sun:'Ήλιος'};
 function render(){const grid=document.getElementById('previewGrid');grid.replaceChildren();for(const id of ids[tab]){const card=document.createElement('article');card.className='card';const visual=document.createElement('div');visual.innerHTML=window.MathainoIllustrations[tab](id);const title=document.createElement('strong');title.textContent=tab==='subject'?window.MathainoIllustrations.subjectLabel(id):labels[id];card.append(visual,title);if(tab==='subject'){const description=document.createElement('p');description.textContent=window.MathainoIllustrations.descriptions[id];card.append(description)}grid.append(card)}document.getElementById('subjectTab').setAttribute('aria-pressed',String(tab==='subject'));document.getElementById('wordTab').setAttribute('aria-pressed',String(tab==='word'))}
 document.getElementById('subjectTab').onclick=()=>{tab='subject';render()};document.getElementById('wordTab').onclick=()=>{tab='word';render()};render();
