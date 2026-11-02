@@ -171,3 +171,101 @@ html[data-theme="dark"] .history-visual-intro p{color:#c1d7e8}
  .history-visual-intro .history-hero-illustration{max-width:360px}
  #grade5HistoryHero{max-width:300px}
 }
+
+/* Entry for early readers: one big Greek day, one button, then one drawing. */
+#gate.gate-day{
+  min-height:min(63dvh,490px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:32px 23px;
+  text-align:center;
+  box-sizing:border-box;
+}
+#gate.gate-day #gateWord{
+  font-size:clamp(3rem,11vw,5.25rem);
+  font-weight:760;
+  color:#244f70;
+  line-height:1.12;
+  letter-spacing:.005em;
+  margin:35px auto 42px;
+  max-width:100%;
+  overflow-wrap:break-word;
+}
+#gate.gate-day #gateBack,
+#gate.gate-day #gateAnswers,
+#gate.gate-day #gateFeedback{display:none!important}
+#gate.gate-day #gateNext{
+  display:block!important;
+  margin:0 auto;
+  width:min(100%,315px)!important;
+  min-height:64px;
+  font-size:1.28rem;
+  font-weight:720;
+  border-radius:15px;
+  background:#2f78a8;
+  border-color:#2f78a8;
+  color:#fff;
+}
+#gate.gate-day #gateNext:focus-visible{outline:3px solid #e4a862;outline-offset:3px}
+#pictureGate{
+  text-align:center;
+}
+#pictureGate .picture{
+  margin:15px auto 15px;
+}
+#pictureGate .picture .mathaino-word-art{
+  width:min(100%,315px);
+  max-height:300px;
+  border:1px solid #c8dbe9;
+  box-shadow:0 6px 17px #214d7715;
+}
+#pictureGate h2{font-size:1.25rem;margin:12px 0 17px;color:#2b5877}
+#pictureGate #pictureAnswers{
+  max-width:490px;
+  margin:12px auto 13px;
+  gap:11px;
+}
+#pictureGate #pictureAnswers button{
+  min-height:62px;
+  padding:11px;
+  font-size:clamp(1.2rem,4vw,1.5rem);
+  font-weight:690;
+  border-radius:12px;
+  background:#f5fbff;
+  border:2px solid #b7d4e9;
+  color:#234d70;
+}
+#pictureGate #pictureAnswers button.good{
+  background:#d9f3e5;
+  border-color:#3d9a71;
+  color:#1a5c3e;
+}
+#pictureGate #pictureAnswers button.bad{
+  background:#fff0e9;
+  border-color:#d99b78;
+  color:#74442e;
+}
+#pictureGate #pictureDone{
+  display:block;
+  min-height:53px;
+  min-width:175px;
+  margin:15px auto 5px;
+  font-size:1.03rem;
+}
+#pictureGate #pictureDone.hidden{display:none!important}
+#pictureGate #pictureMessage{min-height:1.5em;margin:9px auto}
+html[data-theme="dark"] #gate.gate-day #gateWord{color:#e9f5ff}
+html[data-theme="dark"] #gate.gate-day #gateNext{background:#3c7fb5;border-color:#539bca;color:#fff}
+html[data-theme="dark"] #pictureGate h2{color:#e2f1ff}
+html[data-theme="dark"] #pictureGate #pictureAnswers button{background:#2a465f;border-color:#5a809e;color:#eef6ff}
+html[data-theme="dark"] #pictureGate #pictureAnswers button.good{background:#22563d;border-color:#63bd8a}
+html[data-theme="dark"] #pictureGate #pictureAnswers button.bad{background:#5a3c36;border-color:#dba186}
+@media(max-width:390px){
+ #gate.gate-day{min-height:58dvh;padding:23px 12px}
+ #gate.gate-day #gateWord{font-size:clamp(2.6rem,10.5vw,4rem)}
+ #pictureGate{padding:16px}
+ #pictureGate #pictureAnswers{gap:9px}
+ #pictureGate #pictureAnswers button{min-height:57px}
+}
