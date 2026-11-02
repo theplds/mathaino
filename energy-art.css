@@ -19,7 +19,7 @@
 .mathaino-energy-art .e-stored{animation:e-stored 3.5s linear infinite;transform-box:fill-box;transform-origin:center}
 .mathaino-energy-art .e-clockhand{animation:e-clock 5s ease-in-out infinite;transform-box:fill-box;transform-origin:40% 60%}
 .mathaino-energy-art .e-spring{animation:e-gentle 3s ease-in-out infinite}
-.mathaino-energy-art .e-orbit-electron{animation:e-atom 12s linear infinite;transform-box:fill-box;transform-origin:center}
+.mathaino-energy-art .e-orbit-electron{animation:e-atom 12s linear infinite;transform-box:view-box;transform-origin:180px 110px}
 .mathaino-energy-art .e-fuellevel{animation:e-glow 5s ease-in-out infinite}
 @keyframes e-flow{to{stroke-dashoffset:-50}}
 @keyframes e-glow{0%,100%{opacity:.13}50%{opacity:.47}}
