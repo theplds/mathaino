@@ -124,3 +124,13 @@ The subject menu is now a responsive grid of **eight fully drawn SVG subject car
 - Preserve all existing parent PIN behavior, personal icon choices, cloud permissions and billing/learning logs while changing presentation.
 
 Test: choose each grade profile; verify only assigned subjects render; pick each subject and verify its illustration, description, unit and actions; test Physics Energy, both History grades, reading gate/study/exercise, phone viewport, dark mode, reduced-motion setting and offline behavior.
+
+## 10. Illustrated History lesson introductions (v0.6.42)
+
+The two History lessons now introduce their chapters using the same original vector drawings used on the subject cards, instead of unrelated or decorative intro pictures. History Δ΄ displays a compact ship-and-sea illustration alongside the educational description, and History Ε΄ displays a schematic walled-city illustration above its study/adventure controls.
+
+Both introductory drawings come directly from the reusable `MathainoIllustrations.subject()` library, are static (study material does not need motion), and use `aria-hidden` when the accompanying Greek text already conveys the same information. The existing Greek colonies video-map player, History Ε΄ city activity, written study material, and quizzes are preserved.
+
+The app and offline cache are updated together to v0.6.42. Visual review: `curriculum-preview.html` lists all eight subject cards and all eight reading pictures.
+
+Remaining improvements: expand lesson-specific drawings for other grades once additional curriculum chapters are added; use the same line thickness, colors and accessibility across those future assets.
