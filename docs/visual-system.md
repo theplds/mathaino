@@ -47,7 +47,7 @@ SVGs are source-editable, bundled in-app, render offline, and share a 360 × 210
 | --- | --- | --- |
 | Header and general navigation | Book, settings, lock and reports-chart line drawings | Implemented |
 | Child profile selection | Boy, girl, fox, bear and star line drawings | Implemented; legacy stored avatar emoji are converted before display |
-| Subject buttons | Math multiply, addition plus, languages globe, reading book, Physics water droplet, History book | Implemented; Physics icon can later be upgraded to a custom flask |
+| Subject buttons | Math multiply, addition plus, languages globe, reading book, Physics custom energy outline, History book | Implemented; Physics energy symbol is an original SVG line drawing |
 | Reading picture-choice activity | Duck, ball, apple, cat, house, fish, water, sun line drawings | Implemented |
 | History Δ — study | Geography, ship, travel line and arrival graphics | Existing SVG animation preserved |
 | History Δ — activity | Colonization decision flow, with consistent line icons | Text decisions now emoji-free; optional illustrated situation cards later |
@@ -82,7 +82,6 @@ SVGs are source-editable, bundled in-app, render offline, and share a 360 × 210
 
 ## 6. Follow-on design tasks
 
-- Replace the generic Physics subject icon with a dedicated custom flask or energy diagram.
 - Add illustrated situation cards to the Greek-colonization adventure, without altering the existing map study mode.
 - Offer an in-lesson Pause Motion option independent of OS settings.
 - Consider a small standalone SVG preview catalogue for designers and parents.
