@@ -120,6 +120,7 @@
 #historySpeedMenu button:focus-visible{outline:2px solid #fff;outline-offset:2px}
 #historyControls button:hover{background:#ffffff25!important}
 #historyControls button[disabled]{opacity:.35;cursor:default}
+#historyControls .hidden{display:none!important}
 #historyControls .line-icon{width:23px;height:23px;stroke:#fff!important;stroke-width:2.05}
 #historyTime{
   margin-left:5px;margin-right:7px;
