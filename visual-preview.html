@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="el"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Μαθαίνω! | Συλλογή σχεδίων Ενέργειας</title>
+<link rel="stylesheet" href="./energy-art.css?v=635">
+<style>
+:root{color-scheme:light;font-family:system-ui,-apple-system,sans-serif;color:#1a3852;background:#eef6fc}
+*{box-sizing:border-box}body{margin:0;padding:22px 18px 65px}main{max-width:1050px;margin:auto}
+h1{font-size:clamp(1.6rem,4vw,2.3rem);margin:12px 0 5px}p{line-height:1.55}
+.top{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin:12px 0 25px}
+a{color:#255c84}button{border:1px solid #8eb6d1;border-radius:12px;padding:11px 15px;background:#fff;color:#1c4e71;font:inherit;cursor:pointer}
+button[aria-pressed="true"]{background:#235f8c;color:#fff;border-color:#235f8c}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:17px}
+.card{background:#fff;border:1px solid #c7e1f0;border-radius:18px;padding:14px;box-shadow:0 7px 16px #235f8c0b}
+.card h2{font-size:1.12rem;margin:10px 0 5px}.card p{font-size:.91rem;color:#436680;margin:0 0 3px}
+.caption{font-size:.84rem;color:#55748c}.panel{display:flex;gap:8px;flex-wrap:wrap}
+.preview-art{margin-bottom:8px}.preview-art .mathaino-energy-art{max-height:none}
+</style></head><body><main>
+<a href="./?v=636">Πίσω στο Μαθαίνω!</a>
+<h1>Σχέδια της Ενέργειας</h1><p>Οι εννέα πρωτότυπες εικόνες του ΦΕ1. Στη μελέτη είναι στατικές. Στην εξερεύνηση έχουν απλή κίνηση, χωρίς ήχο.</p>
+<div class="top"><div class="panel"><button id="animated" aria-pressed="true">Με κίνηση</button><button id="static" aria-pressed="false">Στατικές εικόνες</button></div><span class="caption">Προσαρμόζεται στην επιλογή μειωμένης κίνησης της συσκευής.</span></div>
+<div id="gallery" class="grid"></div>
+</main><script src="./energy-art.js?v=635"></script><script>
+const items=[
+['bread','Χημική','Η ενέργεια που υπάρχει στις τροφές.'],
+['circuit','Ηλεκτρική','Το ηλεκτρικό κύκλωμα και η λάμπα.'],
+['atom','Πυρηνική','Ενέργεια που σχετίζεται με τους πυρήνες των ατόμων.'],
+['heat','Θερμότητα','Μεταφορά ενέργειας λόγω διαφοράς θερμοκρασίας.'],
+['ball','Κινητική','Η μπάλα κινείται πάνω στο έδαφος.'],
+['bow','Δυναμική','Ενέργεια αποθηκευμένη σε ένα τεντωμένο τόξο.'],
+['sun','Φωτεινή','Ενέργεια που μεταφέρεται με το φως.'],
+['fuel','Χημική','Η φιάλη καυσίμου πριν ανάψει.'],
+['watch','Δυναμική','Η ενέργεια ενός κουρδισμένου ελατηρίου.']];
+let animated=true;
+function render(){const gallery=document.getElementById('gallery');gallery.replaceChildren();for(const [art,name,note] of items){const card=document.createElement('article');card.className='card';const image=document.createElement('div');image.className='preview-art';image.innerHTML=window.MathainoArt.draw(art,!animated);const title=document.createElement('h2');title.textContent=name;const description=document.createElement('p');description.textContent=note;card.append(image,title,description);gallery.append(card)}document.getElementById('animated').setAttribute('aria-pressed',String(animated));document.getElementById('static').setAttribute('aria-pressed',String(!animated))}
+document.getElementById('animated').onclick=()=>{animated=true;render()};
+document.getElementById('static').onclick=()=>{animated=false;render()};
+render();
+</script></body></html>
