@@ -134,3 +134,15 @@ Both introductory drawings come directly from the reusable `MathainoIllustration
 The app and offline cache are updated together to v0.6.42. Visual review: `curriculum-preview.html` lists all eight subject cards and all eight reading pictures.
 
 Remaining improvements: expand lesson-specific drawings for other grades once additional curriculum chapters are added; use the same line thickness, colors and accessibility across those future assets.
+
+## 11. Early-reader welcome — Konstantinos / Β΄ Δημοτικού (v0.6.43)
+
+Follow the agreed **two-slide** opening for second-grade and reading-only profiles. This is a welcoming warm-up, **not a spelling trap or mandatory assessment**.
+
+1. First slide contains **only the current weekday in Greek as a single large word** (for example, «Κυριακή» on Sunday or «Δευτέρα» on Monday), followed by the large **«Εντάξει!»** button. No maths question, no misspelling choices, no instruction sentence, and no unnecessary distracting controls. Determine the weekday dynamically in the `Europe/Athens` time zone.
+2. Second slide contains **one large, immediately recognizable original Physics-style SVG drawing** and exactly **four correctly spelled, simple Greek words**. The child matches the picture to its name. Use pictures and words `παπί`, `μπάλα`, `μήλο`, `γάτα`, `σπίτι`; the answer choices are familiar distinct words rather than incorrect versions of the same word. Reuse the existing `MathainoIllustrations.word()` artwork.
+3. Show gentle optional feedback on selection. The **«Συνέχεια»** button is always available on the second slide, including before an answer is selected, so a child can proceed without being blocked. Back from the picture leads to the weekday.
+4. The existing short mathematics entry question remains unchanged for older profiles. This update must never modify parental permissions, report logs, lessons, or the stored grade.
+5. `#gate.gate-day.hidden` must have `display:none!important` in CSS, since the first screen is otherwise laid out with flex and could remain visible behind slide two.
+
+Tests: Sunday -> «Κυριακή», Monday -> «Δευτέρα»; no answer buttons in slide one; slide two has four correctly spelled words and the matching SVG; Back returns to the day, and Continue opens the correct child home even without selecting an answer; older child still sees their existing initial question. CSS, SVG asset and PWA cache versions must be updated together.
