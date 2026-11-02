@@ -1,0 +1,148 @@
+/* Μαθαίνω! • Curriculum home & reading visual system v1
+   Aligned with original Physics FE1 vector artwork. No external assets or emoji. */
+#home .home-subject-intro{margin:10px 0 16px;color:#43637d;font-size:.96rem;line-height:1.55}
+#subjects{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
+  margin:15px 0 17px;
+  align-items:stretch;
+}
+#subjects>button,
+html[data-theme="dark"] #subjects>button{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-start;
+  padding:11px 11px 14px;
+  text-align:left;
+  min-width:0;
+  min-height:0;
+  border:2px solid #d1e1eb;
+  border-radius:18px;
+  background:#fbfdff;
+  box-shadow:0 3px 10px #2c5b8110;
+  color:#234b65;
+  white-space:normal;
+  font:inherit;
+  transition:border-color .14s ease,background-color .14s ease,transform .14s ease;
+}
+#subjects>button[hidden]{display:none!important}
+#subjects>button:hover{border-color:#7daecf;transform:translateY(-2px)}
+#subjects>button.active{
+  background:#eff8ff;
+  border-color:#2f7eae;
+  box-shadow:0 0 0 2px #7eaccd55;
+}
+#subjects>button:focus-visible{outline:3px solid #e9ad6a;outline-offset:2px}
+#subjects .subject-illustration{
+  display:block;
+  width:100%;height:auto;
+  border-radius:13px;
+  overflow:hidden;
+  pointer-events:none;
+}
+#subjects .mathaino-subject-art{
+  width:100%;height:auto;
+  display:block;
+  max-height:174px;
+  border-radius:12px;
+}
+#subjects .subject-title{
+  display:block;
+  margin:10px 3px 2px;
+  color:#214c68;
+  font-size:clamp(.98rem,2.6vw,1.15rem);
+  font-weight:760;
+  line-height:1.24;
+}
+#subjects .subject-desc{
+  display:block;
+  margin:2px 3px 0;
+  color:#637b8d;
+  font-size:clamp(.76rem,1.8vw,.86rem);
+  line-height:1.35;
+}
+#subjects>button.active .subject-title::after{
+  content:" · επιλεγμένο";
+  color:#2b7099;font-size:.72rem;font-weight:650;
+}
+#home .lesson-options{
+  border:1px solid #cddfee;
+  border-radius:16px;
+  background:#f8fbfe;
+  padding:15px 17px;
+  margin:6px 0 12px;
+}
+#home .lesson-options h3{font-size:1.08rem;margin:0 0 5px;color:#245371}
+#home #selectedSubjectDescription{margin:2px 0 12px;color:#536f84;line-height:1.45}
+#home .lesson-options label{display:block;margin:9px 0 4px;font-weight:680;font-size:.95rem}
+#home .lesson-options select{margin:4px 0 10px;width:100%}
+#home .lesson-options .topic-single{
+  display:block;margin:6px 0 12px;color:#2b5b7c;font-weight:620;
+}
+#home .lesson-actions{margin:14px 0 0;display:flex;gap:10px;flex-wrap:wrap}
+#home .lesson-actions button{flex:1;min-width:min(100%,140px);min-height:49px}
+#home #topicGroup[hidden],#home #countGroup[hidden],#home #topicSingle[hidden]{display:none!important}
+#home .line-icon{background:none;padding:0}
+#pictureGate .picture .mathaino-word-art{
+  display:block;
+  width:min(80%,270px);
+  height:auto;
+  margin:6px auto;
+  border-radius:18px;
+  box-shadow:0 5px 15px #285d7f1a;
+}
+#pictureGate .picture{min-height:150px;margin:14px 0}
+#question .mathaino-word-art{
+  display:block;
+  margin:4px auto 15px;
+  width:min(100%,235px);
+  height:auto;
+  border-radius:16px;
+}
+.reading-card{gap:10px;flex-wrap:wrap}
+.reading-card strong{min-width:155px}
+.reading-card .mathaino-word-art{display:block;width:min(40vw,155px);height:auto}
+.reading-card button{margin-left:auto}
+.mathaino-word-art{vertical-align:middle}
+html[data-theme="dark"] #subjects>button{
+  border-color:#46637a;
+  background:#23384e;
+  color:#f0f6fc;
+  box-shadow:none;
+}
+html[data-theme="dark"] #subjects>button:hover{border-color:#77abce}
+html[data-theme="dark"] #subjects>button.active{
+  background:#2d4f67;
+  border-color:#8dcdf2;
+  box-shadow:0 0 0 2px #7eaccd44;
+}
+html[data-theme="dark"] #subjects .subject-title{color:#eaf5ff}
+html[data-theme="dark"] #subjects .subject-desc{color:#c0d4e4}
+html[data-theme="dark"] #subjects>button.active .subject-title::after{color:#b8e4ff}
+html[data-theme="dark"] #home .lesson-options{background:#22364b;border-color:#426780}
+html[data-theme="dark"] #home .lesson-options h3{color:#d9efff}
+html[data-theme="dark"] #home #selectedSubjectDescription,
+html[data-theme="dark"] #home .lesson-options .topic-single{color:#c7ddee}
+html[data-theme="dark"] #home .home-subject-intro{color:#c6d9e9}
+.no-color #subjects>button.active{
+  border-width:4px;
+  border-color:#244d70;
+  box-shadow:none;
+}
+html[data-theme="dark"] .no-color #subjects>button.active{border-color:#fff}
+@media(max-width:410px){
+  #home{padding:15px}
+  #subjects{gap:9px;grid-template-columns:repeat(2,minmax(0,1fr))}
+  #subjects>button{padding:8px 8px 11px;border-radius:14px}
+  #subjects .subject-title{margin:8px 1px 2px;font-size:.92rem}
+  #subjects .subject-desc{font-size:.72rem;margin:0 1px}
+  #subjects>button.active .subject-title::after{display:block;content:"επιλεγμένο";margin-top:2px}
+  #home .lesson-options{padding:13px}
+  #home .lesson-actions button{min-width:125px}
+}
+@media(prefers-reduced-motion:reduce){
+  #subjects>button{transition:none!important}
+  #subjects>button:hover{transform:none}
+}
