@@ -146,3 +146,28 @@ Follow the agreed **two-slide** opening for second-grade and reading-only profil
 5. `#gate.gate-day.hidden` must have `display:none!important` in CSS, since the first screen is otherwise laid out with flex and could remain visible behind slide two.
 
 Tests: Sunday -> «Κυριακή», Monday -> «Δευτέρα»; no answer buttons in slide one; slide two has four correctly spelled words and the matching SVG; Back returns to the day, and Continue opens the correct child home even without selecting an answer; older child still sees their existing initial question. CSS, SVG asset and PWA cache versions must be updated together.
+
+## 12. Unambiguous reading illustrations — child's first picture gate (v0.6.44)
+
+### Visual brief
+
+The eight illustrations for early Greek reading are now redrawn from scratch with a consistent, simple **educational workbook** style matching the Physics FE1 visual language. These are intended to be recognized immediately by a seven-year-old before reading any of the proposed answers, **not stylized, abstract, iconographic puzzles**.
+
+**Common rules:** A single large identifiable subject; no distracting objects, textual labels or visual clues containing the answer. Flat pastel fills, gently rounded, solid navy-blue #315a70 contours, roughly 3–4 SVG coordinate units stroke width; minimal interior details; stable centered composition and generous margins. The full background is opaque, and CSS—not the SVG background rectangle—handles rounded clipping so the dark theme cannot create black corner cut-outs. The same SVG is used at the child's gate, study flashcards and quiz.
+
+| ID | Greek word | Non-negotiable identifying features |
+| --- | --- | --- |
+| `duck` | παπί | Side-view golden duckling, clearly separate **round head**, single eye, **orange flat beak**, long oval body, visible oval wing, feet, small blue water ripples; no floating head/wing impression |
+| `ball` | μπάλα | Single genuinely round soccer ball with clearly visible center panel, external contour and simple line pattern |
+| `apple` | μήλο | Red/pink apple silhouette with a recognizable inward top notch, green leaf and short stem |
+| `cat` | γάτα | A **sitting cat** rather than a disembodied face: pointed ears, two eyes, whiskers, body, paws and curled tail |
+| `house` | σπίτι | Freestanding simple house with a triangle roof, door and two windows; small ground line |
+| `fish` | ψάρι | Side-view fish with smoothly curved body, distinct triangle tail, top/bottom fins, eye and a small amount of water |
+| `water` | νερό | Clearly half-filled transparent **glass of water**, an unmistakable blue water line; no abstract teardrop |
+| `sun` | ήλιος | Large circular yellow sun with long straight rays, no unnecessary facial features |
+
+### Acceptance test and integration
+
+Use `curriculum-preview.html` to compare the complete illustrated set as one family. Confirm silhouette recognition at 120–180 px, and zoom to gate size. The gate asks only `Διάλεξε τη λέξη` and gives four **correctly spelled real Greek words**. The current-day first slide and optional continuation remain unchanged. Test actual dark-mode gate background at the corners: the image background must be solid without transparent wedges. Confirm all `MathainoIllustrations.word()` entries keep their identifiers and Greek accessibility labels, so existing questions, subject permissions and reporting aren't disrupted. Ensure app and offline cache versions both advance to v0.6.44 and refresh `curriculum-art.js` assets.
+
+Changes are deliberately confined to the illustrated assets and cache references; we are not changing spelling content, quiz logic or a child's learning permissions in this rollout.
