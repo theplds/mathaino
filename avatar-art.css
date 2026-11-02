@@ -1,0 +1,156 @@
+/* Μαθαίνω! profile pictures: illustrated shapes consistent with Energy FE1. */
+#profileList{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,175px),1fr));
+  gap:14px;
+  align-items:stretch;
+}
+#profileList .profile-card{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:space-between;
+  gap:9px;
+  padding:14px;
+  border:1.5px solid #c7dced;
+  border-radius:17px;
+  background:#f8fbff;
+  box-shadow:0 5px 15px #21577910;
+}
+#profileList .profile.profile-enter{
+  border:none;
+  background:transparent;
+  border-radius:12px;
+  box-shadow:none;
+  min-width:0;
+  min-height:0;
+  width:100%;
+  padding:0;
+  margin:0;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+}
+#profileList .profile.profile-enter:hover,
+#profileList .profile.profile-enter:focus-visible{background:#eaf3fc}
+#profileList .profile .avatar-name{
+  font-weight:750;
+  font-size:1.08rem;
+  margin-top:7px;
+}
+#profileList .profile .avatar-grade{font-size:.8rem;color:#56748e}
+#profileList .mathaino-avatar-art{
+  width:min(100%,152px);
+  height:auto;
+  display:block;
+  margin:0 auto;
+  border-radius:17px;
+  box-shadow:0 5px 10px #123f6117;
+}
+#profileList .profile-change{
+  width:100%;min-height:43px;
+  padding:8px 7px;
+  font-size:.88rem;
+  background:#e9f3fc;
+  color:#275877;
+  border:1px solid #b8d8ed;
+  border-radius:11px;
+}
+#profileList .profile-change:hover{background:#d9ebf9;border-color:#5a9bc6}
+#profileNotice{font-size:.92rem;margin:8px 0;color:#376b81}
+#profileNotice:empty{display:none}
+#avatarPicker .avatar-choices{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;margin:20px 0;
+}
+#avatarPicker .avatar-choice{
+  display:flex;flex-direction:column;align-items:center;
+  gap:7px;
+  min-width:0;
+  border:2px solid #d3e3ed;
+  background:#f8fbff;
+  border-radius:16px;
+  padding:9px 8px 12px;
+  font:inherit;color:#244b69;
+  cursor:pointer;
+}
+#avatarPicker .avatar-choice .mathaino-avatar-art{
+  display:block;width:100%;height:auto;max-width:170px;
+  border-radius:12px;
+  transition:transform .16s ease;
+}
+#avatarPicker .avatar-choice:hover{border-color:#5c9bcb;background:#edf7ff}
+#avatarPicker .avatar-choice:hover .mathaino-avatar-art{transform:translateY(-2px)}
+#avatarPicker .avatar-choice[aria-pressed="true"]{
+  border-color:#287cac;
+  background:#e5f3ff;
+  box-shadow:inset 0 0 0 2px #287cac;
+}
+#avatarPicker .avatar-choice:focus-visible{outline:3px solid #245c91;outline-offset:3px}
+#avatarPicker .avatar-choice:disabled{opacity:.55;cursor:wait}
+#avatarPicker .avatar-choice-name{font-weight:670;font-size:.93rem}
+#avatarPicker .avatar-choice-current{font-size:.77rem;font-weight:600;color:#1a6885;min-height:1.1em}
+#avatarPicker #avatarStatus{min-height:1.3em}
+#avatarPicker .avatar-picker-actions{display:flex;gap:12px;align-items:center}
+#homeAvatarActions{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;margin:0 0 15px;
+}
+#homeAvatarActions #childLabel{margin:0}
+#homeAvatarActions #childLabel .mathaino-avatar-art{
+  width:47px;height:43px;display:inline-block;
+  vertical-align:middle;margin-right:7px;
+}
+#homeAvatarActions #changeAvatar{
+  font-size:.88rem;
+  min-height:43px;
+  padding:8px 11px;
+  border-radius:10px;
+}
+#parent .parent-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:13px;
+  flex-wrap:wrap;
+  margin-bottom:17px;
+}
+#parent .parent-header h2{margin:0}
+#parent #parentBack{
+  min-height:44px;
+  border:1px solid #accde0;
+  color:#275572;
+  background:#e9f3fb;
+  border-radius:10px;
+  padding:9px 14px;
+  display:inline-flex;align-items:center;gap:7px;
+  white-space:normal;
+  font-size:.94rem;
+}
+#parent #parentBack:hover{background:#d8edfb}
+#parent .parent-tools{margin-bottom:8px}
+#parent .parent-tools h3{margin:0 0 8px}
+#parent #editIcon{margin-bottom:6px}
+html[data-theme="dark"] #profileList .profile-card,
+html[data-theme="dark"] #avatarPicker .avatar-choice{background:#23364b;border-color:#476380;color:#f2f7ff}
+html[data-theme="dark"] #profileList .profile.profile-enter:hover,
+html[data-theme="dark"] #profileList .profile.profile-enter:focus-visible{background:#2d4962}
+html[data-theme="dark"] #profileList .profile .avatar-grade{color:#b4ccdf}
+html[data-theme="dark"] #profileList .profile-change,
+html[data-theme="dark"] #parent #parentBack,
+html[data-theme="dark"] #homeAvatarActions #changeAvatar{background:#2d4962;color:#edf6ff;border-color:#537c9d}
+html[data-theme="dark"] #avatarPicker .avatar-choice[aria-pressed="true"]{border-color:#8bcef6;background:#2c536d}
+html[data-theme="dark"] #profileNotice{color:#afdcf4}
+@media(max-width:540px){
+ #profileList{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ #profileList .profile-card{padding:10px;gap:8px}
+ #profileList .mathaino-avatar-art{max-width:130px}
+ #avatarPicker .avatar-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ #parent .parent-header{align-items:flex-start}
+ #parent #parentBack{width:100%;justify-content:center}
+}
+@media(prefers-reduced-motion:reduce){
+ #avatarPicker .avatar-choice .mathaino-avatar-art{transition:none!important}
+}
