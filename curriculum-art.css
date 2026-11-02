@@ -146,3 +146,28 @@ html[data-theme="dark"] .no-color #subjects>button.active{border-color:#fff}
   #subjects>button{transition:none!important}
   #subjects>button:hover{transform:none}
 }
+
+/* Chapter introductions keep the same lesson-illustration language as Physics. */
+.history-visual-intro{
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);
+  gap:15px;align-items:center;
+  padding:15px 18px;margin:14px 0 17px;
+  border:1px solid #cfdfeb;
+  border-radius:17px;
+  background:#f3f9fc;
+}
+.history-visual-intro h2{margin:1px 0 8px;color:#254f69;font-size:1.32rem}
+.history-visual-intro p{margin:4px 0 8px;color:#536d80;font-size:.9rem;line-height:1.45}
+.history-visual-intro .mathaino-subject-art{display:block;width:100%;height:auto;border-radius:12px}
+#grade5HistoryHero{grid-template-columns:1fr;max-width:400px;margin:8px 0 15px}
+#grade5HistoryHero .mathaino-subject-art{max-height:174px}
+#grade5HistoryHero.hidden{display:none!important}
+html[data-theme="dark"] .history-visual-intro{background:#23374c;border-color:#486680}
+html[data-theme="dark"] .history-visual-intro h2{color:#eaf3ff}
+html[data-theme="dark"] .history-visual-intro p{color:#c1d7e8}
+@media(max-width:510px){
+ .history-visual-intro{grid-template-columns:1fr;gap:8px;padding:12px}
+ .history-visual-intro .history-hero-illustration{max-width:360px}
+ #grade5HistoryHero{max-width:300px}
+}
