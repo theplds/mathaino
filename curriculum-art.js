@@ -18,6 +18,6 @@ reading:'Παρατηρώ εικόνες και διαβάζω λέξεις'};
 window.MathainoIllustrations=Object.freeze({
 subject,word,descriptions:Object.freeze(descriptions),
 subjectIds:Object.freeze(Object.keys(subjects)),wordIds:Object.freeze(Object.keys(words)),
-subjectLabel(id){return subjects[id]?.label||''}
+subjectLabel(id){return subjects[id]?.label||''},wordLabel(id){return words[id]?.label||''}
 });
 })();
