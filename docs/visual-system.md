@@ -94,3 +94,18 @@ SVGs are source-editable, bundled in-app, render offline, and share a 360 × 210
 - sw.js — offline cache including illustration and style files
 
 All energy art is original vector source, not raster screenshots or external photo assets.
+
+## 8. Profile pictures and parent navigation (v0.6.40)
+
+- Six reusable **original educational-style illustrated avatars** are bundled: fox, bear, cat, owl, robot and astronaut. Existing legacy avatars (boy, girl, star) still render as original SVG drawings.
+- `avatar-art.js` owns the original SVG artwork; `avatar-art.css` owns profile card layout, selectable picture gallery, and responsive/dark styles.
+- A child can choose a picture in two locations: a separate **Αλλαγή εικόνας** button on their profile card, or a corresponding button on their own lesson home screen.
+- Opening a child's learning experience remains a separate action; changing a picture never launches the lesson readiness exercises.
+- Picture selection writes only `children.icon` through the current signed-in family session, filters by the existing child's UUID, requests the updated row, and verifies that one row was returned. Do **not** update age, grade, permissions, settings, or any other field through the child-facing picker.
+- Save errors leave the previous picture and all other settings unchanged; choosing an existing picture does not perform an unnecessary database write.
+- The parent dashboard has an explicit **Έξοδος από τις ρυθμίσεις** button in the header. It returns to the screen that opened the PIN prompt (e.g., child home or profile chooser), clears the parent-unlocked state, and will require the PIN again on re-entry.
+- The dropdown in the parent editor is labelled **Επεξεργασία ρυθμίσεων παιδιού**, so it is not confused with navigation or changing who is learning.
+- Existing profile avatars selected by children must appear correctly in the parent editor. The parent may still select an illustration in the protected settings.
+- App assets are precached in the PWA service worker: both avatar JS and CSS must be available after the first successful load.
+
+Additional checks: Profile avatars persist after a logout/login; parent Exit returns to the origin screen; no child-facing avatar operation modifies `allowed_subjects`; allow retry after a failed write.
