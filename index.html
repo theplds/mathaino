@@ -162,7 +162,7 @@ if(parentPinStatusReady&&!parentPinBusy&&digits.length===4)parentPinSubmit();
 parentPinInput.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();parentPinSubmit()}});
 
 const previousReportOpen=$('openReports').onclick;
-$('openReports').onclick=()=>{if(!parentUnlocked){viewAll('parentUnlock');return}previousReportOpen()};
+$('openReports').onclick=()=>{if(!parentUnlocked){$('openParent').click();return}previousReportOpen()};
 const previousParentBack=$('parentBack').onclick;
 $('parentBack').onclick=()=>{parentUnlocked=false;previousParentBack()};
 const previousSignOut=$('signOut').onclick;
