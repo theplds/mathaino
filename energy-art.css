@@ -1,0 +1,38 @@
+/* Mathaino scene animation language v1 — gentle, predictable, optional motion. */
+.mathaino-energy-art{display:block;width:100%;height:auto;max-height:270px;overflow:visible;border-radius:15px}
+.mathaino-energy-art.compact{max-height:128px;margin:0 auto}
+.g5-energy-form-art{width:100%;min-height:100px;border-radius:13px;overflow:hidden;margin-bottom:7px}
+.g5-energy-form-art .mathaino-energy-art{max-height:126px}
+.g5-energy-example{display:flex;align-items:center;gap:10px;margin:12px 0}
+.g5-energy-example .mathaino-energy-art{width:110px;flex:0 0 110px;border:1px solid #c7dce9}
+.g5-energy-scene .mathaino-energy-art{margin-bottom:13px;max-height:260px}
+.mathaino-energy-art .e-electric{animation:e-flow 1.35s linear infinite}
+.mathaino-energy-art .e-light-halo{animation:e-glow 2.6s ease-in-out infinite}
+.mathaino-energy-art .e-steam{animation:e-rise 2.8s ease-in-out infinite}
+.mathaino-energy-art .e-rolling{transform-box:fill-box;transform-origin:center;animation:e-roll 4.4s ease-in-out infinite alternate}
+.mathaino-energy-art .e-motion-lines{animation:e-fade 2.1s ease-in-out infinite}
+.mathaino-energy-art .e-sunrays{transform-box:fill-box;transform-origin:center;animation:e-sunshine 3.2s ease-in-out infinite}
+.mathaino-energy-art .e-sun{animation:e-fade 3.3s ease-in-out infinite}
+.mathaino-energy-art .e-spark{animation:e-fade 3.6s ease-in-out infinite}
+.mathaino-energy-art .e-gentle{animation:e-gentle 4.2s ease-in-out infinite}
+.mathaino-energy-art .e-bow{animation:e-tension 3.5s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.mathaino-energy-art .e-stored{animation:e-stored 3.5s linear infinite;transform-box:fill-box;transform-origin:center}
+.mathaino-energy-art .e-clockhand{animation:e-clock 5s ease-in-out infinite;transform-box:fill-box;transform-origin:40% 60%}
+.mathaino-energy-art .e-spring{animation:e-gentle 3s ease-in-out infinite}
+.mathaino-energy-art .e-orbit-electron{animation:e-atom 12s linear infinite;transform-box:fill-box;transform-origin:center}
+.mathaino-energy-art .e-fuellevel{animation:e-glow 5s ease-in-out infinite}
+@keyframes e-flow{to{stroke-dashoffset:-50}}
+@keyframes e-glow{0%,100%{opacity:.13}50%{opacity:.47}}
+@keyframes e-rise{0%,100%{opacity:.25;transform:translateY(8px)}50%{opacity:.9;transform:translateY(-5px)}}
+@keyframes e-roll{0%{transform:translateX(-25px) rotate(-25deg)}100%{transform:translateX(24px) rotate(25deg)}}
+@keyframes e-fade{0%,100%{opacity:.42}50%{opacity:1}}
+@keyframes e-sunshine{0%,100%{transform:scale(.96);opacity:.75}50%{transform:scale(1.05);opacity:1}}
+@keyframes e-gentle{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes e-tension{0%,100%{transform:scaleX(1)}50%{transform:scaleX(1.025)}}
+@keyframes e-stored{to{stroke-dashoffset:-24}}
+@keyframes e-clock{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(12deg)}}
+@keyframes e-atom{to{transform:rotate(360deg)}}
+.mathaino-energy-art.compact *, .mathaino-energy-art.compact{animation:none!important}
+@media(prefers-reduced-motion:reduce){.mathaino-energy-art *{animation:none!important;transition:none!important}}
+html[data-theme="dark"] .g5-energy-example .mathaino-energy-art{border-color:#487695}
+@media(max-width:425px){.g5-energy-example .mathaino-energy-art{width:88px;flex-basis:88px}}
