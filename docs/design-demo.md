@@ -77,3 +77,16 @@ Design quality rule: the whole interface should feel illustrated by a person, no
 The **5% χειροποίητο** button controls both the original v2 border refinements and the new v3 system-wide UI treatment, keeping a one-tap straight-vs-sketch comparison. Neither CSS file loads in production index.html; the real family app, PIN, children's curricula, local answer logs and Supabase remain untouched.
 
 Technical check: confirm CSS balanced, complete v3 CSS link in the demo HTML, all selectors are gated by `data-sketch="on"`, and reading/History/Physics flows + dark theme continue to work when comparing styles. Manually inspect 320px/mobile and desktop browsers before promoting the interface to production.
+
+## Design iteration 4 — 15% hand-rendered across the entire interface
+
+Michael requested stronger **15%**, not just stronger wobble on the icons. This remains the **independent design prototype**; the authenticated family app is not modified.
+
+- New `design-demo-15percent.css` is layered after the existing v2/v3 sketch CSS, and all of its visual overrides are guarded by `html[data-sketch="on"]`. Compared to the earlier 5%, this now increases intentional handmade qualities in **sidebar**, **header**, **nav buttons**, **app-wide buttons**, **subject cards**, **progress bars**, **lesson panels**, **letter slots**, **letter tiles**, **answer choices**, **topic labels** and **illustrations**.
+- Organic borders and asymmetric radii vary in a coherent system instead of each component being independently randomly skewed. Fine original sketch-style seams and decorative lines provide a genuine human-drawn look while reserving white space and hierarchy.
+- The lightweight contour-distortion SVG filter is updated to `scale=3.3` with gently varied low-frequency displacement. It is only used on SVG drawing contours and translucent ink overlays, never on text glyphs or answer hit targets.
+- Letter tile layout, child-readable type, keyboard focus visibility, responsive spacing, dark mode contrast, and all educational state machines are preserved.
+- Comparison switch label and accessible state now read **15% χειροποίητο** when on and **Τέλεια ίσιο** when off. One tap removes all three opt-in sketch-style layers.
+- New preview: `https://theplds.github.io/mathaino/design-demo.html?v=4`. Actual family app still uses the existing version and is not affected.
+
+No rendering-based test on the user's mobile device is yet available; the style changes must be judged visually and on touch-size usability before production migration.
