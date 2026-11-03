@@ -90,3 +90,16 @@ Michael requested stronger **15%**, not just stronger wobble on the icons. This 
 - New preview: `https://theplds.github.io/mathaino/design-demo.html?v=4`. Actual family app still uses the existing version and is not affected.
 
 No rendering-based test on the user's mobile device is yet available; the style changes must be judged visually and on touch-size usability before production migration.
+
+## Design iteration 5 — 25% hand-drawn across the entire interface
+
+The user requested **25%** handmade. The demo now ships a fourth optional visual overlay, `design-demo-25percent.css?v=5`, after the 5%, whole-interface, and 15% CSS. This is intentionally more noticeable: workbook-like paper ruling, hand-cut sidebar tabs and ink seams, slightly uneven card and button borders, richer hand-drawn section underlines, irregular progress strips, organic lesson art framing, and tactile reading letter tiles.
+
+Implementation details:
+- `design-demo.html` loads the 25% CSS layer, identifies the mode as **25% χειροποίητο**, and changes the existing SVG contour displacement to scale 4.6 (from 3.3) with low-frequency noise.
+- `design-demo.js?v=5` updates both visible label and accessibility label; its comparison switch continues to toggle **all** sketch overlays on/off in one action.
+- All 25% CSS selectors are behind `html[data-sketch="on"]`, keeping the original straight layout recoverable.
+- Text glyphs, alignment, answer hit areas, stored demo theme, lesson logic and existing app permissions remain unchanged. No new artwork or Akademio material is imported.
+- Verified JS syntax, responsive/dark mode selectors, linked files, unique element IDs; mock interaction test passed word building, History, Physics, sketch off/on, and dark theme.
+- Hosted URL: `https://theplds.github.io/mathaino/design-demo.html?v=5`.
+- Note: structural and mocked interaction checks do not validate actual rendered quality on a real iPad. Visually assess before applying to the production family app.
