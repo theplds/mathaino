@@ -1,4 +1,4 @@
-/* Μαθαίνω! warm illustration system • v0.6.54
+/* Μαθαίνω! warm illustration system • v0.6.55
    Original, self-contained SVG artwork. Same palette, strokes, and frame across subjects, words and lessons. */
 (function(){
 'use strict';
@@ -13,7 +13,23 @@ const shapes={
  apple:()=>p('M118 70q-31-25-49 11q-15 36 17 68q17 19 34 10q18 9 35-13q33-39 12-65q-17-20-49-11Z',coral)+p('M118 69q-2-22 9-31', 'none')+p('M127 51q18-20 36-7q-10 19-36 7Z',sage)+c(94,98,5,cream,cream,0),
  ball:()=>c(120,106,61,coral)+p('M61 103q58-31 117 0M120 46q-30 58 0 121M120 46q35 54 0 121','none',cream,4),
  cat:()=>p('M63 86 67 47 91 62q29-12 59 0l24-15 3 39q23 28 3 58q-23 30-62 29q-47 1-61-36q-12-25 6-51Z',honey)+eye(99,108)+eye(144,108)+smile(121,125)+p('M120 118l-5 7h10z',coral)+p('M79 125l-23-4m23 12-21 5m100-13 22-4m-22 12 20 5','none',ink,2),
- dog:()=>p('M73 80q-11-44-33-17q-13 21 17 54q-4 55 61 55q63 0 64-53q30-29 17-51q-17-24-34 9q-41-22-92 3Z',peach)+e(91,110,8,13,'#a8795a')+e(149,110,8,13,'#a8795a')+eye(95,126)+eye(146,126)+c(121,142,7,ink,ink,0)+smile(121,154),
+ dog:()=>[
+ '<path d="M73 117Q42 115 42 87Q41 78 48 71" stroke="#70584b" stroke-width="17" fill="none" stroke-linecap="round"/>',
+ '<path d="M73 117Q42 115 42 87Q41 78 48 71" stroke="#dcaf79" stroke-width="11" fill="none" stroke-linecap="round"/>',
+ '<path d="M75 96Q98 84 128 90Q154 94 163 113Q172 136 158 163L78 163Q61 153 63 126Z" fill="#e7ba85" stroke="#70584b" stroke-width="3.5" stroke-linejoin="round"/>',
+ '<path d="M86 134L86 166Q83 174 67 172Q60 172 63 166L72 144Z" fill="#d6a273" stroke="#70584b" stroke-width="3"/>',
+ '<path d="M141 129L145 166Q152 174 166 171Q171 169 165 164L159 133Z" fill="#e7ba85" stroke="#70584b" stroke-width="3"/>',
+ '<path d="M74 168h17m58 0h17" stroke="#70584b" stroke-width="2.4" fill="none" stroke-linecap="round"/>',
+ '<path d="M140 91Q143 76 158 72L181 88L165 129Q154 134 142 119Z" fill="#f1cda8" stroke="#70584b" stroke-width="3.5"/>',
+ '<path d="M149 82Q147 65 160 56Q179 46 188 66Q192 70 202 74L214 84Q218 92 211 98Q202 104 186 103Q183 115 172 121Q151 125 145 109Z" fill="#f2d9bc" stroke="#70584b" stroke-width="3.5" stroke-linejoin="round"/>',
+ '<path d="M163 60Q146 53 139 72Q133 90 149 103Q162 105 163 89Z" fill="#b78060" stroke="#70584b" stroke-width="3.1"/>',
+ '<path d="M149 70q-7 14 2 24" stroke="#daae8c" stroke-width="3" fill="none" stroke-linecap="round"/>',
+ '<circle cx="185" cy="80" r="3.8" fill="#564238"/><circle cx="186" cy="79" r="1.1" fill="#fff9ec"/>',
+ '<path d="M209 86q11-2 5 9q-5 5-10-1z" fill="#564238"/>',
+ '<path d="M192 100q7 5 13 0" stroke="#70584b" stroke-width="2" fill="none" stroke-linecap="round"/>',
+ '<path d="M149 109q9 10 25 11" stroke="#bd775e" stroke-width="7" fill="none" stroke-linecap="round"/>',
+ '<circle cx="161" cy="126" r="5.5" fill="#f0c778" stroke="#70584b" stroke-width="1.8"/>'
+].join(''),
  duck:()=>e(115,130,66,40,honey)+c(88,81,42,honey)+p('M50 85 19 97 51 109Z',coral)+eye(82,78)+p('M125 126q24-22 41 0q-17 28-41 0Z',peach)+p('M103 169v14m30-12v12','none',ink,3.5),
  bird:()=>e(118,122,58,43,sky)+c(88,85,35,sky)+p('M58 91 35 100 59 108Z',honey)+eye(82,81)+p('M105 123q23-25 44 0q-20 26-44 0Z',sage)+p('M111 165v18m26-18v18','none',ink,3),
  fish:()=>p('M58 108q47-59 103-16l39-33-2 99-37-31q-61 43-103-19Z',sky)+c(92,103,5,ink,ink,0)+p('M119 83q17 23 0 45m-58-17h11','none',ink,3),
