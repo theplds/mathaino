@@ -1,0 +1,47 @@
+/* Μαθαίνω! — original illustrated chess rules and self-paced practice */
+#chessModeTabs{display:flex;gap:9px;flex-wrap:wrap;margin:11px 0 15px}
+#chessModeTabs button{flex:1 1 145px;min-height:48px;border:2px solid #b6d5e5;background:#f6fbff;color:#2a5677;font-size:.98rem;font-weight:700;border-radius:12px}
+#chessModeTabs button[aria-selected="true"]{background:#2a719d;border-color:#2a719d;color:#fff}
+#chessModeTabs button:focus-visible{outline:3px solid #e5ac6d;outline-offset:2px}
+#chessRulesPanel.hidden,#chessMovementPanel.hidden,
+#chessRuleCard.hidden,#chessRuleCheck.hidden,#chessCheckContinue.hidden{display:none!important}
+#chessRuleCard,#chessRuleCheck{border:1px solid #c7deeb;background:#f6fbff;border-radius:18px;padding:16px;margin-top:12px}
+#chessRuleCard h3,#chessRuleCheck h3{font-size:1.3rem;line-height:1.35;color:#284f69;margin:7px 0 13px}
+#chessRuleText{font-size:1.03rem;line-height:1.62;color:#2a4f68;margin:9px 0}
+#chessRuleCount,#chessCheckCount{font-size:.86rem;color:#4b7790;font-weight:700;margin:0 0 7px}
+#chessRuleTip{font-size:.91rem;line-height:1.5;background:#e2f2f7;border-left:4px solid #6ea5bb;border-radius:8px;padding:12px;color:#305870;margin:14px 0}
+#chessRuleDiagrams{display:flex;flex-wrap:wrap;justify-content:center;gap:17px;margin:16px 0}
+.chess-rule-diagram{min-width:0;flex:1 1 205px;max-width:300px}
+.chess-rule-board-label{font-size:.81rem;line-height:1.42;color:#4c6f85;text-align:center;margin:8px auto}
+.chess-rule-mini-board{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));width:100%;aspect-ratio:1;overflow:hidden;border:4px solid #406e81;border-radius:7px}
+.chess-rule-square{display:flex;position:relative;justify-content:center;align-items:center;min-width:0;min-height:0;aspect-ratio:1}
+.chess-rule-square.light{background:#fbf1dc}.chess-rule-square.dark{background:#7eb4bd}
+.chess-rule-square.highlight{box-shadow:inset 0 0 0 3px #d89039}
+.chess-rule-square.danger{box-shadow:inset 0 0 0 3px #c04d4d}
+.chess-rule-mini-piece{font-family:"DejaVu Sans","Segoe UI Symbol",serif;font-size:clamp(15px,4.3vw,29px);font-weight:normal;line-height:1}
+.chess-rule-mini-piece.white{color:#fff8e9;-webkit-text-stroke:.7px #284b61;text-shadow:0 1px 1px #2443588a}
+.chess-rule-mini-piece.black{color:#263e50;text-shadow:0 1px 1px #e5efff}
+.chess-rule-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.chess-rule-actions button{flex:1 1 135px;min-height:48px}
+#chessRulePrev:disabled{opacity:.35;cursor:default}
+#chessCheckQuestion{font-size:1.08rem;line-height:1.5}
+#chessCheckAnswers{display:grid;grid-template-columns:1fr;gap:9px;margin:14px 0}
+#chessCheckAnswers button{font:inherit;min-height:52px;border-radius:12px;background:#fff;border:2px solid #c6dce7;padding:10px 13px;color:#2c526f;text-align:left;white-space:normal}
+#chessCheckAnswers button.good{background:#ddf3e8;border-color:#55a17b;color:#20583f}
+#chessCheckAnswers button.bad{background:#f8e9e4;border-color:#ca947b;color:#8a503d}
+#chessCheckFeedback{font-size:.93rem;color:#315b72;line-height:1.5;min-height:1.6em}
+#chessCheckContinue,#chessCheckBack{min-height:47px}
+#chessRuleCheckNav{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+#chessRuleCheckNav button{flex:1 1 140px}
+html[data-theme="dark"] #chessRuleCard,html[data-theme="dark"] #chessRuleCheck{background:#23394d;border-color:#4c6a80}
+html[data-theme="dark"] #chessRuleCard h3,html[data-theme="dark"] #chessRuleCheck h3{color:#e7f4ff}
+html[data-theme="dark"] #chessRuleText,html[data-theme="dark"] #chessCheckQuestion{color:#d6e7f5}
+html[data-theme="dark"] #chessRuleTip{background:#2e4f64;color:#e4f3fb;border-left-color:#86c4da}
+html[data-theme="dark"] #chessRuleCount,html[data-theme="dark"] #chessCheckCount,html[data-theme="dark"] .chess-rule-board-label{color:#c0d9e8}
+html[data-theme="dark"] #chessModeTabs button{background:#263d54;color:#eef7ff;border-color:#507590}
+html[data-theme="dark"] #chessModeTabs button[aria-selected="true"]{background:#3178a5;border-color:#87c7ec}
+html[data-theme="dark"] #chessCheckAnswers button{background:#2d4960;color:#edf5ff;border-color:#527c94}
+html[data-theme="dark"] #chessCheckAnswers button.good{background:#245b42;color:#eaffef;border-color:#86d4aa}
+html[data-theme="dark"] #chessCheckAnswers button.bad{background:#624039;color:#fff0e9;border-color:#d3a087}
+@media(max-width:430px){#chessRuleCard,#chessRuleCheck{padding:12px}#chessRuleDiagrams{gap:9px}.chess-rule-diagram{flex-basis:180px;max-width:260px}.chess-rule-mini-board{border-width:3px}.chess-rule-mini-piece{font-size:clamp(17px,6vw,29px)}}
+@media(prefers-reduced-motion:reduce){#chessModeTabs *{animation:none!important;transition:none!important}}
