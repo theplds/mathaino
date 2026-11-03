@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.52 — μικτές ασκήσεις ορθογραφίας Α΄ Δημοτικού.
+/* Μαθαίνω! v0.6.53 — μικτές ασκήσεις ορθογραφίας Α΄ Δημοτικού, χωρίς βαθμολόγηση τόνου.
    Κάθε συνεδρία συνδυάζει αυτόματα γράμματα, κενά και πλήρη γραφή, χωρίς βαθμούς ή χρονόμετρο. */
 (function(){
 'use strict';
@@ -6,19 +6,20 @@ const $s=id=>document.getElementById(id);
 const lessons=[
  {name:'Οι πρώτες λέξεις',description:'Μικρές, καθημερινές λέξεις με εικόνες.',items:[
   ['παπί','duck',2],['γάτα','cat',1],['μήλο','apple',0],['νερό','water',1],['γάλα','milk',2],['ήλιος','sun',0]]},
- {name:'Προσέχω τον τόνο',description:'Γράφω σωστά και θυμάμαι πού μπαίνει ο τόνος.',items:[
+ {name:'Συχνές λέξεις',description:'Μαθαίνω να γράφω γνωστές λέξεις με εικόνες.',items:[
   ['σπίτι','house',2],['σκύλος','dog',2],['δέντρο','tree',1],['καπέλο','hat',3],['ψωμί','bread',3],['βιβλίο','book',4]]},
  {name:'Πιο προχωρημένες λέξεις',description:'Εξασκούμαι σε λέξεις με ιδιαίτερα γράμματα και διαφορετικούς ήχους.',items:[
   ['ψάρι','fish',1],['μπάλα','ball',0],['πουλί','bird',1],['λουλούδι','flower',2],['μπανάνα','banana',3],['τρένο','train',2],['καράβι','ship',1],['αμάξι','car',3]]}
 ];
 const modes=[
- {id:'tiles',title:'Βάζω γράμματα',description:'Βάλε τα γράμματα στη σειρά. Κάθε γράμμα έχει τον δικό του τόνο.'},
+ {id:'tiles',title:'Βάζω γράμματα',description:'Βάλε τα γράμματα στη σειρά.'},
  {id:'missing',title:'Συμπληρώνω',description:'Λείπει ένα γράμμα. Διάλεξε ποιο ταιριάζει.'},
- {id:'write',title:'Γράφω μόνος μου',description:'Γράψε ολόκληρη τη λέξη στα ελληνικά, μαζί με τον τόνο.'}
+ {id:'write',title:'Γράφω μόνος μου',description:'Γράψε ολόκληρη τη λέξη στα ελληνικά. Ο τόνος είναι προαιρετικός.'}
 ];
 let state={mode:'tiles',modePlan:[],group:'all',items:[],index:0,tiles:[],selected:[],blank:-1,options:[],solved:false,tries:0,revealed:false,wrongOption:[],lastAnswer:''};
 const normalize=x=>String(x||'').normalize('NFC').trim().replace(/\s+/g,' ').toLocaleLowerCase('el-GR');
-const noAccent=x=>normalize(x).normalize('NFD').replace(/[\u0300-\u036f]/g,'').normalize('NFC');
+// Αγνοούμε μόνο τον τόνο: τα διαλυτικά (ϊ, ϋ) παραμένουν σημαντικά.
+const noAccent=x=>normalize(x).normalize('NFD').replace(/\u0301/g,'').normalize('NFC');
 const variants=['α','ά','ε','έ','η','ή','ι','ί','ο','ό','υ','ύ','ω','ώ','β','δ','γ','π','τ','κ','μ','ν','λ','ρ','σ','ς','φ','χ','ψ'];
 function shuffled(array){const a=array.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const tmp=a[i];a[i]=a[j];a[j]=tmp}return a}
 function makeModePlan(length){
@@ -67,7 +68,9 @@ function makeOptions(word){
  const right=Array.from(word.text)[word.blank];
  const vowels='αάεέηήιίοόυύωώ';
  const pool=vowels.includes(right)?Array.from(vowels):variants.filter(x=>!vowels.includes(x));
- const chosen=shuffled(pool.filter(x=>x!==right)).slice(0,3);
+ // Οι επιλογές πρέπει να διαφέρουν ως γράμματα, όχι μόνο ως προς τον τόνο.
+ const unique=[...new Set(pool.map(noAccent))];
+ const chosen=shuffled(unique.filter(x=>x!==noAccent(right))).slice(0,3);
  return shuffled([right,...chosen])
 }
 function getGroup(){
@@ -182,7 +185,7 @@ function checkAnswer(answer,optionIndex){
  const chosen=normalize(answer);
  const right=state.mode==='missing'?Array.from(word.text)[state.blank]:word.text;
  const rightNorm=normalize(right);
- const good=chosen===rightNorm;
+ const good=noAccent(chosen)===noAccent(rightNorm);
  safeLog(answer,good);
  if(good){
   state.solved=true;
@@ -198,11 +201,7 @@ function checkAnswer(answer,optionIndex){
   return
  }
  if(state.mode==='missing'&&Number.isInteger(optionIndex))state.wrongOption.push(optionIndex);
- if(noAccent(chosen)===noAccent(rightNorm)&&chosen!==rightNorm){
-  $s('spellFeedback').textContent='Τα γράμματα είναι σωστά. Πρόσεξε τον τόνο και δοκίμασε ξανά.';
- }else{
-  $s('spellFeedback').textContent='Καλή προσπάθεια. Παρατήρησε την εικόνα και δοκίμασε ξανά. Μπορείς να δεις τη λέξη για βοήθεια.';
- }
+ $s('spellFeedback').textContent='Καλή προσπάθεια. Παρατήρησε την εικόνα και δοκίμασε ξανά. Μπορείς να δεις τη λέξη για βοήθεια.';
  $s('spellFeedback').dataset.state='try';
  renderAnswer();
 }
@@ -287,7 +286,7 @@ topics=function(){
   const o=document.createElement('option');o.value=g.value;o.textContent=g.name;return o
  }));
  refreshSubjectPanel();
- $s('selectedSubjectDescription').textContent='Γράμματα, τόνοι και λέξεις. Γράφω με τα δικά μου χέρια.';
+ $s('selectedSubjectDescription').textContent='Γράμματα και λέξεις. Γράφω με τα δικά μου χέρια.';
  $s('countGroup').hidden=true;
  $s('study').textContent='Ξεκίνα';
  $s('practice').hidden=true
@@ -297,7 +296,7 @@ $s('study').onclick=()=>{if(sub==='spelling')openSpelling();else priorStudy()};
 $s('practice').onclick=()=>{if(sub==='spelling')openSpelling();else priorPractice()};
 const subjectButton=document.querySelector('#subjects [data-sub="spelling"]');
 if(subjectButton){
- subjectButton.innerHTML='<span class="subject-illustration" aria-hidden="true"><svg viewBox="0 0 360 210" role="img" xmlns="http://www.w3.org/2000/svg"><rect width="360" height="210" rx="24" fill="#eaf3ee"/><path d="M97 33q-8 1-8 10v129q0 8 9 8h167q9 0 9-9V43q0-10-11-10Z" fill="#fdfbf2" stroke="#3c6a79" stroke-width="4"/><path d="M115 70q56-5 130 0M115 98q53-4 130 0M115 128q56-4 130 0M115 155q49-3 112 0" stroke="#b4d5d7" stroke-width="2" stroke-linecap="round"/><text x="130" y="120" font-size="43" font-weight="780" fill="#396c78" font-family="system-ui,sans-serif">Α α</text><path d="m217 148 47-70 17 12-47 70-26 15Z" fill="#edc37e" stroke="#416876" stroke-width="4" stroke-linejoin="round"/><path d="m208 175 26-15-15-11Z" fill="#fff7e9" stroke="#416876" stroke-width="3"/></svg></span><span class="subject-title">Ορθογραφία Α΄</span><span class="subject-desc">Γράφω λέξεις, γράμματα και τόνους</span>';
+ subjectButton.innerHTML='<span class="subject-illustration" aria-hidden="true"><svg viewBox="0 0 360 210" role="img" xmlns="http://www.w3.org/2000/svg"><rect width="360" height="210" rx="24" fill="#eaf3ee"/><path d="M97 33q-8 1-8 10v129q0 8 9 8h167q9 0 9-9V43q0-10-11-10Z" fill="#fdfbf2" stroke="#3c6a79" stroke-width="4"/><path d="M115 70q56-5 130 0M115 98q53-4 130 0M115 128q56-4 130 0M115 155q49-3 112 0" stroke="#b4d5d7" stroke-width="2" stroke-linecap="round"/><text x="130" y="120" font-size="43" font-weight="780" fill="#396c78" font-family="system-ui,sans-serif">Α α</text><path d="m217 148 47-70 17 12-47 70-26 15Z" fill="#edc37e" stroke="#416876" stroke-width="4" stroke-linejoin="round"/><path d="m208 175 26-15-15-11Z" fill="#fff7e9" stroke="#416876" stroke-width="3"/></svg></span><span class="subject-title">Ορθογραφία Α΄</span><span class="subject-desc">Γράφω λέξεις και συμπληρώνω γράμματα</span>';
  subjectButton.setAttribute('aria-label','Ορθογραφία Α΄ Δημοτικού');
 }
 window.MathainoSpelling=Object.freeze({wordCount:lessons.reduce((n,g)=>n+g.items.length,0),groups:lessons.map(g=>g.name),modes:modes.map(m=>m.id),normalize,noAccent});
