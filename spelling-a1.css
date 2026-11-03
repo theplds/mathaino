@@ -1,0 +1,90 @@
+/* Μαθαίνω! v0.6.49 — Ορθογραφία Α΄ Δημοτικού.
+   Original illustrated exercises; works with the 25% workbook theme, light and dark. */
+#spellingLesson[hidden],#spellExercise[hidden],#spellFinish[hidden],
+#spellTyping[hidden],#spellTiles[hidden],#spellMissing[hidden],
+#spellReveal[hidden],#spellNext[hidden],#spellCheck[hidden] {display:none!important}
+#spellingLesson{--spell-ink:#214657;--spell-muted:#65818c;--spell-line:#a6cad0;--spell-bg:#f0f8f5;--spell-active:#2b8588;--spell-accent:#d5ebe5}
+#spellingLesson .spell-topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#spellingLesson .spell-eyebrow{font-size:.81rem;font-weight:780;letter-spacing:.05em;color:var(--spell-active)}
+#spellingLesson h2{font-size:clamp(1.5rem,5vw,2rem);line-height:1.22;margin:13px 0 8px}
+#spellingLesson .spell-intro{font-size:.98rem;line-height:1.6;margin:0 0 13px}
+#spellingLesson .spell-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0 10px}
+#spellingLesson .spell-controls label{font-size:.88rem;font-weight:750;color:var(--spell-ink)}
+#spellingLesson .spell-controls select{margin:0;flex:1;min-width:145px;max-width:340px}
+#spellModeTabs{display:flex;gap:9px;flex-wrap:wrap;margin:19px 0}
+#spellModeTabs button{flex:1 1 154px;min-height:52px;font-weight:750;line-height:1.28;background:#edf5f4;border:1.8px solid var(--spell-line);color:#2e5965}
+#spellModeTabs button.active{background:#d1ece4;border:2px solid var(--spell-active);color:#1d555b;box-shadow:2px 3px 0 #317e8426}
+#spellModeTabs button:nth-child(even){border-radius:11px 19px 9px 21px / 20px 9px 18px 11px}
+#spellingLesson .spell-progress-row{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap;font-weight:750;font-size:.87rem;margin:12px 0}
+#spellingLesson #spellUnitName{color:var(--spell-active)}
+#spellProgress{width:100%;height:11px;background:#d8e9e7;border:1px solid var(--spell-line);border-radius:11px 7px 13px 9px / 8px 13px 9px 11px;overflow:hidden}
+#spellProgressFill{display:block;width:0;height:100%;background:#59aca3;border-radius:10px 7px 13px 8px;transition:width .18s}
+#spellingLesson .spell-activity-card{padding:clamp(13px,3vw,24px);background:#fdfdfa;border:1.6px solid #c9e0e0;border-radius:25px 16px 28px 17px / 16px 27px 17px 24px;margin:18px 0 11px;box-shadow:2px 4px 0 #2a657414}
+#spellingLesson .spell-illustration{width:min(100%,260px);min-height:175px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center}
+#spellingLesson .spell-illustration svg{width:100%;height:auto;max-height:228px;border-radius:16px 22px 13px 20px / 21px 14px 24px 16px;box-shadow:2px 3px 0 #214f5a15}
+#spellingLesson .spell-voice-line{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:8px 0}
+#spellingLesson .spell-voice-line button{font-weight:700;min-height:44px}
+#spellVoiceStatus{font-size:.85rem;line-height:1.45;text-align:center;color:#936039;min-height:0;margin:5px 0 8px}
+#spellReveal{background:#e4f4ed;border:1.5px solid #93c1b3;border-radius:13px 9px 17px 11px;padding:10px 22px;margin:6px auto 10px;min-width:min(100%,160px);width:max-content;max-width:100%;font-size:clamp(1.35rem,4vw,1.9rem);font-weight:750;color:#185d62;letter-spacing:.04em;text-align:center}
+#spellingLesson .spell-prompt{text-align:center;margin:13px 0 8px;font-weight:750;font-size:clamp(1.03rem,2.7vw,1.23rem);color:var(--spell-ink);line-height:1.45}
+#spellModeDescription{font-size:.91rem;line-height:1.5;text-align:center;color:var(--spell-muted);margin:0 0 16px}
+#spellSlots,#spellLetters,#spellOptions,#spellMissingWord{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(5px,1.1vw,9px)}
+#spellSlots{margin:17px 0}
+#spellLetters,#spellOptions{margin:14px 0 8px}
+#spellSlots .spell-slot,#spellLetters .spell-tile,#spellOptions .spell-tile{
+  display:flex;align-items:center;justify-content:center;
+  min-width:43px;min-height:53px;
+  width:clamp(43px,8vw,61px);height:clamp(53px,8vw,64px);
+  padding:4px;
+  font-size:clamp(1.3rem,3.8vw,1.82rem);font-weight:780;line-height:1;
+  color:#234957;background:white;
+  border:2px solid #a4c8c9;
+  border-radius:13px 8px 17px 10px / 8px 17px 10px 13px;
+  box-shadow:1px 3px 0 #214f5a19
+}
+#spellSlots .spell-slot{border-style:dashed;background:#f5f9f7;box-shadow:none}
+#spellSlots .spell-slot.filled{border-style:solid;background:#e2f2ec;border-color:#4b9594}
+#spellLetters .spell-tile:nth-child(even),#spellOptions .spell-tile:nth-child(even){border-radius:8px 17px 10px 14px / 16px 8px 17px 10px}
+#spellLetters .spell-tile:disabled,#spellOptions .spell-tile:disabled{opacity:.33}
+#spellSlots .spell-slot:disabled{opacity:1}
+#spellSlots .spell-slot:disabled:not(.filled){opacity:.65}
+#spellMissingWord{font-size:clamp(1.55rem,5vw,2.2rem);font-weight:800;min-height:75px;margin:18px 0}
+#spellMissingWord .spell-missing-char{padding:4px 1px;color:#244b58;min-width:20px;text-align:center}
+#spellMissingWord .spell-missing-char.gap{color:#236d78;border-bottom:3px solid #438f92;min-width:33px}
+#spellTyping{max-width:475px;margin:0 auto}
+#spellInput{display:block;width:100%;min-height:62px;padding:12px 17px;border:2px solid #9cc7c7;border-radius:14px 9px 17px 11px / 10px 17px 11px 14px;font-size:clamp(1.16rem,4vw,1.5rem);letter-spacing:.05em;text-align:center;background:white;color:#1c4652;font-weight:650;box-sizing:border-box}
+#spellInput::placeholder{letter-spacing:normal;font-size:1rem;font-weight:500;color:#7d959a}
+#spellFeedback{min-height:24px;text-align:center;font-size:.95rem;line-height:1.5;font-weight:680;margin:17px auto 9px;color:#3d7180}
+#spellFeedback[data-state="good"]{color:#257956}
+#spellFeedback[data-state="try"]{color:#95572f}
+#spellingLesson .spell-bottom-actions{display:flex;justify-content:center;align-items:center;gap:9px;flex-wrap:wrap;margin:16px 0 4px}
+#spellingLesson .spell-bottom-actions button{flex:1 1 130px;min-height:50px;font-weight:730}
+#spellNext{background:linear-gradient(170deg,#348f88,#21777c);border-color:#337f82;color:white}
+#spellFinish{text-align:center;padding:28px 14px 10px}
+#spellFinish h3{font-size:1.48rem;color:#245b64}
+#spellFinish p{font-size:1rem;line-height:1.6}
+#spellFinish .spell-bottom-actions{margin-top:24px}
+html[data-theme="dark"] #spellingLesson{--spell-ink:#e4f7f6;--spell-muted:#b8d5d8;--spell-line:#577984;--spell-bg:#25404b;--spell-active:#87d2c7;--spell-accent:#30616a}
+html[data-theme="dark"] #spellingLesson .spell-activity-card{background:#1e3745;border-color:#547983}
+html[data-theme="dark"] #spellModeTabs button{background:#2c495b;color:#eefafa;border-color:#587f89}
+html[data-theme="dark"] #spellModeTabs button.active{background:#366f70;color:white;border-color:#91d7c8}
+html[data-theme="dark"] #spellingLesson .spell-prompt{color:var(--spell-ink)}
+html[data-theme="dark"] #spellReveal{background:#2b595a;color:#e3fbf2;border-color:#6db6a8}
+html[data-theme="dark"] #spellSlots .spell-slot,html[data-theme="dark"] #spellLetters .spell-tile,html[data-theme="dark"] #spellOptions .spell-tile{background:#294656;color:#ecfaff;border-color:#67969d}
+html[data-theme="dark"] #spellSlots .spell-slot.filled{background:#316464}
+html[data-theme="dark"] #spellMissingWord .spell-missing-char{color:#e3f6f5}
+html[data-theme="dark"] #spellInput{background:#203c49;color:#f1ffff;border-color:#7bb2b4}
+html[data-theme="dark"] #spellProgress{background:#2d4b56;border-color:#57848b}
+html[data-theme="dark"] #spellProgressFill{background:#6cc4b3}
+html[data-theme="dark"] #spellVoiceStatus{color:#f0c799}
+html[data-theme="dark"] #spellFeedback[data-state="good"]{color:#99e5b8}
+html[data-theme="dark"] #spellFeedback[data-state="try"]{color:#f0bf8d}
+html[data-theme="dark"] #spellFinish h3{color:#b8f4ec}
+@media(max-width:520px){
+ #spellingLesson #spellModeTabs button{flex:1 1 130px;font-size:.88rem;padding:10px 8px}
+ #spellingLesson .spell-controls select{max-width:none}
+ #spellingLesson .spell-activity-card{padding:14px 11px}
+ #spellSlots .spell-slot,#spellLetters .spell-tile,#spellOptions .spell-tile{min-width:40px;width:clamp(40px,10vw,53px);height:54px;font-size:1.38rem}
+ #spellingLesson .spell-illustration{max-width:205px;min-height:140px}
+}
+@media(prefers-reduced-motion:reduce){#spellProgressFill{transition:none}}
