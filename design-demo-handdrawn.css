@@ -1,0 +1,172 @@
+/* Μαθαίνω! design demo v2 — 95% precise, 5% hand-rendered.
+   Opt-in at root via data-sketch="on"; zero effect on the live app. */
+html[data-sketch="on"]{
+  --sketch-line:color-mix(in srgb,var(--teal) 38%,var(--border) 62%);
+  --sketch-ink:color-mix(in srgb,var(--teal) 72%,transparent);
+}
+
+/* Give stable, accessible layout geometry a touch of organic shape. */
+html[data-sketch="on"] .home-hero{
+  border-radius:23px 26px 22px 27px / 25px 22px 27px 23px;
+}
+html[data-sketch="on"] .subject-card:nth-child(3n+1){
+  border-radius:18px 21px 19px 22px / 22px 18px 21px 18px;
+}
+html[data-sketch="on"] .subject-card:nth-child(3n+2){
+  border-radius:21px 18px 22px 19px / 18px 22px 19px 21px;
+}
+html[data-sketch="on"] .subject-card:nth-child(3n){
+  border-radius:19px 22px 18px 21px / 21px 19px 22px 18px;
+}
+html[data-sketch="on"] .activity-card{
+  border-radius:19px 23px 20px 22px / 22px 19px 23px 20px;
+}
+html[data-sketch="on"] .design-note{
+  border-radius:15px 13px 16px 14px / 14px 16px 13px 15px;
+}
+html[data-sketch="on"] .timeline-step:nth-child(odd),
+html[data-sketch="on"] .stacked-options button:nth-child(odd){
+  border-radius:12px 10px 13px 11px / 11px 14px 10px 13px;
+}
+html[data-sketch="on"] .timeline-step:nth-child(even),
+html[data-sketch="on"] .stacked-options button:nth-child(even){
+  border-radius:10px 13px 11px 12px / 13px 10px 14px 11px;
+}
+
+/* A second very faint drawn stroke follows card outlines.
+   The shared SVG filter moves only the line by ~1px, never text or buttons. */
+html[data-sketch="on"] .subject-card,
+html[data-sketch="on"] .activity-card,
+html[data-sketch="on"] .design-note{
+  position:relative;
+  isolation:isolate;
+}
+html[data-sketch="on"] .subject-card::after,
+html[data-sketch="on"] .activity-card::after,
+html[data-sketch="on"] .design-note::after{
+  content:"";
+  position:absolute;
+  inset:2px;
+  border:1px solid var(--sketch-line);
+  opacity:.37;
+  border-radius:inherit;
+  pointer-events:none;
+  filter:url("#mathaino-sketch-wobble");
+  z-index:1;
+}
+html[data-sketch="on"] .activity-card::after{opacity:.27}
+html[data-sketch="on"] .design-note::after{opacity:.21}
+
+/* Letter tiles are still rectangular and precisely aligned for reading:
+   only their corners and fine ink edges are imperfect. */
+html[data-sketch="on"] .letter-slot{
+  border-radius:12px 10px 13px 11px / 10px 13px 11px 13px;
+  border-width:2px;
+  border-style:dashed;
+  border-color:color-mix(in srgb,var(--teal) 47%,var(--border) 53%);
+}
+html[data-sketch="on"] .letter-slot:nth-child(even){
+  border-radius:11px 14px 10px 12px / 13px 11px 14px 10px;
+}
+html[data-sketch="on"] .letter-slot.filled{
+  border-style:solid;
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--teal) 15%,transparent);
+}
+html[data-sketch="on"] .letter-tile{
+  position:relative;
+  border-radius:11px 14px 12px 10px / 13px 11px 14px 12px;
+  box-shadow:0 4px 10px #193d4511;
+}
+html[data-sketch="on"] .letter-tile:nth-child(even){
+  border-radius:14px 10px 12px 13px / 10px 13px 11px 14px;
+}
+html[data-sketch="on"] .letter-tile::after{
+  content:"";
+  position:absolute;
+  inset:3px;
+  border:1px solid var(--sketch-line);
+  opacity:.32;
+  border-radius:inherit;
+  pointer-events:none;
+  filter:url("#mathaino-sketch-wobble");
+}
+html[data-sketch="on"] .letter-tile.used::after{opacity:0}
+
+/* Keep illustration silhouettes unchanged; only drawn contours wobble.
+   Our educational illustrations are original SVGs, so this is CSS-only. */
+html[data-sketch="on"] .hero-picture svg :is(path,ellipse,circle)[stroke],
+html[data-sketch="on"] .subject-visual svg :is(path,ellipse,circle)[stroke],
+html[data-sketch="on"] .reading-artwork svg :is(path,ellipse,circle)[stroke],
+html[data-sketch="on"] .history-artwork svg :is(path,ellipse,circle)[stroke],
+html[data-sketch="on"] .physics-artwork svg :is(path,ellipse,circle)[stroke]{
+  filter:url("#mathaino-sketch-wobble");
+}
+
+/* Short, imperfect underline strokes are decorative, not information. */
+html[data-sketch="on"] .section-heading h2::after,
+html[data-sketch="on"] .activity-prompt h2::after{
+  content:"";
+  display:block;
+  width:78px;
+  height:8px;
+  margin:4px 0 0;
+  opacity:.72;
+  background:center / 100% 100% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 95 9'%3E%3Cpath d='M2 5 Q 22 2 47 4.7 T93 3.7' fill='none' stroke='%234c9a96' stroke-width='2.3' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+html[data-sketch="on"] .activity-prompt h2::after{
+  margin:7px auto 0;
+  width:62px;
+  opacity:.51;
+}
+
+/* Decorative imperfect corner shape; not a visually busy doodle layer. */
+html[data-sketch="on"] .hero-deco.one{
+  border-radius:48% 53% 48% 51% / 52% 48% 53% 46%;
+  transform:rotate(-3deg);
+}
+html[data-sketch="on"] .hero-deco.two{
+  border-radius:53% 48% 51% 47% / 48% 51% 46% 53%;
+  transform:rotate(2deg);
+}
+
+/* Visual comparison switch: clicking it must really toggle the treatment. */
+.sketch-switch{
+  display:inline-flex;
+  gap:9px;
+  align-items:center;
+  justify-content:center;
+  min-height:41px;
+  border:1px solid var(--border);
+  padding:9px 12px;
+  border-radius:10px;
+  background:var(--surface-soft);
+  color:var(--ink);
+  font-size:12px;
+  font-weight:700;
+  white-space:nowrap;
+}
+.sketch-switch:hover{background:var(--teal-pale)}
+.sketch-switch[aria-pressed="true"]{
+  border-color:color-mix(in srgb,var(--teal) 60%,var(--border));
+  color:var(--teal);
+}
+.sketch-switch-icon{
+  width:17px;height:17px;flex:none;
+  display:flex;align-items:center;justify-content:center;
+}
+.sketch-switch-icon svg{width:17px;height:17px}
+html[data-theme="dark"] .sketch-switch[aria-pressed="true"]{color:#c2ece4}
+.sketch-filter-defs{width:0;height:0;position:absolute;overflow:hidden;pointer-events:none}
+@media(max-width:620px){
+ .sketch-switch{padding:9px 10px}
+ .sketch-switch-label{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ html[data-sketch="on"] .hero-picture svg :is(path,ellipse,circle)[stroke],
+ html[data-sketch="on"] .subject-visual svg :is(path,ellipse,circle)[stroke],
+ html[data-sketch="on"] .reading-artwork svg :is(path,ellipse,circle)[stroke],
+ html[data-sketch="on"] .history-artwork svg :is(path,ellipse,circle)[stroke],
+ html[data-sketch="on"] .physics-artwork svg :is(path,ellipse,circle)[stroke]{
+   animation:none!important;
+ }
+}
