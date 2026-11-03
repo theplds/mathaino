@@ -1,0 +1,52 @@
+/* Μαθαίνω! — illustrated chess basics and fast-car brand recognition.
+   Same calm Physics FE1 visual language, no emoji or timers. */
+#chessLesson,#carLesson{max-width:700px}
+.extra-lesson-header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin:8px 0 16px}
+.extra-lesson-header button{min-height:45px}
+.extra-lesson-kicker{font-size:.9rem;font-weight:670;color:#3b6e8e;margin:0}
+.extra-lesson-description{font-size:.96rem;line-height:1.5;color:#436881;margin:7px 0 16px}
+#chessLesson h2,#carLesson h2{margin:10px 0;color:#245371}
+.chess-learning-card{border:1px solid #cddfea;border-radius:17px;background:#f5fafd;padding:15px 16px;margin-bottom:15px}
+.chess-learning-card h3{margin:5px 0;font-size:1.3rem}
+.chess-learning-card p{margin:6px 0;line-height:1.48}
+#chessHint{font-weight:650;color:#346c8b}
+#chessBoard{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));max-width:min(100%,480px);width:100%;aspect-ratio:1/1;margin:13px auto 12px;border:5px solid #396884;border-radius:7px;overflow:hidden;box-shadow:0 12px 26px #2d587f1f}
+#chessBoard .chess-square{position:relative;display:flex;align-items:center;justify-content:center;min-width:0;min-height:0;padding:0!important;margin:0!important;border:none;border-radius:0;line-height:1;aspect-ratio:1/1;cursor:pointer;touch-action:manipulation}
+#chessBoard .chess-square.dark{background:#7eb4bc;color:#1b3d50}
+#chessBoard .chess-square.light{background:#f8f0da;color:#1b3d50}
+#chessBoard .chess-square.chess-target::after{content:"";position:absolute;inset:27%;border:3px solid #c17831;border-radius:50%;background:#edc48d90;pointer-events:none}
+#chessBoard .chess-square.chess-legal::before{content:"";position:absolute;inset:42%;border-radius:50%;background:#4479928a;pointer-events:none}
+#chessBoard .chess-square.chess-success{box-shadow:inset 0 0 0 5px #267947}
+#chessBoard .chess-square:focus-visible{outline:4px solid #eaa75e;outline-offset:-4px;z-index:3}
+#chessBoard .chess-square .chess-piece{position:relative;z-index:2;font-size:clamp(24px,7vw,46px);font-family:"DejaVu Sans","Segoe UI Symbol",serif;color:#fffef9;-webkit-text-stroke:1px #233e52;text-shadow:0 2px 2px #1a3b58a8;pointer-events:none}
+#chessBoard .chess-square .chess-rank,#chessBoard .chess-square .chess-file{position:absolute;font-size:clamp(9px,2vw,12px);line-height:1;font-weight:750;z-index:3;color:#22516c}
+#chessBoard .chess-square .chess-rank{top:3px;left:3px}
+#chessBoard .chess-square .chess-file{bottom:3px;right:3px}
+.chess-actions{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;align-items:center;margin:12px auto 5px}
+.chess-actions button{min-height:47px;flex:1 1 130px}
+#chessHelp,#carFeedback{min-height:1.5em;text-align:center;font-size:.95rem;color:#375c78}
+#carPictureFrame{width:100%;height:auto;min-height:190px;aspect-ratio:16/10;border-radius:15px;background:#e6f2f9;border:1px solid #b9d8e8;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#carPicture{display:block;width:100%;height:100%;object-fit:contain;background:#eaf4f8}
+#carImageFallback{padding:20px;text-align:center;color:#335872;line-height:1.6}
+#carImageFallback.hidden{display:none!important}
+#carPhotoCredit{font-size:.78rem;color:#58748d;line-height:1.45;margin:7px 0 15px;text-align:center}
+#carPhotoCredit a{color:#386c9c;text-decoration:underline;text-underline-offset:2px}
+#carAnswers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 10px}
+#carAnswers button{min-height:61px;border-radius:13px;border:2px solid #bdd9eb;font-size:clamp(.97rem,3vw,1.17rem);font-weight:680;padding:9px;background:#f4fbff;color:#244b68;white-space:normal}
+#carAnswers button.good{background:#d7f2e4;border-color:#5c9d74;color:#225c3c}
+#carAnswers button.bad{background:#fae8e1;border-color:#c58d6f;color:#824937}
+#carAnswers button:disabled{opacity:.78}
+.car-actions{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
+.car-actions button{min-height:48px;flex:1 1 130px}
+.extra-photo-source-note{font-size:.83rem;color:#5a7184;margin:12px 0;text-align:center}
+html[data-theme="dark"] .chess-learning-card{background:#22394b;border-color:#4c6a7d}
+html[data-theme="dark"] #chessLesson h2,html[data-theme="dark"] #carLesson h2{color:#e5f5ff}
+html[data-theme="dark"] .chess-learning-card p,html[data-theme="dark"] .extra-lesson-description{color:#d3e4f0}
+html[data-theme="dark"] .chess-learning-card h3,html[data-theme="dark"] #chessHint{color:#eaf6ff}
+html[data-theme="dark"] #carAnswers button{background:#28465e;border-color:#5b7a93;color:#eaf6ff}
+html[data-theme="dark"] #carAnswers button.good{background:#24583d;border-color:#77c99a;color:#f4fff8}
+html[data-theme="dark"] #carAnswers button.bad{background:#583a35;border-color:#cf9277;color:#f6e7de}
+html[data-theme="dark"] #carPhotoCredit a{color:#b4dbff}
+html[data-theme="dark"] .extra-lesson-kicker{color:#a9d3ec}
+@media(max-width:410px){#chessBoard{border-width:3px}#carAnswers{gap:8px}#carAnswers button{min-height:57px;padding:6px;font-size:.96rem}#carPictureFrame{min-height:155px}.chess-learning-card{padding:10px}}
+@media(prefers-reduced-motion:reduce){#chessBoard *,#carPicture{transition:none!important;animation:none!important}}
