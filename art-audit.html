@@ -1,0 +1,28 @@
+<!doctype html><html lang="el"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8f0e4"><title>Μαθαίνω! — Έλεγχος εικονογράφησης</title>
+<style>
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f8f0e4;color:#51443b;margin:0;line-height:1.45}main{max-width:1090px;margin:auto;padding:20px}
+h1{font-size:clamp(1.5rem,4vw,2.2rem);margin:8px 0}h2{font-size:1.35rem;margin:26px 0 12px}
+p{color:#7d6655;margin:5px 0 15px}a{color:#a56b4f}button{background:#f8e7d5;color:#5a493c;border:1px solid #d7b99e;padding:10px 14px;border-radius:13px;font:inherit;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:13px}
+.card{background:#fffaf1;border:1.5px solid #dec6ae;border-radius:18px;padding:11px;text-align:center;box-shadow:1px 3px 0 #b2836e25}
+.card .art{height:150px;display:flex;justify-content:center;align-items:center;overflow:hidden}.card svg{max-width:100%;width:100%;height:100%}
+.card strong{display:block;font-size:1rem;margin-top:10px}.card small{display:block;font-size:.78rem;color:#9b7b68}
+.notice{background:#fff9ec;border-left:4px solid #b47a5c;border-radius:9px;padding:12px 15px;margin:17px 0}
+@media(max-width:520px){main{padding:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{padding:6px}.card .art{height:110px}.card strong{font-size:.9rem}}
+</style>
+<script src="./warm-art.js?v=655"></script><script src="./curriculum-art.js?v=655"></script></head><body><main>
+<a href="./index.html?v=655">← Πίσω στο Μαθαίνω!</a><h1>Εικονογράφηση · Έλεγχος</h1>
+<p>Ένα ενιαίο μέρος για να κρίνουμε τις εικόνες πριν μπουν στις ασκήσεις.</p>
+<div class="notice">Κάθε εικόνα πρέπει να αναγνωρίζεται <strong>χωρίς</strong> να διαβάσεις την ετικέτα. Πρώτα δείξε την εικόνα σε ένα παιδί, μετά την απάντηση.</div>
+<h2>Λέξεις</h2><div class="grid" id="words"></div>
+<h2>Μαθήματα</h2><div class="grid" id="subjects"></div>
+</main><script>
+(function(){
+ const lib=window.MathainoIllustrations,warm=window.MathainoWarmArt;
+ const names={duck:'παπί',ball:'μπάλα',apple:'μήλο',cat:'γάτα',house:'σπίτι',fish:'ψάρι',water:'νερό',sun:'ήλιος',dog:'σκύλος',bird:'πουλί',book:'βιβλίο',tree:'δέντρο',bread:'ψωμί',milk:'γάλα',hat:'καπέλο',car:'αμάξι',train:'τρένο',ship:'καράβι',flower:'λουλούδι',banana:'μπανάνα',school:'σχολείο',backpack:'τσάντα',pencil:'μολύβι',door:'πόρτα',clock:'ρολόι',icecream:'παγωτό',moon:'φεγγάρι',umbrella:'ομπρέλα',city:'πόλη',battery:'μπαταρία',palace:'αρχαίο κτίριο'};
+ const make=(area,id,svg,label)=>{const card=document.createElement('article');card.className='card';const div=document.createElement('div');div.className='art';div.innerHTML=svg;const strong=document.createElement('strong');strong.textContent=label;const small=document.createElement('small');small.textContent=id;card.append(div,strong,small);area.append(card)};
+ const keys=[...new Set([...lib.wordIds,...warm.wordIds])];
+ for(const id of keys)make(document.getElementById('words'),id,lib.word(id)||warm.word(id),names[id]||lib.wordLabel(id)||id);
+ for(const id of lib.subjectIds)make(document.getElementById('subjects'),id,lib.subject(id),lib.subjectLabel(id)||id);
+})();
+</script></body></html>
