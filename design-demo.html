@@ -12,16 +12,17 @@
 <link rel="stylesheet" href="./design-demo-handdrawn.css?v=2">
 <link rel="stylesheet" href="./design-demo-interface.css?v=3">
 <link rel="stylesheet" href="./design-demo-15percent.css?v=4">
+<link rel="stylesheet" href="./design-demo-25percent.css?v=5">
 <script defer src="./curriculum-art.js?v=646"></script>
 <script defer src="./energy-art.js?v=637"></script>
-<script defer src="./design-demo.js?v=4"></script>
+<script defer src="./design-demo.js?v=5"></script>
 </head>
 <body>
 <svg class="sketch-filter-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="0" height="0">
 <defs>
   <filter id="mathaino-sketch-wobble" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
-    <feTurbulence type="fractalNoise" baseFrequency=".015 .034" numOctaves="1" seed="7" result="inkNoise"/>
-    <feDisplacementMap in="SourceGraphic" in2="inkNoise" scale="3.3" xChannelSelector="R" yChannelSelector="G"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".019 .039" numOctaves="1" seed="7" result="inkNoise"/>
+    <feDisplacementMap in="SourceGraphic" in2="inkNoise" scale="4.6" xChannelSelector="R" yChannelSelector="G"/>
   </filter>
 </defs>
 </svg>
@@ -54,8 +55,8 @@
         <div class="top-eyebrow">ΣΧΕΔΙΑΣΤΙΚΟ DEMO <span class="top-separator">/</span> ΠΡΩΤΟΤΥΠΟ</div>
       </div>
       <div class="topbar-right">
-        <button class="sketch-switch" type="button" id="sketchToggle" aria-pressed="true" aria-label="Απενεργοποίηση του χειροποίητου στυλ 15%" title="Σύγκρινε ίσιες και ελαφρώς χειροποίητες γραμμές">
-          <span class="sketch-switch-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 17Q8 13 12 16T21 14M5 8l4-3 5 4 4-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="sketch-switch-label" id="sketchLabel">15% χειροποίητο</span>
+        <button class="sketch-switch" type="button" id="sketchToggle" aria-pressed="true" aria-label="Απενεργοποίηση του χειροποίητου στυλ 25%" title="Σύγκρινε ίσιες και ελαφρώς χειροποίητες γραμμές">
+          <span class="sketch-switch-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 17Q8 13 12 16T21 14M5 8l4-3 5 4 4-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="sketch-switch-label" id="sketchLabel">25% χειροποίητο</span>
         </button>
         <button class="theme-switch" type="button" id="themeToggle" aria-label="Αλλαγή θέματος"><svg viewBox="0 0 24 24"><path d="M20 15.8A8.5 8.5 0 0 1 8.2 4 8.5 8.5 0 1 0 20 15.8Z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"/></svg><span id="themeLabel">Σκούρο θέμα</span></button>
         <div class="profile-chip"><span class="profile-avatar" aria-hidden="true">Μ</span><span>Μαθητής <small>Προεπισκόπηση</small></span></div>
