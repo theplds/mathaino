@@ -38,3 +38,15 @@ Alternative content base: original Greek lesson summaries built from curriculum 
 - Enter Fast Cars: eight photo rounds, 4 unique options, one valid key, all source links and licences present. Simulate a failed image load and verify fallback source link.
 - Phone viewport 320 px to desktop, dark/light modes, accessibility labels, offline previously cached photo, app version v0.6.46.
 - Do not claim completion of a live mobile-device test until observed.
+
+## Basic chess rule expansion — v0.6.47
+
+Chess now has two tabs. **Βασικοί κανόνες** provides eight original child-friendly explanatory cards with mini 8×8 chessboard diagrams: starting positions/turns, captures, pawn forward movement and diagonal captures, check and escaping it, checkmate, stalemate, castling and pawn promotion. Every example uses correctly placed pieces and a clear Greek explanation. **Κινήσεις κομματιών** retains the prior six interactive piece-movement exercises.
+
+After the eight explanatory cards, children can answer **seven short, untimed review questions**. Incorrect choices produce gentle retry guidance. Correct choices receive an explanation; quiz restarts from the beginning when completed. Study opens the illustrated rule cards; Practice opens the movement board. No timer, streaks, leaderboard or artificial scoring. This is a foundation to learn *about chess*, not an entire FIDE rules engine; no two-player playable chess, check-validating move generator or adversarial engine has been added.
+
+The content is original Greek educational wording based on general chess rules. Normative reference: FIDE Laws of Chess (2023), https://handbook.fide.com/chapter/e012023 . Explanations are simplified for primary-school learners and do not purport to cover every special circumstance, for example en passant and formal tournament regulations.
+
+**Akademio URL supplied by the user:** https://www.akademio.gr/el/dim-1/language/letters-a-t-p-o . The exact link was attempted but could not be fetched in this environment. Do not infer the lesson's specific appearance, exercises, terms or licensing. Ask for a short recording or screenshots of the public lesson, and for its terms/licence if the user wants to copy assets. General, uncopyrightable learning methods may be independently recreated; actual lesson media/text/code requires appropriate authorization.
+
+Validation: 64 squares appear in each mini-board; all eight rule examples render; seven correct-answer checks work with retry and full reset; chess tabs switch; old movement exercises remain accessible; JS syntax and PWA cache checks pass. Live iPad and mobile browser validation remains outstanding.
