@@ -1,0 +1,146 @@
+/* Μαθαίνω! v0.6.54 — Warm workbook design system.
+   Approved 75% clean / 25% hand-drawn; no web fonts, image downloads or frameworks.
+   Palette: paper #FFF9EC, ink #5B4C44, terracotta #B66D55, coral #EAA08A,
+   sage #A4C4A4, honey #E7BA6C, sky #A8CBD0. Consistent original SVG art. */
+html[data-workbook="on"]{
+ --wb-ink:#51453c;--wb-muted:#786b60;--wb-line:#dfc8b3;
+ --wb-paper:#fffaf0;--wb-paper-alt:#f9f0e1;
+ --wb-mint:#997354;--wb-mint-strong:#9e654f;
+ --wb-soft:#f6e4d2;--wb-pencil:#c6a88c;--wb-shadow:rgba(111,80,58,.12);
+}
+html[data-workbook="on"] body{
+ background-color:#f8f0e4;color:var(--wb-ink);
+ background-image:linear-gradient(90deg,transparent 0,transparent 50px,rgba(186,123,100,.07) 51px,transparent 52px),
+ repeating-linear-gradient(to bottom,transparent 0,transparent 38px,rgba(177,134,89,.032) 39px,transparent 40px);
+}
+html[data-workbook="on"] .workbook-emblem{background:#a6785d;border-color:#dfb695;color:#fff9ec}
+html[data-workbook="on"] .workbook-brand h1{color:#5e4a40}
+html[data-workbook="on"] #subjects button{
+ background:#f5e8d5;color:#5a4d43;border-color:#dfc4aa;box-shadow:2px 3px 0 #865b4120;
+}
+html[data-workbook="on"] #subjects button:nth-child(4n+2){background:#f4e4df}
+html[data-workbook="on"] #subjects button:nth-child(4n+3){background:#eaf0e2}
+html[data-workbook="on"] #subjects button:nth-child(4n+4){background:#eaf1ed}
+html[data-workbook="on"] #subjects button.active{
+ background:#f6dabb!important;color:#704938;border-color:#bd8063;
+ box-shadow:2px 3px 0 #a5785830;
+}
+html[data-workbook="on"] #lessonOptions{background:#faf1e3;border-color:#ddc5ac}
+html[data-workbook="on"] button.primary,
+html[data-workbook="on"] #home button.primary{
+ background:linear-gradient(175deg,#b4775f,#986047);color:#fffdf8;
+ border-color:#885b49;box-shadow:2px 3px 0 #70472b32;
+}
+html[data-workbook="on"] #grade5Body .g5-note{border-left-color:#b7835c;background:#faf1e3}
+html[data-workbook="on"] #grade5Body .g5-energy-progress>div{background:#b7835c}
+html[data-workbook="on"] .version,
+html[data-workbook="on"] .home-subject-intro{color:var(--wb-muted)}
+html[data-workbook="on"] #spellingLesson{--spell-ink:#55473e;--spell-muted:#786d62;--spell-line:#dbbfa9;--spell-bg:#f9f0e2;--spell-active:#a46e56;--spell-accent:#f5deca}
+html[data-workbook="on"] #spellingLesson .spell-activity-card{background:#fffaf2;border-color:#dfc7b1;box-shadow:2px 4px 0 #b98e6d20}
+html[data-workbook="on"] #spellSlots .spell-slot,#spellLetters .spell-tile,#spellOptions .spell-tile{border-color:#cdb4a0;color:#58483e}
+html[data-workbook="on"] #spellSlots .spell-slot.filled{background:#f4e4d1;border-color:#bc8a69}
+html[data-workbook="on"] #spellProgress{background:#f3e4d4;border-color:#e0c7af}
+html[data-workbook="on"] #spellProgressFill{background:#bf9a6e}
+html[data-workbook="on"] #spellNext{background:#a77258;border-color:#8e634e}
+html[data-workbook="on"] #spellReveal{background:#f6e8d2;border-color:#d8ac8a;color:#775744}
+html[data-workbook="on"] #spellClue{background:#f7f0e5;border-color:#c9a88c;color:#78604e}
+html[data-workbook="on"] #home .subject-illustration,
+html[data-workbook="on"] .spell-illustration{background:transparent}
+html[data-workbook="on"] #home .subject-illustration .mathaino-warm-art{
+ display:block;max-height:145px;width:100%;height:auto;object-fit:contain
+}
+.mathaino-warm-art{display:block;max-width:100%;height:auto;overflow:visible}
+#spellWordArt .mathaino-warm-art{width:100%;max-height:220px}
+#subjects .mathaino-warm-art{filter:none}
+#home .subject-illustration .mathaino-warm-art{box-shadow:none}
+.mathaino-test-pack{margin-top:23px;padding:19px 16px 17px;border-radius:19px;background:#fcf3e5;border:1.5px solid #e0c6aa}
+.mathaino-test-pack h3{margin:0 0 6px;font-size:1.18rem;color:#665042}
+.mathaino-test-pack>p{margin:0 0 15px;color:#806c5b;font-size:.93rem}
+.pack-lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+button.pack-card{
+ display:flex;align-items:center;text-align:left;gap:10px;min-height:111px;
+ padding:9px;background:#fffaf1;color:#58473d;border:1.5px solid #dfc6ae;
+ border-radius:15px;box-shadow:1px 3px 0 #ae7f5620;cursor:pointer;
+}
+button.pack-card:hover,button.pack-card:focus-visible{border-color:#ac8163;background:#fff4e5}
+.pack-card-art{display:block;width:85px;min-width:85px;height:73px;overflow:hidden;border-radius:12px}
+.pack-card-art .mathaino-warm-art{width:85px;height:73px;object-fit:cover}
+.pack-card-copy{display:flex;flex-direction:column;gap:4px}
+.pack-card-copy strong{font-size:1rem;line-height:1.27;color:#624b3d}
+.pack-card-grade{font-size:.76rem;font-weight:750;color:#9b674f}
+.pack-card-detail{font-size:.8rem;line-height:1.32;color:#806d62}
+#testPackLesson{max-width:850px;color:#55463c}
+#testPackLesson .pack-heading{display:flex;flex-wrap:wrap;align-items:flex-start;gap:14px;margin-bottom:16px}
+#testPackLesson .pack-header-meta{flex:1 1 260px}
+#testPackLesson h2{font-size:clamp(1.46rem,4vw,2rem);margin:2px 0 4px;line-height:1.22;color:#634c3d}
+#testPackLesson .pack-eyebrow{font-weight:800;font-size:.82rem;letter-spacing:.04em;color:#ad765a}
+#testPackLesson .pack-header-meta p{font-size:.91rem;color:#806a59;margin:4px 0 9px}
+#testPackLesson .pack-hero{max-width:290px;margin:0 auto 15px}
+#testPackLesson .pack-hero svg{width:100%;height:auto}
+#testPackLesson .pack-mode-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+#testPackLesson .pack-mode-tabs button{flex:1;min-width:145px;font-weight:750;min-height:49px}
+#testPackLesson .pack-intro{color:#7b695b}
+#testPackLesson .pack-study-card{
+ display:grid;grid-template-columns:145px minmax(0,1fr);align-items:center;gap:15px;
+ padding:13px;border:1.5px solid #e0c7ad;background:#fff8ed;
+ border-radius:18px;margin:13px 0;
+}
+.pack-study-art svg{width:100%;height:auto}
+#testPackLesson .pack-study-copy h3{margin:0 0 7px;color:#70503e}
+#testPackLesson .pack-study-copy p{margin:0;color:#5c5147;line-height:1.7}
+#testPackLesson .pack-source{margin:15px 0;font-size:.89rem}
+#testPackLesson .pack-source a{color:#9c583b;text-underline-offset:3px}
+#testPackLesson button.pack-big-button{min-width:180px;min-height:52px;margin-top:12px}
+#testPackLesson .pack-count{text-align:center;font-size:.89rem;font-weight:750;color:#94745e}
+#testPackLesson .pack-track{height:9px;border-radius:9px;background:#f1dfc9;overflow:hidden;margin:9px 0 19px}
+#testPackLesson .pack-track-fill{display:block;height:100%;background:#b48b69;border-radius:inherit}
+#testPackLesson .pack-question-card{background:#fffbf5;border:1.5px solid #e0cbb6;padding:clamp(15px,3vw,24px);border-radius:19px}
+#testPackLesson .pack-question-card h3{font-size:clamp(1.13rem,3vw,1.4rem);line-height:1.45;color:#604d40;margin:0 0 17px}
+#testPackLesson .pack-options{display:grid;gap:10px}
+#testPackLesson button.pack-choice{display:block;width:100%;text-align:left;min-height:55px;padding:12px 16px;border:1.7px solid #d9bba3;background:#fff9ed;color:#58473d;font-weight:650}
+#testPackLesson button.pack-choice:hover:not(:disabled){background:#f9ead6}
+#testPackLesson button.pack-choice.pack-wrong{opacity:.52;background:#f8e4db;text-decoration:line-through}
+#testPackLesson .pack-feedback{font-weight:650;min-height:24px;color:#786553;line-height:1.6}
+#testPackLesson .pack-feedback[data-state="good"]{color:#347055}
+#testPackLesson .pack-feedback[data-state="try"]{color:#9a6344}
+#testPackLesson .pack-feedback[data-state="solution"]{color:#6d584a}
+#testPackLesson .pack-reveal{background:#f3e4d2;border-color:#ccad92;color:#70503e}
+#testPackLesson button[hidden],.mathaino-test-pack[hidden]{display:none!important}
+html[data-theme="dark"][data-workbook="on"]{
+ --wb-ink:#efe4d6;--wb-muted:#cdbbad;--wb-line:#6f594d;
+ --wb-paper:#302b29;--wb-paper-alt:#3c3330;--wb-mint:#d3a380;
+ --wb-mint-strong:#d6a480;--wb-soft:#45372f;--wb-pencil:#a18c79;--wb-shadow:#0005
+}
+html[data-theme="dark"][data-workbook="on"] body{background-color:#242321;color:#eee4d8;background-image:none}
+html[data-theme="dark"][data-workbook="on"] #subjects button{background:#44382f;color:#f1e6dc;border-color:#806657}
+html[data-theme="dark"][data-workbook="on"] #subjects button.active{background:#694b3b!important;color:#fff5e8;border-color:#c99878}
+html[data-theme="dark"][data-workbook="on"] #lessonOptions,
+html[data-theme="dark"][data-workbook="on"] #spellingLesson .spell-activity-card{background:#3c332e;border-color:#70594b}
+html[data-theme="dark"][data-workbook="on"] #spellingLesson{--spell-ink:#f0e3d8;--spell-muted:#c4b1a2;--spell-line:#826657;--spell-bg:#3b312b;--spell-active:#e7b389;--spell-accent:#5b4436}
+html[data-theme="dark"][data-workbook="on"] #spellClue{background:#45382f;color:#f1e2d3;border-color:#8d725a}
+html[data-theme="dark"][data-workbook="on"] #spellNext{background:#a77258;color:white}
+html[data-theme="dark"] .mathaino-test-pack{background:#38312c;border-color:#72594b}
+html[data-theme="dark"] .mathaino-test-pack h3,
+html[data-theme="dark"] #testPackLesson h2{color:#f2e4d7}
+html[data-theme="dark"] .mathaino-test-pack>p,
+html[data-theme="dark"] .pack-card-detail,
+html[data-theme="dark"] #testPackLesson .pack-header-meta p,
+html[data-theme="dark"] #testPackLesson .pack-study-copy p{color:#d0bdaf}
+html[data-theme="dark"] button.pack-card,
+html[data-theme="dark"] #testPackLesson .pack-study-card,
+html[data-theme="dark"] #testPackLesson .pack-question-card{background:#41362f;border-color:#7b6253;color:#f2e7df}
+html[data-theme="dark"] .pack-card-copy strong,
+html[data-theme="dark"] #testPackLesson .pack-study-copy h3,
+html[data-theme="dark"] #testPackLesson .pack-question-card h3{color:#f4e7dd}
+html[data-theme="dark"] #testPackLesson button.pack-choice{background:#4c3c31;border-color:#876953;color:#fff5e9}
+html[data-theme="dark"] #testPackLesson button.pack-choice:hover:not(:disabled){background:#574332}
+html[data-theme="dark"] #testPackLesson .pack-feedback{color:#ebd1b9}
+html[data-theme="dark"] #testPackLesson .pack-feedback[data-state="good"]{color:#a9e1b6}
+html[data-theme="dark"] #testPackLesson .pack-feedback[data-state="try"]{color:#f0bc95}
+@media(max-width:520px){
+ #testPackLesson .pack-study-card{grid-template-columns:1fr;gap:7px}
+ #testPackLesson .pack-study-art{max-width:170px;margin:0 auto}
+ #testPackLesson .pack-heading{gap:9px}
+ .pack-lesson-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){#testPackLesson *,button.pack-card{transition:none!important}}
