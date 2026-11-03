@@ -154,3 +154,88 @@ html[data-theme="dark"] #profileNotice{color:#afdcf4}
 @media(prefers-reduced-motion:reduce){
  #avatarPicker .avatar-choice .mathaino-avatar-art{transition:none!important}
 }
+
+/* v0.6.59 — Avatar picker lives on the picture's top-right corner.
+   It is a sibling of the open-profile button (never a nested button). */
+#profileList .profile-avatar-zone{
+  position:relative;
+  width:min(100%,152px);
+  margin:0 auto;
+  isolation:isolate;
+}
+#profileList .profile-card{justify-content:center}
+#profileList .profile-avatar-zone .profile.profile-enter{width:100%}
+#profileList .profile-avatar-menu,
+#homeAvatarActions .profile-avatar-menu{
+  position:absolute;
+  z-index:2;
+  top:-6px;
+  right:-6px;
+  width:44px;
+  height:44px;
+  min-width:44px;
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px solid #c8a184;
+  border-radius:50%;
+  background:#fffbf2;
+  color:#714c37;
+  font-size:27px;
+  line-height:1;
+  font-weight:800;
+  padding:0;
+  margin:0;
+  box-shadow:0 3px 8px #51382930;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+#profileList .profile-avatar-menu:hover,
+#homeAvatarActions .profile-avatar-menu:hover{
+  background:#f5e5d5;
+  border-color:#9c6e52;
+}
+#profileList .profile-avatar-menu:focus-visible,
+#homeAvatarActions .profile-avatar-menu:focus-visible{
+  outline:3px solid #3276ae;
+  outline-offset:3px;
+}
+#homeAvatarActions{
+  justify-content:flex-start;
+  align-items:center;
+  gap:17px;
+}
+#homeAvatarActions #homeAvatarPicture{
+  width:61px;height:61px;
+  position:relative;
+  flex:none;
+  isolation:isolate;
+}
+#homeAvatarActions #childAvatarArtwork,
+#homeAvatarActions #childAvatarArtwork .mathaino-avatar-art{
+  display:block;
+  width:61px;height:61px;
+  margin:0;
+  border-radius:15px;
+}
+#homeAvatarActions #childLabel{margin:0;flex:1 1 110px;min-width:0}
+#homeAvatarActions #changeAvatar.profile-avatar-menu{
+  top:-10px;
+  right:-15px;
+  width:40px;height:40px;
+  min-width:40px;min-height:40px;
+  font-size:24px;
+}
+html[data-theme="dark"] #profileList .profile-avatar-menu,
+html[data-theme="dark"] #homeAvatarActions .profile-avatar-menu{
+  background:#403731;
+  color:#fff6e8;
+  border-color:#b89574;
+}
+html[data-theme="dark"] #profileList .profile-avatar-menu:hover,
+html[data-theme="dark"] #homeAvatarActions .profile-avatar-menu:hover{background:#604737}
+@media(max-width:540px){
+  #profileList .profile-avatar-zone{width:min(100%,130px)}
+  #profileList .profile-avatar-menu{top:-6px;right:-6px;width:42px;height:42px;min-width:42px;min-height:42px}
+}
