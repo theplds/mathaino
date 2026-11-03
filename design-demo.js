@@ -34,8 +34,8 @@ function setSketch(enabled){
   state.sketch=!!enabled;
   document.documentElement.dataset.sketch=state.sketch?'on':'off';
   $('sketchToggle').setAttribute('aria-pressed',String(state.sketch));
-  $('sketchToggle').setAttribute('aria-label',state.sketch?'Απενεργοποίηση του χειροποίητου στυλ 15%':'Ενεργοποίηση του χειροποίητου στυλ 15%');
-  $('sketchLabel').textContent=state.sketch?'15% χειροποίητο':'Τέλεια ίσιο';
+  $('sketchToggle').setAttribute('aria-label',state.sketch?'Απενεργοποίηση του χειροποίητου στυλ 25%':'Ενεργοποίηση του χειροποίητου στυλ 25%');
+  $('sketchLabel').textContent=state.sketch?'25% χειροποίητο':'Τέλεια ίσιο';
 }
 function closeSidebar(){
   state.sidebar=false;
