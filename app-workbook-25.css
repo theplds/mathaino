@@ -342,3 +342,29 @@ html[data-workbook="on"] .no-color .active {
 @media(prefers-reduced-motion:reduce) {
   html[data-workbook="on"] button {transition:none}
 }
+
+/* The appearance control remains readable even while the skin is disabled. */
+#workbookControl{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:4px 0 7px;
+  padding:10px 8px;
+  border-top:1px solid #d2dfef;
+}
+#workbookControl label{
+  font-size:.86rem;
+  font-weight:650;
+  cursor:pointer;
+  line-height:1.3;
+}
+#workbookSwitch{
+  width:20px;
+  height:20px;
+  flex:none;
+  accent-color:#287f82;
+  cursor:pointer;
+}
+html[data-theme="dark"] #workbookControl{border-color:#526581}
+html[data-workbook="on"] .settings input:not([type=checkbox]){box-sizing:border-box}
