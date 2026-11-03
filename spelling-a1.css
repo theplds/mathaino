@@ -51,6 +51,13 @@
 #spellMissingWord{font-size:clamp(1.55rem,5vw,2.2rem);font-weight:800;min-height:75px;margin:18px 0}
 #spellMissingWord .spell-missing-char{padding:4px 1px;color:#244b58;min-width:20px;text-align:center}
 #spellMissingWord .spell-missing-char.gap{color:#236d78;border-bottom:3px solid #438f92;min-width:33px}
+#spellMissingWord .spell-missing-char.filled{
+  color:#215a48;background:#e4f3e7;border:2px solid #6bad86;border-radius:8px;
+  min-width:33px;padding:4px 7px;font-weight:850;
+}
+html[data-theme="dark"] #spellMissingWord .spell-missing-char.filled{
+  color:#d6fbe5;background:#23523f;border-color:#7dc69b;
+}
 #spellTyping{max-width:475px;margin:0 auto}
 #spellInput{display:block;width:100%;min-height:62px;padding:12px 17px;border:2px solid #9cc7c7;border-radius:14px 9px 17px 11px / 10px 17px 11px 14px;font-size:clamp(1.16rem,4vw,1.5rem);letter-spacing:.05em;text-align:center;background:white;color:#1c4652;font-weight:650;box-sizing:border-box}
 #spellInput::placeholder{letter-spacing:normal;font-size:1rem;font-weight:500;color:#7d959a}
