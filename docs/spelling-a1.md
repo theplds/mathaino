@@ -10,14 +10,14 @@ The **Ορθογραφία Α΄** subject on the child's home screen offers thre
 
 1. **Οι πρώτες λέξεις**: παπί, γάτα, μήλο, νερό, γάλα, ήλιος (6).
 2. **Προσέχω τον τόνο**: σπίτι, σκύλος, δέντρο, καπέλο, ψωμί, βιβλίο (6).
-3. **Μεγαλύτερες λέξεις**: ψάρι, μπάλα, πουλί, λουλούδι, μπανάνα, τρένο, καράβι, αμάξι (8).
+3. **Πιο προχωρημένες λέξεις**: ψάρι, μπάλα, πουλί, λουλούδι, μπανάνα, τρένο, καράβι, αμάξι (8).
 
 A mixed lesson selects eight shuffled words from all 20, and each specific group presents its own six or eight words. Each word has an original educational SVG picture from `curriculum-art.js`.
 
 Each group can be studied in three ways:
 
 - **Βάζω γράμματα**: arrange a shuffled set of Greek letter tiles into a word, including repeated letters and accented vowels. Tap a slot or use Undo to correct it.
-- **Συμπληρώνω**: pick one missing character from four distractors; missing characters mix consonants, unstressed vowels, and accented vowels, except the tone-focused unit.
+- **Συμπληρώνω**: pick one missing character from four distractors; missing characters mix consonants, unstressed vowels, and accented vowels in a 6/4/10 balance across the full 20-word bank. The dedicated tone-focused unit practices accents deliberately.
 - **Γράφω μόνος μου**: type a full word in the device's Greek keyboard, with autocomplete/autocorrection and spellcheck disabled.
 
 Accents are part of the canonical correct answer. Answers with the correct letters but missing/wrong accents receive the focused feedback: **"Τα γράμματα είναι σωστά. Πρόσεξε τον τόνο και δοκίμασε ξανά."** Case and unnecessary spaces are ignored. After a correct answer the child sees the canonical spelling, moves to the next word, and finishes the lesson without grades, timers or streaks. Repeating the unit is allowed.
