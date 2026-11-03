@@ -186,3 +186,32 @@ body.no-color #testPackLesson .pack-feedback{font-weight:800}
  #pictureGate .picture svg.mathaino-warm-art{width:min(80vw,265px)!important;max-height:225px!important}
  #pictureGate #pictureAnswers{margin-top:5px}
 }
+
+/* v0.6.58 — Success progression is GREEN; lesson actions remain terracotta. */
+html[data-workbook="on"] button#spellNext.primary,
+html[data-workbook="on"] button#historyNext.primary,
+html[data-workbook="on"] button#next.primary,
+html[data-workbook="on"] button#pictureDone.primary,
+html[data-workbook="on"] button#gateNext.primary,
+html[data-workbook="on"] button#carNext.primary,
+html[data-workbook="on"] button#chessCheckContinue.primary,
+html[data-workbook="on"] button#chessNext.primary,
+html[data-workbook="on"] button#chessRuleNext.primary,
+html[data-workbook="on"] button.mathaino-completion.primary {
+  background:#238453!important;
+  color:#fff!important;
+  border:2px solid #17643e!important;
+  box-shadow:2px 3px 0 rgba(21,91,56,.22)!important;
+}
+html[data-theme="dark"][data-workbook="on"] button#spellNext.primary,
+html[data-theme="dark"][data-workbook="on"] button#historyNext.primary,
+html[data-theme="dark"][data-workbook="on"] button#next.primary,
+html[data-theme="dark"][data-workbook="on"] button#pictureDone.primary,
+html[data-theme="dark"][data-workbook="on"] button#gateNext.primary,
+html[data-theme="dark"][data-workbook="on"] button#carNext.primary,
+html[data-theme="dark"][data-workbook="on"] button#chessCheckContinue.primary,
+html[data-theme="dark"][data-workbook="on"] button.mathaino-completion.primary {
+  background:#21784c!important;
+  border-color:#76cba2!important;
+  color:#fff!important;
+}
