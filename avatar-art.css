@@ -239,3 +239,23 @@ html[data-theme="dark"] #homeAvatarActions .profile-avatar-menu:hover{background
   #profileList .profile-avatar-zone{width:min(100%,130px)}
   #profileList .profile-avatar-menu{top:-6px;right:-6px;width:42px;height:42px;min-width:42px;min-height:42px}
 }
+
+/* Override the former rectangular home action's legacy ID-specific styling. */
+#homeAvatarActions #changeAvatar.profile-avatar-menu{
+  border-radius:50%;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 3px 8px #51382930;
+  background:#fffbf2;
+  color:#714c37;
+  border:2px solid #c8a184;
+  font-weight:800;
+  line-height:1;
+}
+html[data-theme="dark"] #homeAvatarActions #changeAvatar.profile-avatar-menu{
+  background:#403731;
+  color:#fff6e8;
+  border-color:#b89574;
+}
