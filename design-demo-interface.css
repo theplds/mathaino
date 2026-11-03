@@ -1,0 +1,290 @@
+/* Μαθαίνω! design demo v3 — make the INTERFACE feel 95% precise, 5% hand drawn.
+   Applies only when the v2 comparison switch is ON. All touch targets and text remain rigid. */
+
+/* A subtle lined-workbook surface across the learning workspace, not the typography. */
+html[data-sketch="on"] .workspace{
+  background-color:var(--page);
+  background-image:
+    repeating-linear-gradient(to bottom, transparent 0, transparent 38px, rgba(59,128,142,.027) 39px, transparent 40px);
+}
+html[data-sketch="on"][data-theme="dark"] .workspace{
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 38px,rgba(173,218,221,.019) 39px,transparent 40px);
+}
+
+/* Navigation: a soft paper tab, imperfect ink underlines and gently hand-shaped strokes. */
+html[data-sketch="on"] .sidebar{
+  background:
+    radial-gradient(circle at 18% -7%,rgba(155,218,213,.13),transparent 48%),
+    linear-gradient(175deg,var(--sidebar),var(--sidebar-2));
+}
+html[data-sketch="on"] .brand-symbol{
+  transform:rotate(-3deg);
+  border-radius:13px 10px 15px 11px / 11px 15px 10px 14px;
+  box-shadow:0 2px 0 #0c2c3e44;
+  border:1px solid #d7f0e823;
+}
+html[data-sketch="on"] .brand-symbol svg path{filter:url("#mathaino-sketch-wobble")}
+html[data-sketch="on"] .brand strong{
+  letter-spacing:-.065em;
+  text-shadow:.55px .5px 0 #93c9c636;
+}
+html[data-sketch="on"] .brand small{
+  letter-spacing:.012em;
+}
+html[data-sketch="on"] .side-heading{
+  position:relative;
+  width:max-content;
+  max-width:calc(100% - 24px);
+}
+html[data-sketch="on"] .side-heading::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-5px;
+  width:82%;
+  height:5px;
+  background:no-repeat center / 100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 6'%3E%3Cpath d='M2 4 Q23 1 48 3.2 T98 2.8' fill='none' stroke='%238ab8af' stroke-width='1.55' stroke-linecap='round'/%3E%3C/svg%3E");
+  opacity:.55;
+  pointer-events:none;
+}
+html[data-sketch="on"] .side-heading-lessons{margin-top:38px}
+html[data-sketch="on"] .side-nav{
+  position:relative;
+  border-radius:10px 13px 11px 12px / 13px 10px 13px 11px;
+  overflow:visible;
+  transition:background .17s,border-color .17s,color .17s;
+}
+html[data-sketch="on"] .side-nav:nth-of-type(2n){
+  border-radius:12px 10px 14px 11px / 10px 14px 11px 12px;
+}
+html[data-sketch="on"] .side-nav.active{
+  background:linear-gradient(100deg,#d4f0e623,#b8e6e512);
+  border-color:#a4d8d733;
+  box-shadow:inset 0 0 0 .5px #d9f7f222;
+}
+html[data-sketch="on"] .side-nav.active::before{
+  content:"";
+  position:absolute;
+  left:-3px;
+  top:17%;
+  bottom:15%;
+  width:4px;
+  border-radius:55% 40% 65% 45% / 20% 65% 25% 60%;
+  background:#96d6c9;
+  transform:rotate(2deg);
+  box-shadow:1px 0 0 #e0f7ec55;
+}
+html[data-sketch="on"] .side-nav .nav-glyph svg path{
+  filter:url("#mathaino-sketch-wobble")
+}
+html[data-sketch="on"] .side-dot{
+  border-radius:46% 58% 43% 52% / 51% 43% 58% 47%;
+  transform:rotate(-6deg);
+}
+html[data-sketch="on"] .sidebar-foot{
+  position:relative;
+  border-top:0;
+}
+html[data-sketch="on"] .sidebar-foot::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:8px;
+  right:8px;
+  height:7px;
+  background:no-repeat center / 100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 7' preserveAspectRatio='none'%3E%3Cpath d='M1 3.4 Q52 1.3 94 3.7 T229 2.8' fill='none' stroke='%237eacb1' stroke-opacity='.45' stroke-width='1.4'/%3E%3C/svg%3E");
+}
+
+/* Header: an organic seam and a small drawn dash; controls remain perfectly clickable. */
+html[data-sketch="on"] .topbar{
+  position:sticky;
+  border-bottom-color:transparent;
+  box-shadow:0 3px 8px #15374808;
+}
+html[data-sketch="on"] .topbar::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-1px;
+  height:5px;
+  pointer-events:none;
+  background:repeat-x bottom left / 330px 5px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 330 5'%3E%3Cpath d='M0 2.8 Q38 1.2 74 2.9 T157 2.6 T240 2.8 T330 2.4' fill='none' stroke='%2396b9c3' stroke-opacity='.65' stroke-width='1.1'/%3E%3C/svg%3E");
+}
+html[data-sketch="on"] .profile-avatar{
+  transform:rotate(2.5deg);
+  border-radius:43% 51% 46% 49% / 48% 43% 54% 47%;
+  box-shadow:inset 0 0 0 1.2px #469fa15e;
+}
+html[data-sketch="on"] .top-eyebrow{
+  position:relative;
+  letter-spacing:.105em;
+}
+html[data-sketch="on"] .top-separator{
+  display:inline-block;
+  transform:rotate(-10deg);
+}
+html[data-sketch="on"] .theme-switch,
+html[data-sketch="on"] .sketch-switch,
+html[data-sketch="on"] .icon-btn{
+  border-radius:10px 13px 10px 12px / 13px 10px 12px 11px;
+  border-color:var(--border);
+  box-shadow:0 2px 0 rgba(41,92,108,.06);
+}
+html[data-sketch="on"] .theme-switch svg,
+html[data-sketch="on"] .sketch-switch svg,
+html[data-sketch="on"] .icon-btn svg{
+  filter:url("#mathaino-sketch-wobble");
+}
+
+/* Primary action buttons throughout the app should feel like physical workbook tabs. */
+html[data-sketch="on"] .button,
+html[data-sketch="on"] .micro-action,
+html[data-sketch="on"] .back-link{
+  position:relative;
+}
+html[data-sketch="on"] .button{
+  border-radius:12px 9px 13px 11px / 10px 13px 11px 12px;
+  box-shadow:0 3px 0 rgba(23,75,89,.09);
+}
+html[data-sketch="on"] .button:nth-child(2n){
+  border-radius:10px 13px 11px 12px / 12px 10px 13px 11px;
+}
+html[data-sketch="on"] .button-primary{
+  background:linear-gradient(170deg,#2d888c,#22777f);
+  box-shadow:0 3px 0 rgba(21,74,79,.19),inset 1px 1px 0 #c8f2ed20;
+}
+html[data-sketch="on"] .button-primary:hover:not(:disabled){
+  background:linear-gradient(168deg,#237b7e,#1e666c);
+}
+html[data-sketch="on"][data-theme="dark"] .button-primary{
+  color:#fff;
+}
+html[data-sketch="on"] .button-light{
+  box-shadow:0 3px 0 rgba(15,53,65,.17);
+}
+html[data-sketch="on"] .button-quiet,
+html[data-sketch="on"] .micro-action{
+  box-shadow:0 2px 0 rgba(23,75,89,.05);
+}
+html[data-sketch="on"] .micro-action{
+  border-radius:10px 12px 10px 13px / 12px 10px 13px 10px;
+}
+html[data-sketch="on"] .micro-action svg path{
+  filter:url("#mathaino-sketch-wobble");
+}
+html[data-sketch="on"] .back-link{
+  text-decoration:none;
+  text-underline-offset:4px;
+}
+html[data-sketch="on"] .back-link:hover{
+  text-decoration:underline wavy;
+  text-decoration-thickness:1px;
+}
+
+/* Section labels and lesson titles take on a margin-note character. */
+html[data-sketch="on"] .eyebrow,
+html[data-sketch="on"] .activity-label,
+html[data-sketch="on"] .subject-category{
+  letter-spacing:.13em;
+}
+html[data-sketch="on"] .page-intro h1,
+html[data-sketch="on"] .lesson-heading h1{
+  text-wrap:balance;
+}
+html[data-sketch="on"] .pill{
+  border-radius:7px 10px 7px 9px / 10px 7px 9px 7px;
+  transform:rotate(-.6deg);
+  box-shadow:1px 2px 0 #52677514;
+}
+html[data-sketch="on"] .subject-category{
+  display:inline-block;
+  width:fit-content;
+  border-radius:5px 8px 4px 7px / 8px 5px 7px 5px;
+}
+
+/* Progress indicator: hand-marked pigment but still accurately sized. */
+html[data-sketch="on"] .progress-track{
+  height:9px;
+  border-radius:7px 11px 6px 9px / 9px 7px 10px 6px;
+  border:1px solid var(--border);
+  box-shadow:inset 0 1px 1px #162d3711;
+  overflow:visible;
+}
+html[data-sketch="on"] .progress-track span{
+  height:100%;
+  position:relative;
+  border-radius:7px 5px 7px 6px / 5px 7px 5px 8px;
+  background:linear-gradient(90deg,#78c1b5,#55a79f);
+  box-shadow:0 0 0 .5px #29898c22;
+}
+html[data-sketch="on"] .progress-track span::after{
+  content:"";
+  position:absolute;
+  left:2px;
+  right:2px;
+  top:1px;
+  height:1px;
+  background:#e8fff4a1;
+  border-radius:90% 30% 80% 40%;
+}
+html[data-sketch="on"][data-theme="dark"] .progress-track span{
+  background:linear-gradient(90deg,#6ec2b3,#80c8ba);
+}
+
+/* Educational panels, answer cards and history stages: one consistent paper-and-ink grammar. */
+html[data-sketch="on"] .history-question{
+  border-radius:13px 10px 15px 12px / 11px 14px 12px 10px;
+  box-shadow:2px 3px 0 #225b7310;
+}
+html[data-sketch="on"] .history-explanation,
+html[data-sketch="on"] .physics-question,
+html[data-sketch="on"] .reading-activity{
+  background-image:linear-gradient(172deg,rgba(124,192,185,.027),transparent 65%);
+}
+html[data-sketch="on"] .timeline-step{
+  box-shadow:1px 2px 0 #24485d13;
+}
+html[data-sketch="on"] .timeline-step.active{
+  box-shadow:inset 0 0 0 .6px var(--outline),1px 2px 0 #24485d17;
+}
+html[data-sketch="on"] .stacked-options button{
+  border-width:1.7px;
+  box-shadow:1px 2px 0 rgba(41,92,108,.05);
+}
+html[data-sketch="on"] .stacked-options button:focus-visible{
+  box-shadow:0 0 0 1px var(--outline),1px 2px 0 rgba(41,92,108,.05);
+}
+html[data-sketch="on"] .reading-artwork svg,
+html[data-sketch="on"] .history-artwork svg,
+html[data-sketch="on"] .physics-artwork svg{
+  border-radius:18px 23px 19px 21px / 21px 18px 23px 19px;
+}
+html[data-sketch="on"] .reading-artwork{
+  position:relative;
+}
+html[data-sketch="on"] .reading-artwork::before{
+  content:"";
+  position:absolute;
+  top:10px;
+  right:8px;
+  width:20px;
+  height:23px;
+  transform:rotate(9deg);
+  opacity:.55;
+  pointer-events:none;
+  background:no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 24'%3E%3Cpath d='M2 13l6 8L18 3' stroke='%235bafa3' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+}
+
+/* Keep sidebar and main layout aligned; decorative strokes cannot intercept interaction. */
+html[data-sketch="on"] .sidebar .side-nav::before,
+html[data-sketch="on"] .topbar::after,
+html[data-sketch="on"] .sidebar-foot::before{
+  pointer-events:none;
+}
+@media(max-width:520px){
+ html[data-sketch="on"] .topbar{box-shadow:0 2px 7px #15374808}
+ html[data-sketch="on"] .workspace{
+   background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 38px,rgba(59,128,142,.019) 39px,transparent 40px);
+ }
+}
