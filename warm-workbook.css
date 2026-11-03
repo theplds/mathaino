@@ -157,3 +157,32 @@ html[data-theme="dark"][data-workbook="on"] #grade5Body .g5-panel{background:#40
 /* Color-blind and focus-mode feedback always has text and visible outlines. */
 body.no-color #testPackLesson .pack-choice.pack-wrong{border:3px solid currentColor}
 body.no-color #testPackLesson .pack-feedback{font-weight:800}
+
+
+/* v0.6.55: The warm SVG class must obey the original vocabulary image sizing.
+   Earlier it escaped .mathaino-word-art rules and filled the screen. */
+#pictureGate .picture svg.mathaino-warm-art{
+ display:block!important;
+ width:min(82vw,300px)!important;
+ max-width:300px!important;
+ max-height:260px!important;
+ height:auto!important;
+ margin:6px auto 12px!important;
+ border-radius:18px;
+ box-shadow:0 5px 16px rgba(95,61,41,.09);
+}
+#pictureGate{max-width:700px;margin-left:auto;margin-right:auto}
+#question svg.mathaino-warm-art{
+ display:block;width:min(100%,220px);max-height:195px;height:auto;
+ margin:6px auto 12px;
+}
+.reading-card svg.mathaino-warm-art{
+ display:block;width:min(40vw,155px);max-height:130px;height:auto
+}
+#spellWordArt svg.mathaino-warm-art{display:block;width:min(100%,240px);max-height:200px;height:auto;margin:0 auto}
+#home .subject-illustration svg.mathaino-warm-art{max-width:100%;max-height:145px}
+.picture-book-ink{filter:sepia(.08) saturate(.83)}
+@media(max-width:520px){
+ #pictureGate .picture svg.mathaino-warm-art{width:min(80vw,265px)!important;max-height:225px!important}
+ #pictureGate #pictureAnswers{margin-top:5px}
+}
