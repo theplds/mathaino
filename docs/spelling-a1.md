@@ -1,4 +1,4 @@
-# Μαθαίνω! — Ορθογραφία Α΄ Δημοτικού (v0.6.50)
+# Μαθαίνω! — Ορθογραφία Α΄ Δημοτικού (v0.6.51)
 
 ## Scope and educational basis
 
@@ -37,7 +37,7 @@ Optional help: **Άκουσε τη λέξη** uses the on-device Greek speech sy
 - `spelling-a1.js`: original lesson bank and UI state machines; integration with existing subject/topic/study/practice hooks, parental grade gating and answer-event logger.
 - `spelling-a1.css`: accessible light/dark 25% workbook styling for tiles, word entry, feedback, mobile width, progress and hints.
 - `index.html`: new subject card, parent checkbox, lesson UI, parent setting mapping and reporting label.
-- `sw.js`: caches new modules offline for v0.6.50.
+- `sw.js`: caches new modules offline for v0.6.51.
 
 Verified with source review and mocked interaction: original artwork IDs, unique IDs, JS parsing, 20 valid accented spellings, shuffle with duplicates, tile answer checking, missing-letter selection, typed-word with missing accent and correction, parent grade permissions, reporting event shape, the existing Supabase `answer_events` column schema and enabled RLS. Browser-rendered iPad screenshots, speech audio on a real device, complete sign-in/PIN/parent-save flow, and offline install/reload remain **unverified**; do not describe them as tested.
 
