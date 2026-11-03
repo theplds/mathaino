@@ -18,9 +18,10 @@ function word(key){
  if(!item||!supportsWebp)return '';
  const x=(item.index%6)*200,y=Math.floor(item.index/6)*200;
  // The viewport exposes one square in the 6x5 original composite; no Greek labels.
- return '<svg class="mathaino-word-art mathaino-crayon-art" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="Εικονογράφηση: '+item.label+'" focusable="false">'+
+ return '<svg class="mathaino-word-art mathaino-crayon-art" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="Εικόνα για αναγνώριση" focusable="false">'+
   '<rect width="200" height="200" rx="8" fill="#fff8eb"/>'+
   '<image href="'+source+'" xlink:href="'+source+'" x="'+(-x)+'" y="'+(-y)+'" width="1200" height="1000" preserveAspectRatio="none"/>'+
+  (['apple','ball','sun'].includes(key)?'<rect x="0" y="186" width="200" height="14" fill="#fff8eb"/>':'')+
  '</svg>';
 }
 window.MathainoCrayonArt=Object.freeze({
