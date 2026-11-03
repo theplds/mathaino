@@ -1,0 +1,309 @@
+/* Μαθαίνω! Design Demo v5 · 25% handmade / 75% clean.
+   Visible notebook character across ALL interface surfaces, with readable text
+   and unchanged interaction geometry. Enabled ONLY by data-sketch="on". */
+html[data-sketch="on"] {
+  --sketch-line: color-mix(in srgb, var(--teal) 74%, var(--border) 26%);
+  --sketch-pencil: color-mix(in srgb, var(--teal) 66%, var(--ink) 34%);
+  --sketch-shadow: color-mix(in srgb, var(--ink) 17%, transparent);
+}
+
+/* The workspace now reads as gentle graph-paper stock, not a flat dashboard. */
+html[data-sketch="on"] .workspace {
+  background-color: var(--page);
+  background-image:
+    linear-gradient(90deg, transparent 0, transparent 52px, rgba(63,149,154,.13) 53px, transparent 55px),
+    repeating-linear-gradient(to bottom, transparent 0, transparent 39px, rgba(61,129,145,.07) 40px, transparent 42px),
+    radial-gradient(circle at 83% 9%, rgba(111,186,173,.07), transparent 38%);
+  background-attachment: fixed;
+}
+html[data-sketch="on"][data-theme="dark"] .workspace {
+  background-image:
+    linear-gradient(90deg, transparent 0, transparent 52px, rgba(143,197,206,.055) 53px, transparent 55px),
+    repeating-linear-gradient(to bottom, transparent 0, transparent 39px, rgba(146,210,210,.046) 40px, transparent 42px),
+    radial-gradient(circle at 83% 9%, rgba(107,177,180,.07), transparent 38%);
+}
+
+/* Hand-cut navigation and a genuine ink edge rather than merely rounded corners. */
+html[data-sketch="on"] .sidebar {
+  background:
+    radial-gradient(ellipse at 7% -8%, rgba(177,227,219,.17), transparent 45%),
+    linear-gradient(169deg, var(--sidebar), var(--sidebar-2));
+  box-shadow: inset -4px 0 0 rgba(122,196,188,.14);
+}
+html[data-sketch="on"] .brand-symbol {
+  transform: rotate(-6deg);
+  border-radius: 22px 10px 17px 14px / 14px 22px 11px 19px;
+  box-shadow: 2px 4px 0 #061f293d, inset 1px 1px 0 #e4f9f035;
+}
+html[data-sketch="on"] .brand::after {
+  height: 9px;
+  opacity: .9;
+}
+html[data-sketch="on"] .sidebar::after {width: 9px;opacity: .9}
+html[data-sketch="on"] .side-heading {
+  letter-spacing: .155em;
+}
+html[data-sketch="on"] .side-heading::after {
+  height: 9px;
+  bottom: -9px;
+  opacity: .95;
+}
+html[data-sketch="on"] .side-nav {
+  border-width: 1.5px;
+  border-radius: 19px 9px 16px 12px / 11px 19px 10px 17px;
+}
+html[data-sketch="on"] .side-nav:nth-of-type(2n) {
+  border-radius: 9px 20px 11px 17px / 19px 10px 17px 12px;
+}
+html[data-sketch="on"] .side-nav.active {
+  transform: translateX(2px) rotate(-.35deg);
+  background: linear-gradient(101deg, rgba(150,222,209,.22),rgba(174,235,217,.095));
+  box-shadow: 2px 4px 0 rgba(3,22,31,.18), inset 1px 1px 0 rgba(255,255,255,.085);
+}
+html[data-sketch="on"] .side-nav.active::before {
+  left: -6px;
+  top: 8%;
+  bottom: 8%;
+  width: 6px;
+  transform: rotate(-2deg);
+  background: #9be0d3;
+  border-radius: 50% 35% 56% 43% / 18% 59% 29% 63%;
+}
+html[data-sketch="on"] .side-dot {
+  transform: rotate(-10deg) scale(1.2);
+  box-shadow: 1px 1px 0 rgba(0,0,0,.18), 0 0 0 4px rgba(255,255,255,.04);
+}
+html[data-sketch="on"] .sidebar-foot::before {
+  height: 11px;
+  opacity: .9;
+}
+
+/* Slight graphite double-stroke on the topbar, badges and theme controls. */
+html[data-sketch="on"] .topbar::after {
+  height: 10px;
+  bottom: -4px;
+  opacity: .95;
+}
+html[data-sketch="on"] .profile-avatar {
+  transform: rotate(6deg);
+  border-radius: 37% 55% 41% 62% / 61% 40% 59% 39%;
+  box-shadow: inset 0 0 0 2px #439ba562, 2px 3px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .theme-switch,
+html[data-sketch="on"] .sketch-switch,
+html[data-sketch="on"] .icon-btn {
+  border-radius: 16px 9px 17px 10px / 10px 17px 9px 16px;
+  border-width: 1.8px;
+  box-shadow: 2px 4px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .topbar .theme-switch svg,
+html[data-sketch="on"] .topbar .sketch-switch svg {
+  transform: rotate(-5deg);
+}
+
+/* Bigger pencil marks on titles and badges, no distortion to glyphs themselves. */
+html[data-sketch="on"] .eyebrow::after,
+html[data-sketch="on"] .activity-label::after {
+  height: 7px;
+  width: 70%;
+  margin-top: 2px;
+  opacity: 1;
+}
+html[data-sketch="on"] .section-heading h2::after,
+html[data-sketch="on"] .activity-prompt h2::after {
+  height: 15px;
+  width: 111px;
+  opacity: .96;
+  background: center/100% 100% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 15'%3E%3Cpath d='M3 9 C22 4 39 10 58 6 S94 6 109 5' fill='none' stroke='%234c9a96' stroke-width='3.6' stroke-linecap='round'/%3E%3Cpath d='M8 12 Q47 9 98 10' fill='none' stroke='%234c9a96' stroke-opacity='.37' stroke-width='1.7' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+html[data-sketch="on"] .activity-prompt h2::after {
+  width: 88px; margin: 8px auto 0;
+}
+html[data-sketch="on"] .pill {
+  transform: rotate(-2.2deg);
+  border-radius: 8px 17px 6px 14px / 15px 7px 17px 8px;
+  box-shadow: 2px 3px 0 var(--sketch-shadow);
+}
+
+/* Paper cut-out cards. The existing inner ink outline gets visibly richer. */
+html[data-sketch="on"] .subject-card:nth-child(3n+1) {
+  border-radius: 29px 15px 31px 20px / 18px 31px 19px 26px;
+}
+html[data-sketch="on"] .subject-card:nth-child(3n+2) {
+  border-radius: 16px 34px 18px 29px / 32px 17px 30px 19px;
+}
+html[data-sketch="on"] .subject-card:nth-child(3n) {
+  border-radius: 22px 28px 16px 36px / 29px 17px 35px 21px;
+}
+html[data-sketch="on"] .subject-card {
+  border-width: 2px;
+  box-shadow: 3px 5px 0 var(--sketch-shadow), var(--shadow);
+}
+html[data-sketch="on"] .subject-card:hover {
+  transform: translateY(-3px) rotate(-.55deg);
+}
+html[data-sketch="on"] .subject-visual {
+  border-radius: 0 0 21px 7px / 0 0 12px 6px;
+}
+html[data-sketch="on"] .subject-card::after {
+  inset: 4px;
+  border-width: 2px;
+  opacity: .6;
+}
+html[data-sketch="on"] .activity-card {
+  border-width: 1.8px;
+  border-radius: 31px 20px 34px 21px / 19px 35px 21px 30px;
+  box-shadow: 3px 6px 0 var(--sketch-shadow), var(--shadow);
+}
+html[data-sketch="on"] .activity-card::after {
+  inset: 4px;
+  border-width: 1.8px;
+  opacity: .48;
+}
+html[data-sketch="on"] .design-note {
+  border-width: 1.8px;
+  border-radius: 26px 15px 28px 16px / 17px 30px 16px 26px;
+  box-shadow: 2px 4px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .design-note::after {
+  opacity: .42;
+}
+html[data-sketch="on"] .note-icon {
+  border-radius: 48% 57% 43% 52% / 51% 42% 57% 45%;
+  transform: rotate(-6deg);
+  border-width: 2px;
+}
+
+/* UI controls become a little more like hand-cut paper tabs. */
+html[data-sketch="on"] .button {
+  border-radius: 18px 8px 22px 10px / 11px 21px 9px 20px;
+  border-width: 2px;
+  box-shadow: 2px 5px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .button:nth-child(2n) {
+  border-radius: 9px 23px 11px 18px / 21px 10px 19px 9px;
+}
+html[data-sketch="on"] .button-primary {
+  border-color: #16666f;
+  background: linear-gradient(170deg, #3a9393, #1e737d);
+  box-shadow: 2px 5px 0 #104c5350, inset 2px 1px 0 #fff3;
+}
+html[data-sketch="on"] .button-light {
+  box-shadow: 2px 5px 0 #102f3c65;
+}
+html[data-sketch="on"] .micro-action {
+  border-width: 2px;
+  border-radius: 18px 8px 16px 12px / 10px 18px 9px 18px;
+  box-shadow: 2px 4px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .back-link::after {
+  content:"";
+  display:block;
+  margin-left:16px;
+  height:5px;width:65%;
+  opacity:.6;
+  background:no-repeat center/100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 5'%3E%3Cpath d='M1 3.2Q28 1.4 47 3T89 2.6' fill='none' stroke='%2351a69f' stroke-width='2.2'/%3E%3C/svg%3E");
+}
+
+/* Word-building has tactile tiles, still aligned and keyboard-operable. */
+html[data-sketch="on"] .letter-slot,
+html[data-sketch="on"] .letter-slot:nth-child(even) {
+  border-radius: 20px 7px 18px 11px / 8px 20px 10px 20px;
+  border-width: 2.4px;
+  border-style: dashed;
+}
+html[data-sketch="on"] .letter-slot:nth-child(2n) {
+  border-radius: 9px 20px 11px 18px / 20px 8px 21px 10px;
+}
+html[data-sketch="on"] .letter-slot.filled {
+  border-style: solid;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,.19),2px 4px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .letter-tile {
+  border-width: 2px;
+  border-radius: 11px 21px 8px 19px / 20px 9px 23px 11px;
+  box-shadow: 2px 5px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .letter-tile:nth-child(2n) {
+  border-radius: 21px 7px 19px 11px / 8px 22px 10px 19px;
+}
+html[data-sketch="on"] .letter-tile::after {
+  inset: 4px;
+  opacity: .65;
+  border-width: 1.8px;
+}
+
+/* History and Physics share the same uneven workbook shapes. */
+html[data-sketch="on"] .timeline-step:nth-child(odd),
+html[data-sketch="on"] .stacked-options button:nth-child(odd) {
+  border-radius: 21px 8px 23px 10px / 9px 22px 10px 19px;
+}
+html[data-sketch="on"] .timeline-step:nth-child(even),
+html[data-sketch="on"] .stacked-options button:nth-child(even) {
+  border-radius: 8px 22px 11px 21px / 22px 8px 23px 10px;
+}
+html[data-sketch="on"] .timeline-step,
+html[data-sketch="on"] .stacked-options button {
+  border-width: 2px;
+  box-shadow: 2px 4px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .timeline-step.active {
+  border-color: var(--teal);
+  box-shadow: inset 0 0 0 1px var(--outline), 2px 4px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .history-question {
+  border-width: 2px;
+  border-radius: 22px 13px 27px 15px / 16px 26px 14px 23px;
+  box-shadow: 2px 5px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .reading-artwork svg,
+html[data-sketch="on"] .history-artwork svg,
+html[data-sketch="on"] .physics-artwork svg {
+  border-radius: 28px 17px 31px 20px / 19px 31px 18px 28px;
+  box-shadow: 3px 5px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .reading-artwork::before {
+  transform: rotate(16deg);
+  width: 26px;height: 30px;
+  right: 3px;top: 6px;
+  opacity: .72;
+}
+
+/* Sketched progress underline without changing percentage width. */
+html[data-sketch="on"] .progress-track {
+  height: 13px;
+  border-width: 2px;
+  border-radius: 13px 22px 9px 16px / 15px 10px 19px 11px;
+  box-shadow: inset 0 2px 1px rgba(21,49,59,.095);
+}
+html[data-sketch="on"] .progress-track span {
+  border-radius: 11px 6px 18px 8px / 7px 17px 9px 16px;
+  box-shadow: 0 0 0 1px rgba(31,113,113,.24);
+}
+html[data-sketch="on"] .progress-track span::after {
+  height: 2px;top: 2px;left: 3px;right: 3px;
+}
+
+/* Hero panel has an intentionally cut-paper silhouette. */
+html[data-sketch="on"] .home-hero {
+  border-radius: 39px 17px 37px 21px / 22px 39px 19px 34px;
+  box-shadow: 4px 8px 0 rgba(20,81,94,.17), 0 13px 30px rgba(28,78,97,.14);
+}
+html[data-sketch="on"] .hero-deco.one,
+html[data-sketch="on"] .hero-deco.two {
+  border-width: 3px;
+  opacity:.18;
+}
+
+/* The toggle remains usable down to narrow phones. */
+@media (max-width:520px) {
+ html[data-sketch="on"] .workspace {
+   background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 39px, rgba(61,129,145,.045) 40px, transparent 42px);
+ }
+ html[data-sketch="on"] .sidebar::after{width:6px}
+ html[data-sketch="on"] .subject-card{box-shadow:2px 4px 0 var(--sketch-shadow)}
+ html[data-sketch="on"] .activity-card{box-shadow:2px 4px 0 var(--sketch-shadow)}
+}
+@media(prefers-reduced-motion:reduce) {
+ html[data-sketch="on"] .subject-card:hover{transition:none!important}
+}
