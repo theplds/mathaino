@@ -43,7 +43,7 @@ html[data-theme="dark"] #grade5Body button.g5-built{background:#20543d;color:#ef
 #grade5Body .g5-energy-progress>div{background:#438fd8;height:100%;transition:width .25s}
 html[data-theme="dark"] #grade5Body .g5-energy-scene,html[data-theme="dark"] #grade5Body .g5-energy-forms>div{background:#25425f;color:#f1f7ff;border-color:#4c769c}
 html[data-theme="dark"] #grade5Body .g5-energy-forms strong{color:#b1dfff}
-#subjects button[hidden],#allowScience5Row[hidden],#allowHistory5Row[hidden]{display:none!important}#historyControls .line-icon{stroke:#fff;width:22px;height:22px;vertical-align:middle}#historyControls button{min-width:43px!important;min-height:43px!important;display:inline-flex;align-items:center;justify-content:center}</style><link rel="stylesheet" href="./energy-art.css?v=637"><link rel="stylesheet" href="./history-player.css?v=639"><link rel="stylesheet" href="./avatar-art.css?v=640"><link rel="stylesheet" href="./curriculum-art.css?v=643"><link rel="stylesheet" href="./extra-lessons.css?v=646"></head><body><main><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><h1>Μαθαίνω!</h1><div class="top-actions"><span class="version">v0.6.46</span><button id="menuToggle" type="button" aria-label="Μενού" aria-expanded="false" aria-controls="appMenu">⋮</button><div id="appMenu" class="app-menu hidden"><button id="menuParent" type="button">Ρυθμίσεις γονέα</button><div id="themeControl"><label for="themeSelect">Εμφάνιση</label><select id="themeSelect" aria-label="Εμφάνιση"><option value="system">Συσκευή</option><option value="light">Φωτεινό</option><option value="dark">Σκοτεινό</option></select></div><button id="menuChangePassword" type="button">Αλλαγή κωδικού</button><button id="menuSignOut" type="button">Αποσύνδεση</button></div></div></div><p>Μαθαίνω με τον δικό μου ρυθμό.</p><section id="passwordRecovery" class="hidden"><h2>Νέος κωδικός πρόσβασης</h2><p>Διάλεξε νέο κωδικό για τον λογαριασμό σου.</p><form id="recoveryForm"><label for="recoveryPassword">Νέος κωδικός</label><input id="recoveryPassword" class="auth-field" type="password" autocomplete="new-password" minlength="8" required><label for="recoveryConfirm">Επιβεβαίωση κωδικού</label><input id="recoveryConfirm" class="auth-field" type="password" autocomplete="new-password" minlength="8" required><button class="primary" type="submit">Αποθήκευση νέου κωδικού</button></form><p id="recoveryStatus" role="status"></p></section><section id="auth" class="hidden"><h2>Λογαριασμός γονέα</h2><p>Συνδέσου για να χρησιμοποιήσεις τα οικογενειακά προφίλ.</p><form id="authForm"><label for="authEmail">Email</label><input id="authEmail" class="auth-field" type="email" autocomplete="email" required><label for="authPassword">Κωδικός</label><input id="authPassword" class="auth-field" type="password" minlength="8" autocomplete="current-password" required><div class="auth-actions"><button class="primary" type="submit">Σύνδεση</button><button type="button" id="signUp">Δημιουργία λογαριασμού</button><button type="button" id="forgot">Ξέχασα τον κωδικό</button></div></form><p id="authStatus" class="status" role="status"></p></section><div id="sessionBar" class="hidden"><small id="signedEmail"></small><button id="signOut" class="hidden" tabindex="-1">Αποσύνδεση</button></div><section id="profiles"><h2>Ποιος μαθαίνει σήμερα;</h2><p id="profileNotice" role="status" aria-live="polite"></p><div id="profileList" class="row"></div><button id="openParent" class="hidden" tabindex="-1">Ρυθμίσεις γονέα</button></section><section id="avatarPicker" class="hidden">
+#subjects button[hidden],#allowScience5Row[hidden],#allowHistory5Row[hidden]{display:none!important}#historyControls .line-icon{stroke:#fff;width:22px;height:22px;vertical-align:middle}#historyControls button{min-width:43px!important;min-height:43px!important;display:inline-flex;align-items:center;justify-content:center}</style><link rel="stylesheet" href="./energy-art.css?v=637"><link rel="stylesheet" href="./history-player.css?v=639"><link rel="stylesheet" href="./avatar-art.css?v=640"><link rel="stylesheet" href="./curriculum-art.css?v=643"><link rel="stylesheet" href="./extra-lessons.css?v=646"><link rel="stylesheet" href="./chess-rules.css?v=647"></head><body><main><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><h1>Μαθαίνω!</h1><div class="top-actions"><span class="version">v0.6.47</span><button id="menuToggle" type="button" aria-label="Μενού" aria-expanded="false" aria-controls="appMenu">⋮</button><div id="appMenu" class="app-menu hidden"><button id="menuParent" type="button">Ρυθμίσεις γονέα</button><div id="themeControl"><label for="themeSelect">Εμφάνιση</label><select id="themeSelect" aria-label="Εμφάνιση"><option value="system">Συσκευή</option><option value="light">Φωτεινό</option><option value="dark">Σκοτεινό</option></select></div><button id="menuChangePassword" type="button">Αλλαγή κωδικού</button><button id="menuSignOut" type="button">Αποσύνδεση</button></div></div></div><p>Μαθαίνω με τον δικό μου ρυθμό.</p><section id="passwordRecovery" class="hidden"><h2>Νέος κωδικός πρόσβασης</h2><p>Διάλεξε νέο κωδικό για τον λογαριασμό σου.</p><form id="recoveryForm"><label for="recoveryPassword">Νέος κωδικός</label><input id="recoveryPassword" class="auth-field" type="password" autocomplete="new-password" minlength="8" required><label for="recoveryConfirm">Επιβεβαίωση κωδικού</label><input id="recoveryConfirm" class="auth-field" type="password" autocomplete="new-password" minlength="8" required><button class="primary" type="submit">Αποθήκευση νέου κωδικού</button></form><p id="recoveryStatus" role="status"></p></section><section id="auth" class="hidden"><h2>Λογαριασμός γονέα</h2><p>Συνδέσου για να χρησιμοποιήσεις τα οικογενειακά προφίλ.</p><form id="authForm"><label for="authEmail">Email</label><input id="authEmail" class="auth-field" type="email" autocomplete="email" required><label for="authPassword">Κωδικός</label><input id="authPassword" class="auth-field" type="password" minlength="8" autocomplete="current-password" required><div class="auth-actions"><button class="primary" type="submit">Σύνδεση</button><button type="button" id="signUp">Δημιουργία λογαριασμού</button><button type="button" id="forgot">Ξέχασα τον κωδικό</button></div></form><p id="authStatus" class="status" role="status"></p></section><div id="sessionBar" class="hidden"><small id="signedEmail"></small><button id="signOut" class="hidden" tabindex="-1">Αποσύνδεση</button></div><section id="profiles"><h2>Ποιος μαθαίνει σήμερα;</h2><p id="profileNotice" role="status" aria-live="polite"></p><div id="profileList" class="row"></div><button id="openParent" class="hidden" tabindex="-1">Ρυθμίσεις γονέα</button></section><section id="avatarPicker" class="hidden">
   <h2>Διάλεξε εικόνα προφίλ</h2>
   <p id="avatarPickerChild"></p>
   <p>Διάλεξε τη ζωγραφιά που σου αρέσει. Μπορείς να την αλλάξεις ξανά όποτε θέλεις.</p>
@@ -98,12 +98,41 @@ html[data-theme="dark"] #grade5Body .g5-energy-forms strong{color:#b1dfff}
 <section id="chessLesson" class="hidden">
   <div class="extra-lesson-header"><button id="chessBack" type="button">← Μαθήματα</button><p id="chessStep" class="extra-lesson-kicker"></p></div>
   <h2>Μαθαίνω Σκάκι</h2>
-  <p class="extra-lesson-description">Γνώρισε τα κομμάτια και τις κινήσεις τους. Πάτησε το κομμάτι και μετά το τετράγωνο με τον κύκλο.</p>
-  <div class="chess-learning-card"><h3 id="chessHeading"></h3><p id="chessFact"></p><p id="chessHint" aria-live="polite"></p></div>
-  <div id="chessBoard" role="group" aria-label="Εκπαιδευτική σκακιέρα με 64 τετράγωνα"></div>
-  <p id="chessHelp" role="status" aria-live="polite"></p>
-  <div class="chess-actions"><button id="chessShowHint" type="button">Βοήθεια</button><button id="chessNext" type="button" class="primary hidden">Επόμενο κομμάτι</button></div>
-  <p class="extra-photo-source-note">Μάθημα κινήσεων, όχι πλήρης παρτίδα. Δεν υπάρχει χρονόμετρο.</p>
+  <div id="chessModeTabs" role="tablist" aria-label="Μαθήματα σκακιού">
+    <button id="chessRulesTab" type="button" role="tab" aria-controls="chessRulesPanel" aria-selected="true">Βασικοί κανόνες</button>
+    <button id="chessMovesTab" type="button" role="tab" aria-controls="chessMovementPanel" aria-selected="false">Κινήσεις κομματιών</button>
+  </div>
+  <p id="chessModeIntro" class="extra-lesson-description">Διάβασε τους βασικούς κανόνες και δες παραδείγματα στη σκακιέρα.</p>
+  <div id="chessRulesPanel" role="tabpanel" aria-labelledby="chessRulesTab">
+    <article id="chessRuleCard">
+      <p id="chessRuleCount"></p>
+      <h3 id="chessRuleTitle"></h3>
+      <p id="chessRuleText"></p>
+      <div id="chessRuleDiagrams" aria-label="Παραδείγματα στη σκακιέρα"></div>
+      <p id="chessRuleTip"></p>
+      <div class="chess-rule-actions">
+        <button id="chessRulePrev" type="button">Προηγούμενος</button>
+        <button id="chessRuleNext" class="primary" type="button">Επόμενος κανόνας</button>
+      </div>
+    </article>
+    <article id="chessRuleCheck" class="hidden">
+      <p id="chessCheckCount"></p>
+      <h3 id="chessCheckQuestion"></h3>
+      <div id="chessCheckAnswers" role="group" aria-label="Απαντήσεις για τους κανόνες"></div>
+      <p id="chessCheckFeedback" role="status" aria-live="polite"></p>
+      <div id="chessRuleCheckNav" class="chess-rule-actions">
+        <button id="chessCheckBack" type="button">Πίσω στους κανόνες</button>
+        <button id="chessCheckContinue" class="primary hidden" type="button">Επόμενη ερώτηση</button>
+      </div>
+    </article>
+  </div>
+  <div id="chessMovementPanel" role="tabpanel" aria-labelledby="chessMovesTab" class="hidden">
+    <div class="chess-learning-card"><h3 id="chessHeading"></h3><p id="chessFact"></p><p id="chessHint" aria-live="polite"></p></div>
+    <div id="chessBoard" role="group" aria-label="Εκπαιδευτική σκακιέρα με 64 τετράγωνα"></div>
+    <p id="chessHelp" role="status" aria-live="polite"></p>
+    <div class="chess-actions"><button id="chessShowHint" type="button">Βοήθεια</button><button id="chessNext" type="button" class="primary hidden">Επόμενο κομμάτι</button></div>
+  </div>
+  <p class="extra-photo-source-note">Οδηγός για αρχάριους και ασκήσεις κινήσεων, όχι πλήρης παρτίδα. Χωρίς χρονόμετρο.</p>
 </section>
 <section id="carLesson" class="hidden">
   <div class="extra-lesson-header"><button id="carBack" type="button">← Μαθήματα</button><p id="carProgress" class="extra-lesson-kicker"></p></div>
@@ -922,4 +951,4 @@ topics=function(){originalTopicsBeforeIllustrationPanel();refreshSubjectPanel()}
 const originalChooseChildBeforeIllustrationPanel=chooseChild;
 chooseChild=function(index){originalChooseChildBeforeIllustrationPanel(index);refreshSubjectPanel()};
 
-</script><script src="./extra-lessons.js?v=646"></script></body></html>
+</script><script src="./extra-lessons.js?v=646"></script><script src="./chess-rules.js?v=647"></script></body></html>
