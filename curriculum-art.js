@@ -23,7 +23,10 @@ function subject(id){
  return item?pictureBook(item,'0 0 360 210',true):(window.MathainoWarmArt?.subject(id)||'');
 }
 function word(id){
- // New canonical dog: naturally shaped muzzle, long ears, body, tail and paws.
+ // v0.6.56: use approved crayon asset whenever the browser supports WebP.
+ // Other devices retain our existing SVG illustrations.
+ const crayon=window.MathainoCrayonArt?.word(id);
+ if(crayon)return crayon;
  if(id==='dog')return window.MathainoWarmArt?.word('dog')||'';
  const item=words[id];
  return item?pictureBook(item,'0 0 240 200',false):(window.MathainoWarmArt?.word(id)||'');
