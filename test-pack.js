@@ -194,7 +194,7 @@ function quiz(body){
  const choices=html('div','pack-options');card.append(choices);
  const feedback=html('p','pack-feedback');feedback.setAttribute('aria-live','polite');card.append(feedback);
  const assist=html('div','pack-assist');card.append(assist);
- const next=button(state.index===l.questions.length-1?'Ολοκλήρωση':'Επόμενη ερώτηση',advance,'primary pack-big-button');next.hidden=true;card.append(next);
+ const next=button(state.index===l.questions.length-1?'Ολοκλήρωση':'Επόμενη ερώτηση',advance,'primary pack-big-button mathaino-completion');next.hidden=true;card.append(next);
  for(const option of state.choices){
   const b=button(option.label,()=>{
    if(state.solved)return;
