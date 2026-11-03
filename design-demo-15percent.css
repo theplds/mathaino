@@ -1,0 +1,281 @@
+/* Μαθαίνω! standalone v4: 85% clean, 15% hand-drawn.
+   This is an interface-wide illustration layer, not randomized layout.
+   Every selector is opt-in so the comparison switch restores straight UI. */
+html[data-sketch="on"]{
+ --sketch-line:color-mix(in srgb,var(--teal) 65%,var(--border) 35%);
+ --sketch-pencil:color-mix(in srgb,var(--teal) 75%,var(--ink) 25%);
+ --sketch-shadow:color-mix(in srgb,var(--ink) 12%,transparent);
+}
+
+/* An imperfect notebook margin turns the workspace into a paper surface. */
+html[data-sketch="on"] .workspace{
+ background-image:
+  linear-gradient(90deg,transparent 0,transparent 46px,rgba(104,162,171,.065) 47px,transparent 49px),
+  repeating-linear-gradient(to bottom,transparent 0,transparent 36px,rgba(57,129,140,.042) 37px,transparent 39px);
+}
+html[data-sketch="on"][data-theme="dark"] .workspace{
+ background-image:
+  linear-gradient(90deg,transparent 0,transparent 46px,rgba(150,210,217,.03) 47px,transparent 49px),
+  repeating-linear-gradient(to bottom,transparent 0,transparent 36px,rgba(153,205,211,.027) 37px,transparent 39px);
+}
+
+/* Slightly sketched shelf separators across navigation and header. */
+html[data-sketch="on"] .brand{
+ position:relative;border-bottom:0;
+}
+html[data-sketch="on"] .brand::after{
+ content:"";position:absolute;bottom:0;left:13px;right:13px;height:7px;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 8' preserveAspectRatio='none'%3E%3Cpath d='M1 4.5 C31 1.7 51 6.3 85 4 S150 2.3 179 4.7 S233 2.5 259 4.5' stroke='%238ec4c0' stroke-opacity='.48' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3Cpath d='M8 6.3 Q101 5.8 186 6.6 T256 5.8' stroke='%238ec4c0' stroke-opacity='.14' stroke-width='1' fill='none'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+ pointer-events:none;
+}
+html[data-sketch="on"] .sidebar{
+ border-right:0;
+ box-shadow:inset -4px 0 0 rgba(123,192,192,.11);
+}
+html[data-sketch="on"] .sidebar::after{
+ content:"";position:absolute;top:0;bottom:0;right:0;width:7px;
+ pointer-events:none;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 400' preserveAspectRatio='none'%3E%3Cpath d='M3 1 Q5 33 3 64 T3 130 Q4 177 2 210 T4 290 Q2 341 3 399' stroke='%2385c1bb' stroke-opacity='.46' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+ z-index:2;
+}
+html[data-sketch="on"] .topbar::after{
+ height:8px;bottom:-3px;
+ background:repeat-x left bottom / 420px 8px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 8'%3E%3Cpath d='M0 3.5 C36 2 65 5.8 104 3.2 S179 5.3 209 3 S278 2.6 317 4.2 S392 2.3 420 3.5' stroke='%238bb8c2' stroke-width='1.6' stroke-opacity='.65' fill='none'/%3E%3Cpath d='M0 6 Q111 4.6 200 6.2 T420 5.3' stroke='%238bb8c2' stroke-width='.8' stroke-opacity='.19' fill='none'/%3E%3C/svg%3E");
+}
+html[data-sketch="on"] .side-nav{
+ border-radius:12px 17px 9px 15px / 13px 10px 17px 11px;
+}
+html[data-sketch="on"] .side-nav:nth-of-type(2n){
+ border-radius:17px 10px 15px 12px / 10px 16px 11px 18px;
+}
+html[data-sketch="on"] .side-nav.active{
+ box-shadow:inset 0 0 0 1px rgba(188,230,225,.12),2px 2px 0 #081d2b1e;
+ background:linear-gradient(102deg,#a9e4df2d,#bdece31a);
+}
+html[data-sketch="on"] .side-nav.active::before{
+ left:-3px;width:5px;top:12%;bottom:11%;
+ border-radius:48% 39% 56% 44% / 13% 57% 24% 65%;
+ transform:rotate(-3deg);
+ background:#9ae0ce;box-shadow:2px 1px 0 #9ae0ce30;
+}
+html[data-sketch="on"] .side-heading::after{
+ bottom:-8px;width:96%;height:7px;opacity:.85;
+}
+html[data-sketch="on"] .side-dot{
+ border-radius:41% 63% 45% 57% / 56% 37% 63% 45%;
+ transform:rotate(-12deg) scale(1.12);
+}
+html[data-sketch="on"] .brand-symbol{
+ border-radius:18px 10px 16px 12px / 11px 18px 12px 19px;
+ transform:rotate(-4deg);
+ box-shadow:2px 3px 0 #051b2b3a,inset 0 0 0 1px #cdf0e82e;
+}
+html[data-sketch="on"] .profile-avatar{
+ border-radius:38% 54% 42% 61% / 61% 38% 59% 43%;
+ transform:rotate(5deg);
+ box-shadow:inset 0 0 0 2px #469fa14f,2px 2px 0 #183c5113;
+}
+
+/* UI outline geometry: noticeably human, without displacing hit targets. */
+html[data-sketch="on"] .subject-card:nth-child(3n+1){
+ border-radius:21px 28px 18px 25px / 26px 18px 27px 20px;
+ transform-origin:top center;
+}
+html[data-sketch="on"] .subject-card:nth-child(3n+2){
+ border-radius:27px 20px 25px 18px / 20px 28px 18px 27px;
+}
+html[data-sketch="on"] .subject-card:nth-child(3n){
+ border-radius:19px 27px 22px 29px / 28px 20px 26px 19px;
+}
+html[data-sketch="on"] .subject-card:hover{
+ transform:translateY(-3px) rotate(-.3deg);
+}
+html[data-sketch="on"] .subject-visual{
+ border-radius:0 0 17px 5px / 0 0 8px 5px;
+ background-image:linear-gradient(140deg,#ffffff32,transparent 70%);
+ position:relative;
+}
+html[data-sketch="on"] .subject-visual::after{
+ content:"";position:absolute;right:10px;bottom:8px;width:22px;height:18px;
+ background:no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 19'%3E%3Cpath d='M2 16Q7 4 11 3m-3 11Q14 2 19 2m-2 12q4-7 5-9' stroke='%235b9a94' stroke-opacity='.57' stroke-width='1.65' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+ pointer-events:none;
+}
+html[data-sketch="on"] .activity-card{
+ border-radius:24px 29px 21px 27px / 28px 21px 29px 23px;
+ box-shadow:3px 6px 0 var(--sketch-shadow),var(--shadow);
+}
+html[data-sketch="on"] .design-note{
+ border-radius:17px 25px 18px 23px / 22px 16px 24px 18px;
+}
+html[data-sketch="on"] .subject-card::after,
+html[data-sketch="on"] .activity-card::after,
+html[data-sketch="on"] .design-note::after{
+ inset:3px;
+ border:1.65px solid var(--sketch-line);
+ opacity:.46;
+}
+html[data-sketch="on"] .subject-card::after{opacity:.61}
+html[data-sketch="on"] .activity-card::after{opacity:.35}
+
+/* Hand-ink accent lines are separate from text and are never required to read. */
+html[data-sketch="on"] .section-heading h2::after,
+html[data-sketch="on"] .activity-prompt h2::after{
+ height:12px;width:95px;margin-top:4px;opacity:.88;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 12'%3E%3Cpath d='M2 6.6 Q22 3 49 6.2 T98 4.5' stroke='%234c9a96' stroke-width='3.2' stroke-linecap='round' fill='none'/%3E%3Cpath d='M11 9 Q51 7 85 9' stroke='%234c9a96' stroke-opacity='.28' stroke-width='1.3' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+}
+html[data-sketch="on"] .activity-prompt h2::after{width:72px;margin:6px auto 0}
+html[data-sketch="on"] .eyebrow,
+html[data-sketch="on"] .activity-label{
+ display:inline-block;position:relative;
+}
+html[data-sketch="on"] .eyebrow::after,
+html[data-sketch="on"] .activity-label::after{
+ content:"";display:block;
+ height:5px;width:48%;margin-top:1px;
+ background:no-repeat center / 100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 5'%3E%3Cpath d='M1 3Q16 1 34 2.8T69 2.3' stroke='%2358aaa1' stroke-opacity='.8' stroke-width='1.8' fill='none'/%3E%3C/svg%3E");
+}
+html[data-sketch="on"] .pill{
+ border-radius:8px 15px 7px 13px / 13px 8px 15px 8px;
+ transform:rotate(-1.7deg);
+ box-shadow:1.5px 2.5px 0 #52677521;
+}
+html[data-sketch="on"] .subject-category{
+ border-radius:5px 11px 4px 9px / 10px 5px 11px 4px;
+}
+
+/* Primary and secondary buttons feel hand-cut while keeping geometry and labels exact. */
+html[data-sketch="on"] .button,
+html[data-sketch="on"] .theme-switch,
+html[data-sketch="on"] .sketch-switch,
+html[data-sketch="on"] .micro-action{
+ border-width:1.5px;
+}
+html[data-sketch="on"] .button{
+ border-radius:14px 9px 18px 11px / 10px 16px 9px 17px;
+ box-shadow:2px 4px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .button:nth-child(2n){
+ border-radius:10px 18px 12px 15px / 17px 9px 18px 10px;
+}
+html[data-sketch="on"] .button-primary{
+ border:1.5px solid #196d75;
+ background:linear-gradient(173deg,#398d8e,#1e7780);
+ box-shadow:2px 4px 0 #104c5338,inset 2px 1px 0 #fff3;
+}
+html[data-sketch="on"] .button-light{
+ border:1.5px solid #f6ffff;
+ box-shadow:2px 4px 0 #102f3c53;
+}
+html[data-sketch="on"] .button-quiet,
+html[data-sketch="on"] .micro-action{
+ box-shadow:2px 3px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .theme-switch,
+html[data-sketch="on"] .sketch-switch,
+html[data-sketch="on"] .icon-btn{
+ border-radius:13px 9px 15px 10px / 9px 15px 10px 13px;
+ box-shadow:2px 3px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .micro-action{
+ border-radius:14px 9px 12px 17px / 10px 16px 9px 13px;
+}
+
+/* Illustrations and question choices share the same workbook ink. */
+html[data-sketch="on"] .reading-artwork svg,
+html[data-sketch="on"] .history-artwork svg,
+html[data-sketch="on"] .physics-artwork svg{
+ border-radius:22px 29px 19px 26px / 28px 19px 27px 21px;
+ box-shadow:3px 5px 0 rgba(26,84,101,.095);
+}
+html[data-sketch="on"] .letter-slot,
+html[data-sketch="on"] .letter-slot:nth-child(even){
+ border-radius:15px 8px 17px 10px / 8px 16px 9px 18px;
+ border-width:2px;
+ border-style:dashed;
+}
+html[data-sketch="on"] .letter-slot:nth-child(2n){
+ border-radius:9px 17px 11px 15px / 17px 9px 18px 10px;
+}
+html[data-sketch="on"] .letter-slot.filled{
+ border-style:solid;
+ box-shadow:inset 1px 1px 0 #fff2,2px 3px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .letter-tile{
+ border-radius:10px 18px 12px 16px / 17px 10px 19px 11px;
+ border-width:1.8px;
+ box-shadow:2px 4px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .letter-tile:nth-child(2n){
+ border-radius:18px 9px 16px 11px / 9px 18px 10px 17px;
+}
+html[data-sketch="on"] .letter-tile::after{
+ opacity:.55;
+ border-width:1.3px;
+}
+html[data-sketch="on"] .history-question{
+ border-radius:16px 25px 17px 20px / 21px 14px 23px 17px;
+ box-shadow:2px 4px 0 var(--sketch-shadow);
+}
+html[data-sketch="on"] .timeline-step:nth-child(odd){
+ border-radius:16px 9px 20px 11px / 10px 19px 10px 19px;
+}
+html[data-sketch="on"] .timeline-step:nth-child(even){
+ border-radius:10px 18px 12px 21px / 19px 10px 19px 11px;
+}
+html[data-sketch="on"] .stacked-options button:nth-child(odd){
+ border-radius:15px 9px 18px 11px / 10px 18px 9px 15px;
+}
+html[data-sketch="on"] .stacked-options button:nth-child(even){
+ border-radius:9px 18px 12px 16px / 18px 9px 17px 10px;
+}
+html[data-sketch="on"] .stacked-options button{
+ border-width:2px;
+ box-shadow:2px 3px 0 var(--sketch-shadow);
+}
+
+/* Paint the progress rather than making it a purely machined bar.
+   Width remains driven by the existing accessible progress state. */
+html[data-sketch="on"] .progress-track{
+ height:12px;
+ border-width:1.5px;
+ border-radius:10px 18px 9px 13px / 12px 8px 17px 10px;
+ transform:rotate(-.15deg);
+}
+html[data-sketch="on"] .progress-track span{
+ border-radius:10px 7px 15px 8px / 9px 14px 8px 13px;
+ background:linear-gradient(160deg,#71b9ae 4%,#55a89f 60%,#449d95);
+ box-shadow:0 0 0 1px rgba(30,123,123,.16);
+}
+html[data-sketch="on"] .progress-track span::after{
+ height:2px;top:2px;left:4px;right:4px;opacity:.92;
+}
+
+/* Hero: a slightly asymmetrical paper panel with more recognisable pencil marks. */
+html[data-sketch="on"] .home-hero{
+ border-radius:31px 18px 32px 23px / 22px 33px 19px 30px;
+ box-shadow:4px 7px 0 rgba(20,81,94,.12),0 13px 30px #1c4e6124;
+}
+html[data-sketch="on"] .hero-deco.one{
+ border-radius:43% 60% 42% 56% / 59% 45% 57% 42%;
+ transform:rotate(-7deg);
+ border-width:3px;
+}
+html[data-sketch="on"] .hero-deco.two{
+ border-radius:58% 43% 59% 44% / 42% 60% 45% 58%;
+ transform:rotate(6deg);
+ border-width:3px;
+}
+
+/* On narrower screens, keep all sketch decoration away from key controls. */
+@media(max-width:520px){
+ html[data-sketch="on"] .workspace{
+   background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 36px,rgba(57,129,140,.025) 37px,transparent 39px);
+ }
+ html[data-sketch="on"] .subject-visual::after{right:4px;bottom:3px;width:15px;height:12px}
+ html[data-sketch="on"] .sidebar::after{width:5px}
+ html[data-sketch="on"] .activity-card{box-shadow:2px 4px 0 var(--sketch-shadow)}
+}
+@media(prefers-reduced-motion:reduce){
+ html[data-sketch="on"] .progress-track,
+ html[data-sketch="on"] .subject-card:hover{transition:none!important}
+}
