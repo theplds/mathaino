@@ -144,3 +144,16 @@ html[data-theme="dark"] #testPackLesson .pack-feedback[data-state="try"]{color:#
  .pack-lesson-grid{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){#testPackLesson *,button.pack-card{transition:none!important}}
+
+/* Existing science drawings share the paper treatment; their educational motion is preserved. */
+html[data-workbook="on"] .mathaino-energy-art{
+ background:#fff9ed;border:1px solid #e2cbb3;
+ filter:sepia(.12) saturate(.86);border-radius:16px;
+}
+html[data-workbook="on"] .g5-energy-form-art{background:#fff8ed;border:1px solid #e4d2bd}
+html[data-theme="dark"][data-workbook="on"] .g5-energy-form-art{background:#40382f;border-color:#745c4c}
+html[data-workbook="on"] #grade5Body .g5-panel{background:#fdf7ed;border-color:#e5cdb5;color:#584a3e}
+html[data-theme="dark"][data-workbook="on"] #grade5Body .g5-panel{background:#40382f;border-color:#745c4c;color:#f3e5d8}
+/* Color-blind and focus-mode feedback always has text and visible outlines. */
+body.no-color #testPackLesson .pack-choice.pack-wrong{border:3px solid currentColor}
+body.no-color #testPackLesson .pack-feedback{font-weight:800}
