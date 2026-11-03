@@ -1,5 +1,5 @@
-/* Μαθαίνω! v0.6.49 — πρωτότυπη ορθογραφία Α΄ Δημοτικού.
-   Ξεχωριστές βαθμίδες και τρεις τρόποι γραφής, χωρίς βαθμούς ή χρονόμετρο. */
+/* Μαθαίνω! v0.6.52 — μικτές ασκήσεις ορθογραφίας Α΄ Δημοτικού.
+   Κάθε συνεδρία συνδυάζει αυτόματα γράμματα, κενά και πλήρη γραφή, χωρίς βαθμούς ή χρονόμετρο. */
 (function(){
 'use strict';
 const $s=id=>document.getElementById(id);
@@ -16,11 +16,20 @@ const modes=[
  {id:'missing',title:'Συμπληρώνω',description:'Λείπει ένα γράμμα. Διάλεξε ποιο ταιριάζει.'},
  {id:'write',title:'Γράφω μόνος μου',description:'Γράψε ολόκληρη τη λέξη στα ελληνικά, μαζί με τον τόνο.'}
 ];
-let state={mode:'tiles',group:'all',items:[],index:0,tiles:[],selected:[],blank:-1,options:[],solved:false,tries:0,revealed:false,wrongOption:[],lastAnswer:''};
+let state={mode:'tiles',modePlan:[],group:'all',items:[],index:0,tiles:[],selected:[],blank:-1,options:[],solved:false,tries:0,revealed:false,wrongOption:[],lastAnswer:''};
 const normalize=x=>String(x||'').normalize('NFC').trim().replace(/\s+/g,' ').toLocaleLowerCase('el-GR');
 const noAccent=x=>normalize(x).normalize('NFD').replace(/[\u0300-\u036f]/g,'').normalize('NFC');
 const variants=['α','ά','ε','έ','η','ή','ι','ί','ο','ό','υ','ύ','ω','ώ','β','δ','γ','π','τ','κ','μ','ν','λ','ρ','σ','ς','φ','χ','ψ'];
 function shuffled(array){const a=array.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const tmp=a[i];a[i]=a[j];a[j]=tmp}return a}
+function makeModePlan(length){
+ const cycle=shuffled(modes.map(m=>m.id));
+ const balanced=Array.from({length},(_,i)=>cycle[i%cycle.length]);
+ for(let attempt=0;attempt<24;attempt++){
+  const plan=shuffled(balanced);
+  if(plan.every((mode,i)=>i<2||mode!==plan[i-1]||mode!==plan[i-2]))return plan
+ }
+ return balanced
+}
 function current(){return state.items[state.index]}
 function speechError(message){$s('spellVoiceStatus').textContent=message}
 function speakWord(){
@@ -66,11 +75,11 @@ function getGroup(){
  return selected==='all'?lessons.flatMap(g=>g.items.map(item=>({text:item[0],picture:item[1],blank:item[2],group:g.name}))):
   (lessons[Number(selected)]||lessons[0]).items.map(item=>({text:item[0],picture:item[1],blank:item[2],group:lessons[Number(selected)]?.name||lessons[0].name}))
 }
-function startSession(mode){
- state.mode=mode||state.mode;
+function startSession(){
  state.group=$s('spellGroup').value;
  state.items=shuffled(getGroup());
- if(state.group==='all')state.items=state.items.slice(0,8);
+ if(state.group==='all')state.items=state.items.slice(0,12);
+ state.modePlan=makeModePlan(state.items.length);
  state.index=0;
  $s('spellFinish').hidden=true;$s('spellExercise').hidden=false;
  renderWord()
@@ -83,6 +92,7 @@ function resetAnswer(){
 function renderWord(){
  const word=current();
  if(!word){finish();return}
+ state.mode=state.modePlan[state.index]||'tiles';
  resetAnswer();
  $s('spellWordArt').innerHTML=window.MathainoIllustrations?.word(word.picture)||'';
  $s('spellWordArt').setAttribute('aria-label','Εικόνα της λέξης που θα γράψεις');
@@ -104,8 +114,6 @@ function renderWord(){
  $s('spellTiles').hidden=state.mode!=='tiles';
  $s('spellMissing').hidden=state.mode!=='missing';
  const input=$s('spellInput');input.value='';input.disabled=false;
- const btns=$s('spellModeTabs').querySelectorAll('button');
- btns.forEach(b=>{const is=b.dataset.mode===state.mode;b.classList.toggle('active',is);b.setAttribute('aria-pressed',String(is))});
  renderAnswer();
 }
 function renderAnswer(){
@@ -214,10 +222,10 @@ function finish(){
  $s('spellFinishTitle').textContent='Ολοκλήρωσες τις λέξεις!';
  $s('spellFinishText').textContent='Δούλεψες με '+state.items.length+' λέξεις. Μπορείς να κάνεις ξανά εξάσκηση ή να διαλέξεις μια άλλη ενότητα. Χωρίς βιασύνη.';
 }
-function openSpelling(defaultMode){
+function openSpelling(){
  $s('spellGroup').value=$s('topic').value||'all';
  $s('spellFinish').hidden=true;$s('spellExercise').hidden=false;
- startSession(defaultMode||'tiles');
+ startSession();
  viewAll('spellingLesson')
 }
 function fillUnits(){
@@ -227,9 +235,9 @@ function fillUnits(){
 }
 fillUnits();
 $s('spellBack').onclick=()=>viewAll('home');
-$s('spellGroup').onchange=()=>startSession(state.mode);
-$s('spellRestart').onclick=()=>startSession(state.mode);
-$s('spellTryAgain').onclick=()=>startSession(state.mode);
+$s('spellGroup').onchange=startSession;
+$s('spellRestart').onclick=startSession;
+$s('spellTryAgain').onclick=startSession;
 $s('spellFinishBack').onclick=()=>viewAll('home');
 $s('spellNext').onclick=nextWord;
 $s('spellCheck').onclick=checkCurrent;
@@ -252,9 +260,6 @@ $s('spellRevealButton').onclick=()=>{
  $s('spellReveal').textContent=state.revealed?current().text:'';
  $s('spellRevealButton').textContent=state.revealed?'Κρύψε τη λέξη':'Δες τη λέξη';
 };
-$s('spellModeTabs').querySelectorAll('button').forEach(btn=>{
- btn.onclick=()=>{if(btn.dataset.mode!==state.mode)startSession(btn.dataset.mode)}
-});
 const oldViewAll=viewAll;
 viewAll=function(id){
  const destination=ready||id==='auth'||id==='passwordRecovery'?id:'auth';
@@ -272,23 +277,24 @@ chooseChild=function(index){
  }
  const selected=document.querySelector('#subjects button.active:not([hidden])');
  if(!selected){const first=document.querySelector('#subjects button:not([hidden])');if(first)first.click()}
- refreshSubjectPanel()
+ refreshSubjectPanel();
+ if(sub==='spelling'){$s('study').textContent='Ξεκίνα';$s('practice').hidden=true}
 };
 const oldTopics=topics;
 topics=function(){
- if(sub!=='spelling'){oldTopics();return}
+ if(sub!=='spelling'){$s('practice').hidden=false;oldTopics();return}
  $s('topic').replaceChildren(...[{name:'Λίγο από όλα',value:'all'},...lessons.map((g,i)=>({name:g.name,value:String(i)}))].map(g=>{
   const o=document.createElement('option');o.value=g.value;o.textContent=g.name;return o
  }));
  refreshSubjectPanel();
  $s('selectedSubjectDescription').textContent='Γράμματα, τόνοι και λέξεις. Γράφω με τα δικά μου χέρια.';
  $s('countGroup').hidden=true;
- $s('study').textContent='Μαθαίνω με γράμματα';
- $s('practice').textContent='Γράφω μόνος μου'
+ $s('study').textContent='Ξεκίνα';
+ $s('practice').hidden=true
 };
 const priorStudy=$s('study').onclick,priorPractice=$s('practice').onclick;
-$s('study').onclick=()=>{if(sub==='spelling')openSpelling('tiles');else priorStudy()};
-$s('practice').onclick=()=>{if(sub==='spelling')openSpelling('write');else priorPractice()};
+$s('study').onclick=()=>{if(sub==='spelling')openSpelling();else priorStudy()};
+$s('practice').onclick=()=>{if(sub==='spelling')openSpelling();else priorPractice()};
 const subjectButton=document.querySelector('#subjects [data-sub="spelling"]');
 if(subjectButton){
  subjectButton.innerHTML='<span class="subject-illustration" aria-hidden="true"><svg viewBox="0 0 360 210" role="img" xmlns="http://www.w3.org/2000/svg"><rect width="360" height="210" rx="24" fill="#eaf3ee"/><path d="M97 33q-8 1-8 10v129q0 8 9 8h167q9 0 9-9V43q0-10-11-10Z" fill="#fdfbf2" stroke="#3c6a79" stroke-width="4"/><path d="M115 70q56-5 130 0M115 98q53-4 130 0M115 128q56-4 130 0M115 155q49-3 112 0" stroke="#b4d5d7" stroke-width="2" stroke-linecap="round"/><text x="130" y="120" font-size="43" font-weight="780" fill="#396c78" font-family="system-ui,sans-serif">Α α</text><path d="m217 148 47-70 17 12-47 70-26 15Z" fill="#edc37e" stroke="#416876" stroke-width="4" stroke-linejoin="round"/><path d="m208 175 26-15-15-11Z" fill="#fff7e9" stroke="#416876" stroke-width="3"/></svg></span><span class="subject-title">Ορθογραφία Α΄</span><span class="subject-desc">Γράφω λέξεις, γράμματα και τόνους</span>';
