@@ -95,7 +95,7 @@ function renderWord(){
  $s('spellFeedback').textContent='';
  $s('spellFeedback').dataset.state='';
  $s('spellVoiceStatus').textContent='';
- $s('spellReveal').hidden=true;$s('spellReveal').textContent='';
+ $s('spellReveal').hidden=true;$s('spellReveal').textContent='';$s('spellClue').hidden=true;$s('spellClue').textContent='';$s('spellClueButton').textContent='Μικρή βοήθεια';
  $s('spellRevealButton').textContent='Δες τη λέξη';
  $s('spellCheck').hidden=state.mode==='missing';
  $s('spellCheck').disabled=true;
@@ -237,6 +237,15 @@ $s('spellUndo').onclick=()=>{if(state.selected.length){state.selected.pop();$s('
 $s('spellInput').addEventListener('input',renderAnswer);
 $s('spellInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();checkCurrent()}});
 $s('spellSpeak').onclick=speakWord;
+$s('spellClueButton').onclick=()=>{
+ const clue=$s('spellClue'),shown=!clue.hidden;
+ clue.hidden=shown;
+ if(!shown){
+  const chars=Array.from(current().text);
+  clue.textContent='Αρχίζει από «'+chars[0]+'» και έχει '+chars.length+' γράμματα.';
+ }
+ $s('spellClueButton').textContent=shown?'Μικρή βοήθεια':'Κρύψε τη βοήθεια'
+};
 $s('spellRevealButton').onclick=()=>{
  state.revealed=!state.revealed;
  $s('spellReveal').hidden=!state.revealed;
