@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.54 — μικτές ασκήσεις ορθογραφίας Α΄ Δημοτικού, χωρίς βαθμολόγηση τόνου.
+/* Μαθαίνω! v0.6.57 — μικτές ασκήσεις ορθογραφίας Α΄ Δημοτικού, χωρίς βαθμολόγηση τόνου.
    Κάθε συνεδρία συνδυάζει αυτόματα γράμματα, κενά και πλήρη γραφή, χωρίς βαθμούς ή χρονόμετρο. */
 (function(){
 'use strict';
@@ -148,9 +148,14 @@ function renderAnswer(){
   const letters=Array.from(word.text),area=$s('spellMissingWord'),options=$s('spellOptions');
   area.replaceChildren();options.replaceChildren();
   letters.forEach((char,i)=>{
-   const item=document.createElement('span');item.className='spell-missing-char'+(i===state.blank?' gap':'');
-   item.textContent=i===state.blank?'_':char;
-   if(i===state.blank)item.setAttribute('aria-label','Γράμμα που λείπει');
+   const isBlank=i===state.blank;
+   const isFilled=isBlank&&state.solved;
+   const item=document.createElement('span');
+   item.className='spell-missing-char'+(isBlank?(isFilled?' filled':' gap'):'');
+   // Show the correctly accented letter in the word once it is solved,
+   // even when the child's chosen answer omitted the optional accent.
+   item.textContent=isBlank&&!isFilled?'_':char;
+   if(isBlank)item.setAttribute('aria-label',isFilled?'Το γράμμα συμπληρώθηκε: '+char:'Γράμμα που λείπει');
    area.append(item)
   });
   state.options.forEach((char,i)=>{
