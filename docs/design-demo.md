@@ -40,3 +40,21 @@ The demo loads the existing original SVGs from `curriculum-art.js?v=646` and `en
 ## Evaluation before a production rollout
 
 Evaluate with both child and parent on actual devices. Look for clear navigation, readability, independent completion of a word, touch-target sizes, and suitability of word-building as supplementary reading practice. If accepted, migrate tokens/layout/components incrementally starting with the first-reading curriculum, rather than replacing the entire app in one risky change. Preserve all existing permissions, billing/household distinctions, grading and offline lessons.
+
+## Design iteration 2 — 95% precise, 5% hand-rendered
+
+The user approved a modest hand-drawn quality, **balanced but leaning subtle**: borders and SVG outlines should be very slightly imperfect, not childish scribbles. The change is deployed **only in the standalone demo**, so the actual child/parent learning app remains unchanged.
+
+Files:
+- `design-demo-handdrawn.css`: a separate theme layer applied with `html[data-sketch="on"]`. Organic asymmetric corner geometry on hero, lesson cards, subject cards, history timeline steps, buttons and word slots. Fine second ink outline on cards using an SVG noise/displacement filter (approximately 1.5 CSS/visual units). Brief decorative drawn underlines on section headings and reading instructions, tiny imperfect hero-decoration circles.
+- `design-demo.html`: a single hidden SVG filter definition; explicit `data-sketch="on"` default and visual comparison switch in the header, with no new external assets.
+- `design-demo.js`: a functional button toggles `data-sketch="on"/"off"`, `aria-pressed`, and the Greek label. Original mode is clean and straight; sketch mode is the default. The switch does not alter other preferences or child state.
+
+Design limits:
+- No hand-lettered display fonts or randomly positioned text, no rotation of interactive controls, no reduced readability, no changing answer-checking logic, no decorative emojis, no score/timer/streak.
+- Artwork filter targets drawing contours only; text, layout, photos and instructional board lines remain sharp.
+- CSS keeps the same component dimensions and uses `pointer-events:none` on sketch borders; keyboard focus remains unchanged.
+- Respect reduced-motion settings and allow quick direct comparison.
+- Browser support for SVG CSS filter references varies; asymmetric radii, dashed workbook slots and wavy decorative underlines remain graceful fallbacks if that effect is unsupported.
+
+Regression verification: unique new switch ID, all JS and CSS files parse, no changes to authentication or Supabase, reading tiles/History/Physics interactions unchanged, switch visibly changes data attribute and its accessibility state. Review on actual iPad/browser before applying this system to production.
