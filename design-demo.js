@@ -22,13 +22,20 @@ const physicsSteps=[
   {id:'ball',question:'Ποια μορφή ενέργειας έχει η μπάλα όταν κυλά;',correct:'Κινητική',scene:'Μια μπάλα κυλάει στο έδαφος.',why:'Η μπάλα έχει κινητική ενέργεια επειδή κινείται.'}
 ];
 const physicsOptions=['Ηλεκτρική','Κινητική','Χημική'];
-const state={screen:'home',theme:'light',sidebar:false,wordIndex:0,letters:[],tiles:[],wordCorrect:false,historyIndex:0,historyCorrect:false,physicsIndex:0,physicsCorrect:[false,false,false]};
+const state={screen:'home',theme:'light',sketch:true,sidebar:false,wordIndex:0,letters:[],tiles:[],wordCorrect:false,historyIndex:0,historyCorrect:false,physicsIndex:0,physicsCorrect:[false,false,false]};
 function setTheme(mode){
   state.theme=mode==='dark'?'dark':'light';
   document.documentElement.dataset.theme=state.theme;
   $('themeLabel').textContent=state.theme==='dark'?'Φωτεινό θέμα':'Σκούρο θέμα';
   $('themeToggle').setAttribute('aria-label',state.theme==='dark'?'Ενεργοποίηση φωτεινού θέματος':'Ενεργοποίηση σκούρου θέματος');
   try{localStorage.setItem('mathaino-design-demo-theme',state.theme)}catch(e){}
+}
+function setSketch(enabled){
+  state.sketch=!!enabled;
+  document.documentElement.dataset.sketch=state.sketch?'on':'off';
+  $('sketchToggle').setAttribute('aria-pressed',String(state.sketch));
+  $('sketchToggle').setAttribute('aria-label',state.sketch?'Απενεργοποίηση του ελαφρώς χειροποίητου στυλ':'Ενεργοποίηση του ελαφρώς χειροποίητου στυλ');
+  $('sketchLabel').textContent=state.sketch?'5% χειροποίητο':'Τέλεια ίσιο';
 }
 function closeSidebar(){
   state.sidebar=false;
@@ -261,6 +268,7 @@ function bind(){
   document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>goTo(button.dataset.open)));
   document.querySelectorAll('[data-nav]').forEach(button=>button.addEventListener('click',()=>goTo(button.dataset.nav)));
   $('themeToggle').onclick=()=>setTheme(state.theme==='light'?'dark':'light');
+  $('sketchToggle').onclick=()=>setSketch(!state.sketch);
   $('menuToggle').onclick=()=>state.sidebar?closeSidebar():openSidebar();
   $('scrim').onclick=closeSidebar;
   window.addEventListener('keydown',event=>{if(event.key==='Escape'&&state.sidebar)closeSidebar()});
@@ -275,7 +283,7 @@ function bind(){
 }
 function initialize(){
   try{const saved=localStorage.getItem('mathaino-design-demo-theme');if(saved==='dark'||saved==='light')setTheme(saved);else setTheme('light')}catch(e){setTheme('light')}
-  svgImages();bind();goTo('home')
+  setSketch(true);svgImages();bind();goTo('home')
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize,{once:true});
 else initialize();
