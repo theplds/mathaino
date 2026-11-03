@@ -9,7 +9,7 @@ const lessons=[
  {name:'Προσέχω τον τόνο',description:'Γράφω σωστά και θυμάμαι πού μπαίνει ο τόνος.',items:[
   ['σπίτι','house',2],['ήλιος','sun',0],['σκύλος','dog',2],['δέντρο','tree',1],['γάλα','milk',1],['καπέλο','hat',3]]},
  {name:'Μεγαλύτερες λέξεις',description:'Εξασκούμαι σε λέξεις με περισσότερα γράμματα και διαφορετικούς ήχους.',items:[
-  ['πουλί','bird',4],['βιβλίο','book',4],['λουλούδι','flower',5],['μπανάνα','banana',3],['τρένο','train',2],['καράβι','ship',3],['αμάξι','car',2],['ψωμί','bread',3]]}
+  ['πουλί','bird',4],['βιβλίο','book',4],['λουλούδι','flower',5],['μπανάνα','banana',4],['τρένο','train',2],['καράβι','ship',3],['αμάξι','car',2],['ψωμί','bread',3]]}
 ];
 const modes=[
  {id:'tiles',title:'Βάζω γράμματα',description:'Βάλε τα γράμματα στη σειρά. Κάθε γράμμα έχει τον δικό του τόνο.'},
@@ -248,7 +248,7 @@ $s('spellModeTabs').querySelectorAll('button').forEach(btn=>{
 });
 const oldViewAll=viewAll;
 viewAll=function(id){
- const destination=ready?id:'auth';
+ const destination=ready||id==='auth'||id==='passwordRecovery'?id:'auth';
  oldViewAll(destination);
  $s('spellingLesson').classList.toggle('hidden',destination!=='spellingLesson')
 };
