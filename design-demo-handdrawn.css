@@ -161,6 +161,12 @@ html[data-theme="dark"] .sketch-switch[aria-pressed="true"]{color:#c2ece4}
  .sketch-switch{padding:9px 10px}
  .sketch-switch-label{display:none}
 }
+@media(max-width:520px){
+ /* Three topbar controls must still fit 320px phone screens. */
+ .topbar .top-eyebrow{display:none}
+ .topbar-right{gap:7px}
+ .topbar .profile-chip{padding-left:8px}
+}
 @media(prefers-reduced-motion:reduce){
  html[data-sketch="on"] .hero-picture svg :is(path,ellipse,circle)[stroke],
  html[data-sketch="on"] .subject-visual svg :is(path,ellipse,circle)[stroke],
