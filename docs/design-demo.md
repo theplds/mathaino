@@ -103,3 +103,19 @@ Implementation details:
 - Verified JS syntax, responsive/dark mode selectors, linked files, unique element IDs; mock interaction test passed word building, History, Physics, sketch off/on, and dark theme.
 - Hosted URL: `https://theplds.github.io/mathaino/design-demo.html?v=5`.
 - Note: structural and mocked interaction checks do not validate actual rendered quality on a real iPad. Visually assess before applying to the production family app.
+
+## Production rollout — v0.6.48, phase 1: shared workbook interface
+
+Following explicit approval of the **25% hand-drawn** visual direction, the shared visual system has now been deployed in the actual `index.html` without a wholesale rewrite of its application or lessons.
+
+Files:
+- `app-workbook-25.css` — adapted production design tokens, original illustrated header emblem and page texture, subject-selection tabs, learner/profile cards, parent forms, lesson screens, history/chess/physics exercise panels, responsive buttons, theme-specific styling, and gentle paper-border ink overlay. The live app is **not** importing the demo style sheets: it has a dedicated CSS layer adapted to its DOM.
+- `app-workbook-25.js` — local-only setting `mathaino-workbook-25` for the appearance menu checkbox **«25% χειροποίητος σχεδιασμός»**, on by default. User may turn it off without changing account or child records. No new Supabase writes or dependencies.
+- `index.html` — root `data-workbook="on"`, original SVG book symbol, invisible SVG contour-filter, stylesheet and script references. Visible app version v0.6.48.
+- `sw.js` — updated cache version v0.6.48 and both new assets.
+
+**Boundaries:** Parent PIN, Supabase authentication, account settings, permitted subjects, teachers, content, lesson answer/grade logic, saved progress and PWA routing have not been changed. The first step migrates **visual primitives and core navigation controls** while retaining the current single-column architecture. It does **not** yet re-create the prototype's desktop sidebar and expanded three-column-style dashboard. This is deliberate: a full layout change needs further real-device QA to avoid regressing the primary-school/older-iPad interfaces.
+
+**Compatibility:** The production overlay uses widely supported CSS with optional SVG filter; avoid modern CSS `color-mix()` to preserve older Safari. Child readability and keyboard focus preserved. Existing no-color and focus options still override success-state color semantics. The 25% treatment is selectable off in the appearance menu and persists only in device localStorage.
+
+Regression review: JS syntax parsing, all imported assets referenced, new checkbox ID unique, service worker precache updated, appearance toggle independent of family data, and no core lesson changes. Still requires real-device checks of light/dark themes, mobile/iPad sizing, accessibility modes, screenshots, offline reload, and parent save.
