@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="el" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Μαθαίνω! — Επίδειξη νέου σχεδιασμού</title>
+<meta name="description" content="Διαδραστική επίδειξη ενός καινούριου, πρωτότυπου σχεδιασμού για το Μαθαίνω!">
+<link rel="icon" type="image/png" href="./mathaino-approved-192.png">
+<link rel="stylesheet" href="./design-demo.css?v=1">
+<script defer src="./curriculum-art.js?v=646"></script>
+<script defer src="./energy-art.js?v=637"></script>
+<script defer src="./design-demo.js?v=1"></script>
+</head>
+<body>
+<div class="demo-shell">
+  <div class="sidebar-scrim" id="scrim" hidden></div>
+  <aside class="sidebar" id="sidebar" aria-label="Πλοήγηση μαθημάτων">
+    <a class="brand" href="./design-demo.html" aria-label="Μαθαίνω! Αρχική">
+      <span class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 36 36"><path d="M7 12 Q13 7 18 12 Q23 7 29 12 V26 Q23 22 18 27 Q13 22 7 26Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M18 12V27M11 16h4m-4 4h4m7-4h4m-4 4h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span><strong>Μαθαίνω!</strong><small>από την αρχή, σωστά.</small></span>
+    </a>
+    <div class="sidebar-inner">
+      <p class="side-heading">Ο ΧΩΡΟΣ ΜΟΥ</p>
+      <button type="button" class="side-nav active" data-nav="home" aria-current="page"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v9H3zM9 20v-7h6v7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>Τα μαθήματά μου</button>
+      <p class="side-heading side-heading-lessons">ΔΟΚΙΜΑΣΕ ΕΝΑ ΜΑΘΗΜΑ</p>
+      <button type="button" class="side-nav" data-nav="reading"><span class="side-dot" style="--dot:#65b8ac"></span><span class="side-nav-text">Γράμματα & λέξεις<small>Β΄ Δημοτικού</small></span></button>
+      <button type="button" class="side-nav" data-nav="history"><span class="side-dot" style="--dot:#e8b276"></span><span class="side-nav-text">Ιστορία<small>Δ΄ Δημοτικού</small></span></button>
+      <button type="button" class="side-nav" data-nav="physics"><span class="side-dot" style="--dot:#9faee0"></span><span class="side-nav-text">Φυσικά<small>Ε΄ Δημοτικού</small></span></button>
+      <div class="sidebar-foot">
+        <span class="demo-label">ΔΟΚΙΜΑΣΤΙΚΗ ΕΚΔΟΣΗ</span>
+        <p>Πρωτότυπο σχεδιασμού. Χωρίς λογαριασμό ή αποθήκευση στοιχείων παιδιών.</p>
+        <a href="./?v=647" class="old-app-link">Άνοιξε την τωρινή εφαρμογή <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="workspace">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button type="button" class="icon-btn mobile-menu" id="menuToggle" aria-label="Άνοιγμα μενού" aria-controls="sidebar" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="top-eyebrow">ΣΧΕΔΙΑΣΤΙΚΟ DEMO <span class="top-separator">/</span> ΠΡΩΤΟΤΥΠΟ</div>
+      </div>
+      <div class="topbar-right">
+        <button class="theme-switch" type="button" id="themeToggle" aria-label="Αλλαγή θέματος"><svg viewBox="0 0 24 24"><path d="M20 15.8A8.5 8.5 0 0 1 8.2 4 8.5 8.5 0 1 0 20 15.8Z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"/></svg><span id="themeLabel">Σκούρο θέμα</span></button>
+        <div class="profile-chip"><span class="profile-avatar" aria-hidden="true">Μ</span><span>Μαθητής <small>Προεπισκόπηση</small></span></div>
+      </div>
+    </header>
+
+    <main id="demoMain">
+      <section class="screen" id="homeScreen" aria-labelledby="homeTitle">
+        <div class="page-intro"><div><div class="eyebrow">ΚΑΛΩΣ ΗΡΘΕΣ</div><h1 id="homeTitle">Κάθε μέρα, κάτι καινούριο.</h1><p>Μικρά μαθήματα, καθαρές εικόνες και χρόνος να σκεφτείς. Διάλεξε από πού θέλεις να ξεκινήσεις.</p></div></div>
+        <div class="home-hero">
+          <div class="hero-content"><span class="hero-overline">ΜΙΚΡΗ ΕΞΕΡΕΥΝΗΣΗ</span><h2>Χτίσε μια λέξη,<br>βήμα βήμα.</h2><p>Κοίτα την εικόνα, αναγνώρισε τα γράμματα και βάλε τα στη σωστή σειρά.</p><button class="button button-light" type="button" data-open="reading">Ξεκίνα με λέξεις <span aria-hidden="true">→</span></button></div>
+          <div class="hero-picture" id="heroArtwork" aria-hidden="true"></div>
+          <div class="hero-deco one" aria-hidden="true"></div><div class="hero-deco two" aria-hidden="true"></div>
+        </div>
+        <div class="section-heading"><div><h2>Διάλεξε μάθημα</h2><p>Τρεις πραγματικά διαδραστικές δραστηριότητες για να δοκιμάσεις τον σχεδιασμό.</p></div><span class="section-meta">3 ΔΕΙΓΜΑΤΑ</span></div>
+        <div class="subject-grid">
+          <button class="subject-card subject-reading" type="button" data-open="reading"><span class="subject-visual" id="readingCardArt"></span><span class="subject-body"><span class="subject-category">ΓΛΩΣΣΑ · Β΄</span><strong>Χτίζω λέξεις</strong><span class="subject-copy">Παρατηρώ, επιλέγω γράμματα, διαβάζω.</span><span class="subject-cta">Άνοιγμα μαθήματος <span aria-hidden="true">↗</span></span></span></button>
+          <button class="subject-card subject-history" type="button" data-open="history"><span class="subject-visual" id="historyCardArt"></span><span class="subject-body"><span class="subject-category">ΙΣΤΟΡΙΑ · Δ΄</span><strong>Ένα ταξίδι στη θάλασσα</strong><span class="subject-copy">Μια ιστορία με τρεις στάσεις και έναν χάρτη.</span><span class="subject-cta">Άνοιγμα μαθήματος <span aria-hidden="true">↗</span></span></span></button>
+          <button class="subject-card subject-physics" type="button" data-open="physics"><span class="subject-visual" id="physicsCardArt"></span><span class="subject-body"><span class="subject-category">ΦΥΣΙΚΑ · Ε΄</span><strong>Η ενέργεια γύρω μας</strong><span class="subject-copy">Δοκιμάζω, αναγνωρίζω και εξηγώ.</span><span class="subject-cta">Άνοιγμα μαθήματος <span aria-hidden="true">↗</span></span></span></button>
+        </div>
+        <div class="design-note"><span class="note-icon" aria-hidden="true">i</span><div><strong>Τι δοκιμάζουμε εδώ;</strong><p>Μια κοινή οπτική γλώσσα για όλα τα μαθήματα. Μεγάλοι στόχοι αφής, μικρά βήματα, εξηγήσεις μετά την επιλογή και κανένα χρονόμετρο. Οι εργασίες είναι πρωτότυπα δείγματα, όχι υλικό άλλης πλατφόρμας.</p></div></div>
+      </section>
+
+      <section class="screen" id="readingScreen" hidden aria-labelledby="readingTitle">
+        <div class="lesson-path"><button type="button" class="back-link" data-open="home"><span aria-hidden="true">←</span> Όλα τα μαθήματα</button><span class="path-divider">/</span><span>Γλώσσα · Β΄ Δημοτικού</span></div>
+        <div class="lesson-heading"><span class="pill pill-teal">ΓΛΩΣΣΑ · Β΄</span><h1 id="readingTitle">Χτίζω τη λέξη</h1><p>Παρατήρησε το σκίτσο. Πάτησε τα γράμματα με τη σωστή σειρά για να γράψεις τη λέξη.</p></div>
+        <div class="lesson-progress"><span id="readingCounter">Λέξη 1 από 3</span><div class="progress-track" role="progressbar" id="readingProgress" aria-label="Πρόοδος μαθήματος" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><span id="readingProgressBar"></span></div><span>Χωρίς βιασύνη</span></div>
+        <div class="activity-card reading-activity">
+          <div class="activity-heading"><span class="activity-label">ΠΑΡΑΤΗΡΩ</span><button type="button" id="speakWord" class="micro-action" aria-label="Άκου τη λέξη" title="Άκου τη λέξη"><svg viewBox="0 0 24 24"><path d="M3 9v6h5l5 4V5L8 9H3zm14-1c2 2 2 6 0 8m2-11c4 4 4 10 0 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg> Άκουσε</button></div>
+          <div class="reading-artwork" id="readingPicture" aria-label="Εικόνα της λέξης"></div>
+          <div class="activity-prompt"><span class="activity-label">ΣΚΕΦΤΟΜΑΙ & ΓΡΑΦΩ</span><h2>Ποια λέξη δείχνει η εικόνα;</h2><p>Γέμισε τα κουτάκια. Μπορείς να διορθώσεις ένα γράμμα πατώντας το ξανά.</p></div>
+          <div class="letter-slots" id="letterSlots" role="group" aria-label="Η λέξη που φτιάχνεις"></div>
+          <div class="letter-choices" id="letterChoices" role="group" aria-label="Γράμματα για επιλογή"></div>
+          <p class="activity-feedback" id="readingFeedback" aria-live="polite"></p>
+          <div class="activity-actions"><button type="button" class="button button-quiet" id="undoLetter">← Πίσω ένα γράμμα</button><div class="action-right"><button type="button" class="button button-primary" id="checkWord">Έλεγχος</button><button type="button" class="button button-primary" id="nextWord" hidden>Επόμενη λέξη <span aria-hidden="true">→</span></button></div></div>
+        </div>
+      </section>
+
+      <section class="screen" id="historyScreen" hidden aria-labelledby="historyTitle">
+        <div class="lesson-path"><button type="button" class="back-link" data-open="home"><span aria-hidden="true">←</span> Όλα τα μαθήματα</button><span class="path-divider">/</span><span>Ιστορία · Δ΄ Δημοτικού</span></div>
+        <div class="lesson-heading"><span class="pill pill-amber">ΙΣΤΟΡΙΑ · Δ΄</span><h1 id="historyTitle">Οι Έλληνες ταξιδεύουν</h1><p>Γιατί έφευγαν από τις πόλεις τους; Πάτησε τις τρεις στάσεις και ανακάλυψε την ιστορία.</p></div>
+        <div class="lesson-progress"><span id="historyCounter">Στάση 1 από 3</span><div class="progress-track" role="progressbar" id="historyProgress" aria-label="Πρόοδος ιστορίας" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><span id="historyProgressBar"></span></div><span>Εξερεύνηση</span></div>
+        <div class="history-layout">
+          <div class="history-stage activity-card"><div class="activity-heading"><span class="activity-label">ΠΑΡΑΤΗΡΩ ΤΗΝ ΙΣΤΟΡΙΑ</span></div><div class="history-artwork" id="historyArtwork"></div><div class="history-timeline" id="historyTimeline" role="group" aria-label="Στάσεις ταξιδιού"></div></div>
+          <div class="history-explanation activity-card"><span class="activity-label">ΑΝΑΚΑΛΥΠΤΩ</span><h2 id="historyStepTitle"></h2><p id="historyStepText"></p><div class="history-question" id="historyQuestion" hidden><p>Γιατί ίδρυαν οι Έλληνες νέες αποικίες;</p><div id="historyAnswers" class="stacked-options"></div><p class="activity-feedback" id="historyFeedback" aria-live="polite"></p></div><div class="activity-actions history-action"><button type="button" id="historyPrev" class="button button-quiet">← Πίσω</button><button type="button" id="historyNext" class="button button-primary">Επόμενη στάση →</button></div></div>
+        </div>
+      </section>
+
+      <section class="screen" id="physicsScreen" hidden aria-labelledby="physicsTitle">
+        <div class="lesson-path"><button type="button" class="back-link" data-open="home"><span aria-hidden="true">←</span> Όλα τα μαθήματα</button><span class="path-divider">/</span><span>Φυσικά · Ε΄ Δημοτικού</span></div>
+        <div class="lesson-heading"><span class="pill pill-lilac">ΦΥΣΙΚΑ · Ε΄</span><h1 id="physicsTitle">Η ενέργεια έχει πολλά πρόσωπα</h1><p>Κοίτα τι συμβαίνει στην εικόνα και διάλεξε τη μορφή ενέργειας που αναγνωρίζεις.</p></div>
+        <div class="lesson-progress"><span id="physicsCounter">Παράδειγμα 1 από 3</span><div class="progress-track" role="progressbar" id="physicsProgress" aria-label="Πρόοδος στα Φυσικά" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><span id="physicsProgressBar"></span></div><span>Παρατήρηση</span></div>
+        <div class="physics-layout">
+          <div class="physics-stage activity-card"><div class="activity-heading"><span class="activity-label">ΠΑΡΑΤΗΡΩ</span></div><div class="physics-artwork" id="physicsArtwork"></div><div class="physics-scene-description" id="physicsScene"></div></div>
+          <div class="physics-question activity-card"><span class="activity-label">ΣΚΕΦΤΟΜΑΙ</span><h2 id="physicsQuestion"></h2><div id="physicsAnswers" class="stacked-options"></div><p class="activity-feedback" id="physicsFeedback" aria-live="polite"></p><div class="activity-actions"><button class="button button-quiet" type="button" id="physicsPrev">← Πίσω</button><button class="button button-primary" type="button" id="physicsNext" hidden>Επόμενο →</button></div></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">Μαθαίνω! · <strong>Δείγμα σχεδιασμού</strong> <span aria-hidden="true">·</span> Ανεξάρτητο εκπαιδευτικό υλικό <span aria-hidden="true">·</span> Χωρίς χρονομέτρηση και βαθμολογίες</footer>
+  </div>
+</div>
+</body>
+</html>
