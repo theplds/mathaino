@@ -58,3 +58,22 @@ Design limits:
 - Browser support for SVG CSS filter references varies; asymmetric radii, dashed workbook slots and wavy decorative underlines remain graceful fallbacks if that effect is unsupported.
 
 Regression verification: unique new switch ID, all JS and CSS files parse, no changes to authentication or Supabase, reading tiles/History/Physics interactions unchanged, switch visibly changes data attribute and its accessibility state. Review on actual iPad/browser before applying this system to production.
+
+## Design iteration 3 — hand-rendered **interface**, not just illustration borders
+
+User clarification: the previous styling pass focused too narrowly on subject and exercise visuals; the requested 95% precise / 5% hand-drawn character must be perceptible across the **entire interface**.
+
+A separate, reversible `design-demo-interface.css?v=3` now extends the opt-in `html[data-sketch="on"]` treatment to:
+- The **whole workspace**: barely visible workbook-style guide lines, lighter in dark mode
+- The **sidebar**: softer layered petrol background, slightly asymmetric nav tabs, ink underline below section labels, an organic active-selection stroke, subtle hand-rendered lesson category dots, and a drawn separator above the footer
+- The **top bar**: fine imperfect divider line, gently irregular profile badge, original line icon borders and a tactile theme/sketch switch
+- **Navigation/buttons**: 1–3px geometric variation in corners, subtle tab-like shadowing; keyboard focus, click targets and layout stay unchanged
+- **Progress bars and tags**: a faint hand-painted progress fill, softer asymmetric chips, reduced uniformity in subject labels
+- **Exercise interface**: handwritten-workbook style for history navigation stages, answer boxes, lesson cards and one unobtrusive drawing mark on the picture area; familiar SVG artwork remains intact
+- Existing v2 letter-tile and illustration-line refinements remain active
+
+Design quality rule: the whole interface should feel illustrated by a person, not as though its elements have actually moved off grid. Never wobble text glyphs, distort a chessboard, rotate answer targets, create distracting decorations, or compromise legibility for children.
+
+The **5% χειροποίητο** button controls both the original v2 border refinements and the new v3 system-wide UI treatment, keeping a one-tap straight-vs-sketch comparison. Neither CSS file loads in production index.html; the real family app, PIN, children's curricula, local answer logs and Supabase remain untouched.
+
+Technical check: confirm CSS balanced, complete v3 CSS link in the demo HTML, all selectors are gated by `data-sketch="on"`, and reading/History/Physics flows + dark theme continue to work when comparing styles. Manually inspect 320px/mobile and desktop browsers before promoting the interface to production.
