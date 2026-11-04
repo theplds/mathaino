@@ -161,7 +161,17 @@ function draw(){
  const header=html('div','pack-heading');
  header.append(button('← Μαθήματα',()=>viewAll('home')));
  const meta=html('div','pack-header-meta');meta.append(html('span','pack-eyebrow',subjectNames[l.subject]+' · '+l.grade+' Δημοτικού'),html('h2','',l.title),html('p','',l.subtitle));
- header.append(meta);stage.append(header);
+ header.append(meta);
+ if(l.kind!=='spelling'){
+  header.append(button('PDF / Εκτύπωση',()=>{
+   window.MathainoWorksheet?.open({
+    kind:'quiz',title:l.title,subtitle:l.subtitle,grade:l.grade+' Δημοτικού',subject:l.subject,
+    pages:(l.pages||[]).map(x=>({title:x.title,text:x.text})),
+    questions:(l.questions||[]).map(q=>({q:q[0],options:q[1],correct:q[2],answer:q[1][q[2]]}))
+   })
+  },'pack-print-button'))
+ }
+ stage.append(header);
  const hero=html('div','pack-hero');hero.innerHTML=art(l.art);stage.append(hero);
  const modes=html('div','pack-mode-tabs');
  modes.append(button('Μελέτη',()=>{state.mode='study';draw()},state.mode==='study'?'primary':''),button('Ερωτήσεις',()=>{state.mode='quiz';state.index=0;state.firstTry=0;beginQuestion();draw()},state.mode==='quiz'?'primary':''));
