@@ -24,13 +24,13 @@ section.innerHTML=
  ' <h3>2. Το πρόγραμμά μου</h3><p class="coding-helper">Πάτησε μια εντολή του προγράμματος για να προσθέσεις κάτι μετά από αυτήν. Το × τη σβήνει.</p>'+
  ' <div id="codingProgram" class="coding-program" aria-label="Εντολές του προγράμματος"></div>'+
  ' <div class="coding-edit-actions"><button id="codingUndo" type="button">↶ Πίσω μία εντολή</button><button id="codingClear" type="button">Καθάρισε πρόγραμμα</button></div></div></div>'+
+ '<div class="coding-extra-actions"><button id="codingStop" type="button">Σταμάτα</button>'+
+ '<button id="codingReset" type="button">Από την αρχή</button>'+
+ '<button id="codingHint" type="button">Μικρή βοήθεια</button></div>'+
  '<div class="coding-bottom"><div id="codingStatus" class="coding-status" role="status" aria-live="polite"></div>'+
  '<div class="coding-actions"><button id="codingRun" class="primary" type="button">▶ Εκτέλεση</button>'+
  '<button id="codingStep" class="primary" type="button">Βήμα →</button>'+
- '<button id="codingStop" type="button">Σταμάτα</button>'+
- '<button id="codingReset" type="button">Από την αρχή</button>'+
- '<button id="codingHint" type="button">Μικρή βοήθεια</button></div>'+
- '<button id="codingNext" class="primary" type="button" hidden>Επόμενη αποστολή →</button></div>';
+ '<button id="codingNext" class="primary" type="button" hidden>Επόμενη αποστολή →</button></div></div>';
 home.after(section);
 const tile=document.createElement('button');
 tile.type='button';tile.dataset.sub='coding';
