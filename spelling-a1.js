@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.64 — μικτές ασκήσεις ορθογραφίας Α΄ Δημοτικού, χωρίς βαθμολόγηση τόνου.
+/* Μαθαίνω! v0.6.75 — μικτές ασκήσεις ορθογραφίας Α΄ Δημοτικού με ήπια διόρθωση τόνου.
    Κάθε συνεδρία συνδυάζει αυτόματα γράμματα, κενά και πλήρη γραφή, χωρίς βαθμούς ή χρονόμετρο. */
 (function(){
 'use strict';
@@ -25,6 +25,15 @@ let state={mode:'tiles',modePlan:[],group:'all',items:[],index:0,tiles:[],select
 const normalize=x=>String(x||'').normalize('NFC').trim().replace(/\s+/g,' ').toLocaleLowerCase('el-GR');
 // Αγνοούμε μόνο τον τόνο: τα διαλυτικά (ϊ, ϋ) παραμένουν σημαντικά.
 const noAccent=x=>normalize(x).normalize('NFD').replace(/\u0301/g,'').normalize('NFC');
+/* Beginners may omit the accent; an accent placed on a different vowel
+   needs a gentle retry. Diaeresis (ϊ/ϋ) remains spelling-significant. */
+function accentStatus(answer,expected){
+ const written=normalize(answer),target=normalize(expected);
+ if(noAccent(written)!==noAccent(target))return 'letters';
+ if(written===target)return 'correct';
+ if(!/\u0301/.test(written.normalize('NFD')))return 'missing';
+ return 'misplaced';
+}
 const variants=['α','ά','ε','έ','η','ή','ι','ί','ο','ό','υ','ύ','ω','ώ','β','δ','γ','π','τ','κ','μ','ν','λ','ρ','σ','ς','φ','χ','ψ'];
 function shuffled(array){const a=array.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const tmp=a[i];a[i]=a[j];a[j]=tmp}return a}
 function makeModePlan(length){
@@ -206,11 +215,14 @@ function checkAnswer(answer,optionIndex){
  const chosen=normalize(answer);
  const right=state.mode==='missing'?Array.from(word.text)[state.blank]:word.text;
  const rightNorm=normalize(right);
- const good=noAccent(chosen)===noAccent(rightNorm);
+ const accent=accentStatus(chosen,rightNorm);
+ const good=accent==='correct'||accent==='missing';
  safeLog(answer,good);
  if(good){
   state.solved=true;
-  $s('spellFeedback').textContent='Σωστά! Η λέξη γράφεται «'+word.text+'».';
+  $s('spellFeedback').textContent=accent==='missing'?
+   'Σωστά τα γράμματα! Πρόσεξε τον τόνο στη σωστή γραφή: «'+word.text+'».':
+   'Σωστά! Η λέξη γράφεται «'+word.text+'».';
   $s('spellFeedback').dataset.state='good';
   $s('spellCheck').hidden=true;
   $s('spellNext').hidden=false;
@@ -223,7 +235,9 @@ function checkAnswer(answer,optionIndex){
   return
  }
  if(state.mode==='missing'&&Number.isInteger(optionIndex))state.wrongOption.push(optionIndex);
- $s('spellFeedback').textContent='Καλή προσπάθεια. Παρατήρησε την εικόνα και δοκίμασε ξανά. Μπορείς να δεις τη λέξη για βοήθεια.';
+ $s('spellFeedback').textContent=accent==='misplaced'?
+  'Τα γράμματα είναι σωστά! Ο τόνος όμως είναι σε άλλη θέση. Άκουσε ξανά τη λέξη και διόρθωσέ τον.':
+  'Καλή προσπάθεια. Παρατήρησε την εικόνα και δοκίμασε ξανά. Μπορείς να δεις τη λέξη για βοήθεια.';
  $s('spellFeedback').dataset.state='try';
  renderAnswer();
 }
