@@ -1,0 +1,44 @@
+/* Μαθαίνω! v0.6.67 — non-obstructing iPad/phone question action dock. */
+.mathaino-action-dock[hidden],.mathaino-action-dock button[hidden]{display:none!important}
+.mathaino-action-dock{
+ position:fixed;left:0;right:0;bottom:0;z-index:990;
+ background:rgba(255,250,241,.97);
+ border-top:1.5px solid #d6bea7;
+ box-shadow:0 -6px 22px rgba(52,39,27,.14);
+ padding:10px max(14px,env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));
+ -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)
+}
+.mathaino-action-dock-inner{display:flex;align-items:center;justify-content:flex-end;gap:10px;max-width:920px;margin:0 auto}
+.mathaino-action-dock button{
+ font:inherit;font-weight:800;font-size:1rem;min-height:48px;padding:11px 18px;
+ border-radius:13px;cursor:pointer;touch-action:manipulation;white-space:normal;
+}
+.mathaino-dock-skip{background:#f2ede6;color:#5b4b3f;border:1.5px solid #bfae9d}
+.mathaino-dock-next{background:#237a47;color:#fff;border:2px solid #176039;min-width:min(70%,300px);box-shadow:0 2px 0 rgba(17,82,41,.18)}
+.mathaino-action-dock button:focus-visible{outline:3px solid #4c9fb1;outline-offset:3px}
+body.mathaino-action-dock-active{padding-bottom:calc(98px + env(safe-area-inset-bottom))!important}
+body.mathaino-action-dock-active .curriculum-answer-actions .curriculum-next,
+body.mathaino-action-dock-active .curriculum-answer-actions .curriculum-skip,
+body.mathaino-action-dock-active .pack-question-card .pack-skip,
+body.mathaino-action-dock-active .pack-question-card .mathaino-completion,
+body.mathaino-action-dock-active #spellExercise #spellSkip,
+body.mathaino-action-dock-active #spellExercise #spellNext,
+body.mathaino-action-dock-active #test #skipQuestion,
+body.mathaino-action-dock-active #test #next,
+body.mathaino-action-dock-active #historyQuizSection #historySkip,
+body.mathaino-action-dock-active #historyQuizSection #historyNext,
+body.mathaino-action-dock-active #grade5Body .question-skip,
+body.mathaino-action-dock-active #grade5Body .mathaino-completion{
+ display:none!important
+}
+#curriculumLesson .curriculum-question-title,#testPackLesson .pack-count,
+#spellCounter,#question,#historyQuestion,#grade5Body .g5-small{scroll-margin-top:24px}
+html[data-theme="dark"] .mathaino-action-dock{background:rgba(30,43,54,.97);border-top-color:#63717a}
+html[data-theme="dark"] .mathaino-dock-skip{background:#354250;color:#f5e7d7;border-color:#82929b}
+@media(max-width:560px){
+ .mathaino-action-dock{padding:9px max(12px,env(safe-area-inset-right)) calc(9px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+ .mathaino-action-dock button{font-size:.95rem;padding:10px 13px}
+ .mathaino-action-dock-inner{gap:8px}
+ .mathaino-dock-next{flex:1;min-width:0}
+}
+@media(prefers-reduced-motion:reduce){.mathaino-action-dock{backdrop-filter:none;-webkit-backdrop-filter:none}}
