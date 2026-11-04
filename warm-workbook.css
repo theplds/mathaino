@@ -285,3 +285,31 @@ html[data-theme="dark"] button.mathaino-completion.primary{
   border-color:#76cba2!important;
   color:#fff!important;
 }
+
+/* v0.6.64 — Skip one question (neutral, not an incorrect result). */
+html[data-workbook="on"] button.question-skip,
+html[data-workbook="on"] button.question-retry,
+button.question-skip,button.question-retry{
+  min-height:44px;padding:10px 15px;margin:7px 7px 7px 0;
+  background:#f5f0e9!important;
+  border:1.5px solid #cbbcac!important;
+  border-radius:12px;color:#675243!important;
+  font-size:.93rem;font-weight:730;
+  box-shadow:none!important;
+  cursor:pointer;
+}
+button.question-skip:hover,button.question-retry:hover{
+  background:#e8ded1!important;
+  border-color:#aa9584!important;
+}
+button.question-skip[hidden],button.question-retry[hidden]{
+  display:none!important;
+}
+html[data-theme="dark"] button.question-skip,
+html[data-theme="dark"] button.question-retry{
+  background:#333b45!important;color:#f2e8da!important;
+  border-color:#758188!important;
+}
+button.question-skip:focus-visible,button.question-retry:focus-visible{
+  outline:3px solid #39866d;outline-offset:3px;
+}
