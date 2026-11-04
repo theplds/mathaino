@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#faf4e7">
+<title>Μαθαίνω! · Φύλλο εργασίας</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#eee6d9;color:#493e35;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.toolbar{position:sticky;top:0;z-index:10;display:flex;flex-wrap:wrap;align-items:center;gap:11px;padding:13px 16px;background:#fff9ed;border-bottom:1px solid #dcc7b3;box-shadow:0 2px 9px #36291e20}
+.brand{font-weight:800;font-size:1.06rem;margin-right:auto}.toolbar button,.toolbar a{border:1.5px solid #a98a70;border-radius:10px;background:#fff;color:#4e4035;padding:10px 13px;font:inherit;font-weight:650;text-decoration:none;cursor:pointer}
+.toolbar button.primary{background:#277349;border-color:#1b5938;color:#fff}.toolbar button:disabled{opacity:.5;cursor:wait}
+.toolbar label{display:flex;align-items:center;gap:6px;font-size:.91rem}
+.toolbar input{width:18px;height:18px;accent-color:#28794e}
+#status{font-size:.9rem;color:#765b48;min-width:160px}
+.sheet{width:210mm;height:297mm;min-height:297mm;background:#fff;box-shadow:0 5px 20px #1f150e20;margin:20px auto;padding:16mm;display:flex;flex-direction:column;overflow:hidden;break-after:page;page-break-after:always}
+.sheet-title{font-weight:800;font-size:19pt;line-height:1.3;margin:0;color:#3b3731}
+.sheet-overline{font-size:9pt;letter-spacing:.07em;color:#92745d;font-weight:800}
+.sheet-subtitle{font-size:10pt;color:#6d5e4f;margin:5mm 0 6mm;line-height:1.45}
+.sheet-fields{display:flex;flex-wrap:wrap;gap:12mm;font-size:10pt;margin:0 0 7mm;color:#4c4640}
+.sheet-fields span{border-bottom:1px solid #888;min-width:45mm;display:inline-block}
+.sheet-fields span.date{min-width:30mm}
+.tasks{flex:1;display:flex;flex-direction:column;justify-content:space-around;gap:5mm}
+.task{min-height:49mm;border:1px solid #d4cfc7;border-radius:6mm;display:grid;grid-template-columns:30mm minmax(0,1fr);align-items:center;gap:5mm;padding:5mm;break-inside:avoid}
+.task-graphic{width:28mm;height:28mm;align-self:start;display:flex;align-items:center;justify-content:center}
+.task-graphic svg{width:100%;height:auto;max-height:100%}
+.task-main{min-width:0}.task-label{font-weight:750;font-size:11pt;line-height:1.35;margin-bottom:3mm}
+.task-letter{font-size:25pt;font-weight:800;letter-spacing:.1em;line-height:1.1}
+.task-tiles{display:flex;gap:2mm;flex-wrap:wrap;margin:3mm 0}
+.task-tiles b{width:8.5mm;height:10mm;border:1.5px solid #86776a;border-radius:2mm;display:flex;align-items:center;justify-content:center;font-size:17pt;font-weight:650}
+.write-guides{height:12mm;border-bottom:1.2px solid #8e8379;border-top:1px dashed #cfc7bc;margin:5mm 0 0}
+.sheet-footer{border-top:1px solid #ddd2c4;margin-top:5mm;padding-top:3mm;font-size:8.5pt;color:#85766a;display:flex;justify-content:space-between}
+.study-card{padding:7mm 6mm;border-left:2mm solid #bea082;background:#fdfbf7;margin:0 0 6mm;break-inside:avoid}
+.study-card h3{margin:0 0 3mm;font-size:13pt}.study-card p{font-size:11pt;line-height:1.6;margin:0}
+.question{padding:5mm 0;border-bottom:1px solid #dfd7cc;break-inside:avoid;min-height:43mm}
+.question-text{font-size:11pt;font-weight:750;margin:0 0 3mm;line-height:1.4}
+.question-option{display:flex;gap:2mm;font-size:10.5pt;margin:2mm 0}.question-option:before{content:"□";font-size:13pt;line-height:1}
+.question .answer-line{height:10mm;border-bottom:1px solid #aaa49b}
+.answer-list{font-size:11pt;line-height:2.2;display:flex;flex-direction:column;gap:2mm}
+.answer-list b{font-weight:750}
+.note{margin-top:6mm;font-size:9pt;color:#776859}
+.empty{max-width:680px;padding:22px;margin:24px auto;background:#fff9ed;border-radius:15px}
+@page{size:A4 portrait;margin:0}
+@media print{
+  html,body{padding:0;margin:0;background:#fff;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .toolbar,.empty{display:none!important}
+  .sheet{width:210mm;height:297mm;min-height:297mm;margin:0;box-shadow:none;break-after:page;page-break-after:always}
+  .sheet:last-child{break-after:auto;page-break-after:auto}
+}
+@media screen and (max-width:850px){
+ .toolbar{position:static}.sheet{width:min(100%,210mm);height:auto;min-height:297mm;padding:12mm}
+ .task{min-height:44mm;grid-template-columns:26mm 1fr;padding:4mm}
+ .task-graphic{width:25mm;height:25mm}
+}
+</style>
+<script src="./crayon-assets.js?v=656"></script>
+<script src="./warm-art.js?v=655"></script>
+<script src="./curriculum-art.js?v=656"></script>
+<script defer src="./worksheet-print.js?v=661"></script>
+</head>
+<body>
+<div class="toolbar">
+ <strong class="brand">Μαθαίνω! · Φύλλο εργασίας</strong>
+ <label><input id="includeAnswers" type="checkbox"> Λύσεις στο τέλος</label>
+ <button id="downloadPdf" class="primary" type="button">Λήψη PDF</button>
+ <button id="printPages" type="button">Εκτύπωση / Αποθήκευση PDF</button>
+ <a href="./index.html?v=661">← Εφαρμογή</a>
+ <span id="status" role="status" aria-live="polite"></span>
+</div>
+<main id="sheets"></main>
+</body>
+</html>
