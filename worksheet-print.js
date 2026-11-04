@@ -46,7 +46,10 @@ function spellingPages(){
  });
  const pages=[];
  if(matches.length>=2){
-  chunk(matches,4).forEach(items=>pages.push({type:'matching',items,options:matchingOrder(items)}));
+  const groups=chunk(matches,4);
+  // A final single picture cannot be matched: rebalance into two or more pairs.
+  if(groups.length>1&&groups[groups.length-1].length===1)groups[groups.length-1].unshift(groups[groups.length-2].pop());
+  groups.forEach(items=>pages.push({type:'matching',items,options:matchingOrder(items)}));
  }else if(matches.length){
   // For unusually short lessons, never create a one-pair matching exercise.
   handwriting.push({...matches[0],mode:'write',number:handwriting.length+1});
