@@ -112,7 +112,7 @@ function renderWord(){
  if(!word){finish();return}
  state.mode=state.modePlan[state.index]||'tiles';
  resetAnswer();
- $s('spellWordArt').innerHTML=window.MathainoIllustrations?.word(word.picture)||'';
+ $s('spellWordArt').innerHTML=window.MathainoArtStyle?.render(word.picture)||window.MathainoIllustrations?.word(word.picture)||'';
  $s('spellWordArt').setAttribute('aria-label','Εικόνα της λέξης που θα γράψεις');
  $s('spellCounter').textContent='Λέξη '+(state.index+1)+' από '+state.items.length;
  $s('spellUnitName').textContent=word.group;
