@@ -117,7 +117,7 @@ const list=html('div','pack-lesson-grid');pack.append(list);home.append(pack);
 const stage=html('section','hidden');
 stage.id='testPackLesson';
 $('learn').parentElement.insertBefore(stage,$('learn'));
-const state={lesson:null,index:0,mode:'study',tries:0,solved:false,firstTry:0,revealed:false,choices:[]};
+const state={lesson:null,index:0,mode:'study',tries:0,solved:false,firstTry:0,revealed:false,choices:[],queue:[],skipped:[]};
 const art=id=>window.MathainoCrayonArt?.word(id)||window.MathainoWarmArt?.draw(id,true)||'';
 const pick=a=>{const arr=a.slice();for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr};
 function canUse(l){
@@ -146,11 +146,12 @@ function open(id){
   return;
  }
  state.lesson=l;state.mode='study';state.index=0;state.tries=0;state.firstTry=0;state.solved=false;
+ state.queue=l.questions.map((_,i)=>i);state.skipped=[];
  draw();viewAll('testPackLesson');
 }
 function safeLog(choice,correct){
  if(typeof ready==='undefined'||!ready||typeof db==='undefined'||!db||typeof cloudChildren==='undefined'||!cloudChildren?.[child])return;
- const q=state.lesson.questions[state.index];if(!q)return;
+ const q=state.lesson.questions[state.queue[state.index]];if(!q)return;
  const event={child_id:cloudChildren[child].id,subject:state.lesson.subject,topic:state.lesson.title,
  question:q[0],selected_answer:String(choice).slice(0,100),correct_answer:q[1][q[2]],is_correct:correct,attempt_number:state.tries};
  db.from('answer_events').insert(event).then(({error})=>{if(error)console.warn('Content Pack progress not saved:',error.message)}).catch(()=>{});
@@ -174,7 +175,7 @@ function draw(){
  stage.append(header);
  const hero=html('div','pack-hero');hero.innerHTML=art(l.art);stage.append(hero);
  const modes=html('div','pack-mode-tabs');
- modes.append(button('Μελέτη',()=>{state.mode='study';draw()},state.mode==='study'?'primary':''),button('Ερωτήσεις',()=>{state.mode='quiz';state.index=0;state.firstTry=0;beginQuestion();draw()},state.mode==='quiz'?'primary':''));
+ modes.append(button('Μελέτη',()=>{state.mode='study';draw()},state.mode==='study'?'primary':''),button('Ερωτήσεις',()=>{state.mode='quiz';state.index=0;state.firstTry=0;state.skipped=[];state.queue=state.lesson.questions.map((_,i)=>i);beginQuestion();draw()},state.mode==='quiz'?'primary':''));
  stage.append(modes);
  const body=html('div','pack-body');stage.append(body);
  if(state.mode==='study')study(body);else quiz(body);
@@ -189,43 +190,60 @@ function study(body){
   card.append(illustration,copy);body.append(card);
  }
  if(l.source){const source=html('p','pack-source');const a=html('a','', 'Άνοιξε το αντίστοιχο σχολικό βιβλίο');a.href=l.source;a.target='_blank';a.rel='noopener noreferrer';source.append(a);body.append(source)}
- body.append(button('Ξεκίνα τις ερωτήσεις',()=>{state.mode='quiz';state.index=0;state.firstTry=0;beginQuestion();draw()},'primary pack-big-button'));
+ body.append(button('Ξεκίνα τις ερωτήσεις',()=>{state.mode='quiz';state.index=0;state.firstTry=0;state.skipped=[];state.queue=state.lesson.questions.map((_,i)=>i);beginQuestion();draw()},'primary pack-big-button'));
 }
 function beginQuestion(){
  state.tries=0;state.solved=false;state.revealed=false;
- const q=state.lesson.questions[state.index];state.choices=pick(q[1].map((label,i)=>({label,index:i})));
+ const q=state.lesson.questions[state.queue[state.index]];state.choices=pick(q[1].map((label,i)=>({label,index:i})));
 }
 function quiz(body){
- const l=state.lesson,q=l.questions[state.index];if(!q){finish(body);return}
- body.append(html('p','pack-count','Ερώτηση '+(state.index+1)+' από '+l.questions.length));
- const track=html('div','pack-track');const fill=html('span','pack-track-fill');fill.style.width=(state.index/l.questions.length*100)+'%';track.append(fill);body.append(track);
+ const l=state.lesson,q=l.questions[state.queue[state.index]];if(!q){finish(body);return}
+ body.append(html('p','pack-count','Ερώτηση '+(state.index+1)+' από '+state.queue.length));
+ const track=html('div','pack-track');const fill=html('span','pack-track-fill');fill.style.width=(state.index/state.queue.length*100)+'%';track.append(fill);body.append(track);
  const card=html('div','pack-question-card');
  card.append(html('h3','',q[0]));
  const choices=html('div','pack-options');card.append(choices);
  const feedback=html('p','pack-feedback');feedback.setAttribute('aria-live','polite');card.append(feedback);
  const assist=html('div','pack-assist');card.append(assist);
- const next=button(state.index===l.questions.length-1?'Ολοκλήρωση':'Επόμενη ερώτηση',advance,'primary pack-big-button mathaino-completion');next.hidden=true;card.append(next);
+ const next=button(state.index===state.queue.length-1?'Ολοκλήρωση':'Επόμενη ερώτηση',advance,'primary pack-big-button mathaino-completion');next.hidden=true;card.append(next);
+ const skip=button('Παράλειψη →',skipPackQuestion,'question-skip pack-skip');card.append(skip);
  for(const option of state.choices){
   const b=button(option.label,()=>{
    if(state.solved)return;
    state.tries++;
    const good=option.index===q[2];safeLog(option.label,good);
-   if(good){state.solved=true;if(state.tries===1)state.firstTry++;feedback.textContent='Σωστά! '+q[3];feedback.dataset.state='good';choices.querySelectorAll('button').forEach(x=>x.disabled=true);next.hidden=false;assist.replaceChildren();}
-   else{b.disabled=true;b.classList.add('pack-wrong');feedback.textContent='Δοκίμασε άλλη απάντηση. Μπορείς να ξαναδείς τη μελέτη.';feedback.dataset.state='try';if(state.tries>=2){assist.replaceChildren(button('Δες τη λύση',()=>{state.solved=true;feedback.textContent='Η απάντηση είναι: '+q[1][q[2]]+'. '+q[3];feedback.dataset.state='solution';choices.querySelectorAll('button').forEach(x=>x.disabled=true);next.hidden=false;assist.replaceChildren()},'pack-reveal'))}}
+   if(good){state.solved=true;if(state.tries===1)state.firstTry++;feedback.textContent='Σωστά! '+q[3];feedback.dataset.state='good';choices.querySelectorAll('button').forEach(x=>x.disabled=true);next.hidden=false;skip.hidden=true;assist.replaceChildren();}
+   else{b.disabled=true;b.classList.add('pack-wrong');feedback.textContent='Δοκίμασε άλλη απάντηση. Μπορείς να ξαναδείς τη μελέτη.';feedback.dataset.state='try';if(state.tries>=2){assist.replaceChildren(button('Δες τη λύση',()=>{state.solved=true;feedback.textContent='Η απάντηση είναι: '+q[1][q[2]]+'. '+q[3];feedback.dataset.state='solution';choices.querySelectorAll('button').forEach(x=>x.disabled=true);next.hidden=false;skip.hidden=true;assist.replaceChildren()},'pack-reveal'))}}
   },'pack-choice');
   choices.append(b);
  }
  body.append(card);
 }
-function advance(){
- if(!state.solved)return;
+function advancePack(){
  state.index++;
- if(state.index===state.lesson.questions.length){state.mode='done';draw();return}
+ if(state.index===state.queue.length){state.mode='done';draw();return}
+ beginQuestion();draw();
+}
+function advance(){if(state.solved)advancePack()}
+function skipPackQuestion(){
+ if(state.solved)return;
+ state.skipped.push(state.queue[state.index]);
+ advancePack();
+}
+function retryPackSkipped(){
+ if(!state.skipped.length)return;
+ state.queue=state.skipped.slice();state.skipped=[];
+ state.mode='quiz';state.index=0;state.firstTry=0;
  beginQuestion();draw();
 }
 function finish(body){
- body.append(html('h3','', 'Ολοκλήρωσες το μάθημα!'),html('p','', 'Εξασκήθηκες σε '+state.lesson.questions.length+' ερωτήσεις. Μπορείς να επιστρέψεις όποτε θέλεις.'));
- body.append(button('Επανάληψη',()=>{state.mode='study';state.index=0;draw()},'primary'),button('Πίσω στα μαθήματα',()=>viewAll('home')));
+ const skipped=state.skipped.length;
+ body.append(html('h3','', 'Ολοκλήρωσες το μάθημα!'),
+ html('p','', 'Εξασκήθηκες σε '+state.queue.length+' ερωτήσεις.'+
+ (skipped?' Παρέλειψες '+skipped+' και μπορείς να τις ξαναδοκιμάσεις.':' Μπορείς να επιστρέψεις όποτε θέλεις.')));
+ if(skipped)body.append(button('Δοκίμασε τις παραλειμμένες ('+skipped+')',retryPackSkipped,'question-retry'));
+ body.append(button('Επανάληψη',()=>{state.mode='study';state.index=0;draw()},'primary'),
+ button('Πίσω στα μαθήματα',()=>viewAll('home')));
 }
 const prevView=viewAll;
 viewAll=function(id){prevView(id);stage.classList.toggle('hidden',id!=='testPackLesson');if(id==='home')showHome()};
