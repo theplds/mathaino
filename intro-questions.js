@@ -34,7 +34,7 @@ function questionsFor(level){
  const questions=[],seen=new Set();
  function put(op,a,b){
   const id=level+':'+op+':'+a+':'+b;
-  if(seen.has(id))return;
+  if(seen.has(id)||op==='×'&&a===4&&b===3)return;
   seen.add(id);
   const result=op==='+'?a+b:op==='−'?a-b:op==='×'?a*b:a/b;
   if(!Number.isInteger(result)||result<0)return;
@@ -126,7 +126,11 @@ function picturesFor(profile){
  return verified.length>=15?verified:available
 }
 function nextPicture(profile,index){return take(profile,index,'picture',picturesFor(profile))}
+function clear(){
+ transient.clear();
+ try{for(const key of Object.keys(localStorage))if(key.startsWith(prefix)||key.startsWith('mathaino-intro-20-v1:'))localStorage.removeItem(key)}catch(e){}
+}
 window.MathainoIntro=Object.freeze({
- wordItems,levelOf,questionsFor,nextQuestion,picturesFor,nextPicture
+ wordItems,levelOf,questionsFor,nextQuestion,picturesFor,nextPicture,clear
 });
 })();
