@@ -41,7 +41,9 @@ function gap(word){
 function spellingPages(){
  const matches=[],handwriting=[];
  p.words.forEach((word,i)=>{
-  if(i%3===1)matches.push(word);
+  // Small six-word lessons need at least three pairs for meaningful matching.
+  const includeInMatching=i%3===1||(p.words.length>=5&&p.words.length<=7&&i===2);
+  if(includeInMatching)matches.push(word);
   else handwriting.push({...word,mode:i%3===0?'missing':'write',number:handwriting.length+1});
  });
  const pages=[];
