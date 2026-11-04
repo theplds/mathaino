@@ -15,6 +15,7 @@ for(const [page,body] of [['app',home],['recovery',reset]]){
   const remote=[...body.matchAll(/<script\b[^>]*\bsrc="(https:[^"]+)"/g)].map(x=>x[1]);
   assert.deepEqual(remote,[sdk]);
  });
+ check(page+' binds externally loaded SDK to verified SRI',()=>assert.ok(body.includes('integrity="sha384-ARQ6JMpleHd1EQUxL9V4CSjKPqSyRfswRYBiVKcn1MT6zUD+BdOm/NYzic64PuF4" crossorigin="anonymous"')));
  check(page+' has no inline JS',()=>assert.ok(!/<script(?![^>]*\bsrc=)[^>]*>/.test(body)));
  check(page+' never allows unsafe eval',()=>assert.ok(!body.includes("'unsafe-eval'")));
  check(page+' suppresses referrer',()=>assert.ok(body.includes('name="referrer" content="no-referrer"')));
