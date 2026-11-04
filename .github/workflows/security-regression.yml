@@ -30,6 +30,6 @@ jobs:
           cmp package/dist/umd/supabase.js cdn-original.js
           curl --fail --location --silent --show-error --max-time 30 "$CDN" -o cdn.js
           test "$(wc -c < cdn.js)" -gt 80000
-          printf 'Verified SRI: sha384-'
-          openssl dgst -sha384 -binary cdn.js | openssl base64 -A
-          printf '\n'
+          HASH="sha384-$(openssl dgst -sha384 -binary cdn.js | openssl base64 -A)"
+          echo "Verified SRI: $HASH"
+          test "$HASH" = "sha384-ARQ6JMpleHd1EQUxL9V4CSjKPqSyRfswRYBiVKcn1MT6zUD+BdOm/NYzic64PuF4"
