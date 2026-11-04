@@ -36,6 +36,7 @@ const gradeSelect=el('select');gradeSelect.id='curriculumGrade';gradeSelect.setA
 [['mine','Η τάξη μου'],['Β΄','Β΄ Δημοτικού'],['Δ΄','Δ΄ Δημοτικού'],['Ε΄','Ε΄ Δημοτικού']].forEach(([val,label])=>{
  const opt=el('option','',label);opt.value=val;gradeSelect.append(opt)
 });
+gradeSelect.value='mine';
 controls.append(gradeLabel,gradeSelect);
 top.append(controls);section.append(top);
 const catalogBody=el('div','curriculum-catalog-body');section.append(catalogBody);
