@@ -17,6 +17,8 @@ jobs:
         run: node scripts/security-audit.cjs
       - name: Verify grade-specific intro banks and non-repeating pictures
         run: node scripts/intro-regression.cjs
+      - name: Verify cool palette, next-step affordances and accessible contrast
+        run: node scripts/theme-regression.cjs
       - name: Verify Google OAuth sign-in and account linking safeguards
         run: node scripts/google-auth-regression.cjs
       - name: Check public Google provider availability (informational)
