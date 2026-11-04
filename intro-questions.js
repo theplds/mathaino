@@ -1,6 +1,6 @@
 /* Μαθαίνω! v0.6.71 — grade-aware welcome exercises and non-repeating picture decks.
    Original deterministic question banks, selected randomly without repetition;
-   no child names, ages, IDs, questions or answers are stored in the browser. */
+   Only non-identifying rotation keys are stored locally and cleared on sign-out. */
 (function(){
 'use strict';
 const wordItems=Object.freeze([
