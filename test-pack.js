@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.56 • Seven-lesson testing pack. Self-contained offline lessons. */
+/* Μαθαίνω! v0.6.64 • Seven-lesson testing pack. Self-contained offline lessons. */
 (function(){
 'use strict';
 const $=id=>document.getElementById(id);
@@ -248,5 +248,5 @@ function finish(body){
 const prevView=viewAll;
 viewAll=function(id){prevView(id);stage.classList.toggle('hidden',id!=='testPackLesson');if(id==='home')showHome()};
 showHome();
-window.MathainoContentPack=Object.freeze({version:'0.6.54',lessons:lessons.map(l=>({id:l.id,title:l.title,grade:l.grade,subject:l.subject,questionCount:l.questions?.length||0})),canUse:id=>{const l=lessons.find(x=>x.id===id);return !!l&&canUse(l)}});
+window.MathainoContentPack=Object.freeze({version:'0.6.64',lessons:lessons.map(l=>({id:l.id,title:l.title,grade:l.grade,subject:l.subject,questionCount:l.questions?.length||0})),canUse:id=>{const l=lessons.find(x=>x.id===id);return !!l&&canUse(l)}});
 })();
