@@ -27,8 +27,34 @@ body{margin:0;background:#eee6d9;color:#493e35;font-family:system-ui,-apple-syst
 .task-graphic svg{width:100%;height:auto;max-height:100%}
 .task-main{min-width:0}.task-label{font-weight:750;font-size:11pt;line-height:1.35;margin-bottom:3mm}
 .task-letter{font-size:25pt;font-weight:800;letter-spacing:.1em;line-height:1.1}
-.task-tiles{display:flex;gap:2mm;flex-wrap:wrap;margin:3mm 0}
-.task-tiles b{width:8.5mm;height:10mm;border:1.5px solid #86776a;border-radius:2mm;display:flex;align-items:center;justify-content:center;font-size:17pt;font-weight:650}
+
+.sheet-five .tasks{gap:2mm;justify-content:space-between}
+.sheet-five .task{min-height:36mm;padding:3mm}
+.sheet-five .task-graphic{width:23mm;height:23mm}
+.sheet-five .write-guides{margin-top:3mm;height:10mm}
+.matching-page{width:100%;display:flex;flex-direction:column;flex:1}
+.matching-title{font-size:15pt;margin:5mm 0 2mm;color:#493e35}
+.matching-hint{font-size:10pt;color:#6b5d50;margin:0 0 8mm}
+.matching-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:29mm;align-items:start}
+.matching-column{display:flex;flex-direction:column;gap:3mm}
+.matching-row{min-height:39mm;display:flex;align-items:center;gap:2mm;border-bottom:1px solid #f0e9de}
+.matching-pictures .matching-row{justify-content:flex-start}
+.matching-words .matching-row{justify-content:flex-start}
+.matching-index{font-size:12pt;font-weight:750;color:#645344;flex:none;width:7mm}
+.matching-picture{display:inline-flex;align-items:center;justify-content:center;width:29mm;height:29mm;flex:none}
+.matching-picture svg{display:block;width:100%;height:100%}
+.matching-words .matching-word{font-size:17pt;font-weight:760;flex:1;overflow-wrap:anywhere}
+.matching-dot{border:1.7pt solid #6f6358;border-radius:50%;width:5.5mm;height:5.5mm;flex:none;background:white}
+.matching-pictures .matching-dot{margin-left:auto;margin-right:0}
+.matching-words .matching-dot{margin-right:2mm}
+@media screen and (max-width:650px){
+ .matching-columns{gap:6vw}
+ .matching-row{min-height:32mm;gap:1mm}
+ .matching-picture{width:23mm;height:23mm}
+ .matching-index{width:5mm;font-size:11pt}
+ .matching-words .matching-word{font-size:14pt}
+ .matching-dot{width:4mm;height:4mm}
+}
 .write-guides{height:12mm;border-bottom:1.2px solid #8e8379;border-top:1px dashed #cfc7bc;margin:5mm 0 0}
 .sheet-footer{border-top:1px solid #ddd2c4;margin-top:5mm;padding-top:3mm;font-size:8.5pt;color:#85766a;display:flex;justify-content:space-between}
 .study-card{padding:7mm 6mm;border-left:2mm solid #bea082;background:#fdfbf7;margin:0 0 6mm;break-inside:avoid}
@@ -57,7 +83,7 @@ body{margin:0;background:#eee6d9;color:#493e35;font-family:system-ui,-apple-syst
 <script src="./crayon-assets.js?v=656"></script>
 <script src="./warm-art.js?v=655"></script>
 <script src="./curriculum-art.js?v=656"></script>
-<script defer src="./worksheet-print.js?v=662"></script>
+<script defer src="./worksheet-print.js?v=663"></script>
 </head>
 <body>
 <div class="toolbar">
@@ -65,7 +91,7 @@ body{margin:0;background:#eee6d9;color:#493e35;font-family:system-ui,-apple-syst
  <label><input id="includeAnswers" type="checkbox"> Λύσεις στο τέλος</label>
  <button id="downloadPdf" class="primary" type="button">Λήψη PDF</button>
  <button id="printPages" type="button">Εκτύπωση / Αποθήκευση PDF</button>
- <a href="./index.html?v=662">← Εφαρμογή</a>
+ <a href="./index.html?v=663">← Εφαρμογή</a>
  <span id="status" role="status" aria-live="polite"></span>
 </div>
 <main id="sheets"></main>
