@@ -188,7 +188,11 @@ const previousChoose=chooseChild;
 chooseChild=function(index){
  previousChoose(index);
  tile.hidden=false;
- if(!document.querySelector('#subjects button.active:not([hidden])'))tile.click()
+ if(!document.querySelector('#subjects button.active:not([hidden])')){
+  // Keep the normal child welcome / picture sequence; selecting the
+  // new subject must not jump directly past the introductory screen.
+  sub='coding';document.querySelectorAll('#subjects button').forEach(b=>b.classList.toggle('active',b===tile));topics()
+ }
 };
 const previousTopics=topics;
 topics=function(){
