@@ -15,6 +15,8 @@ jobs:
           persist-credentials: false
       - name: Verify static and policy protections
         run: node scripts/security-audit.cjs
+      - name: Verify grade-specific intro banks and non-repeating pictures
+        run: node scripts/intro-regression.cjs
       - name: Check pinned Supabase CDN against official npm release and report SRI
         shell: bash
         run: |
