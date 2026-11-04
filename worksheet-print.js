@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.63 • Print-ready A4 worksheets and downloadable offline PDFs.
+/* Μαθαίνω! v0.6.67 • Print-ready A4 worksheets and downloadable offline PDFs.
    No paid service, tracker, or server. PDF pages are print-resolution JPEGs. */
 (function(){
 'use strict';
@@ -59,11 +59,20 @@ function spellingPages(){
  chunk(handwriting,5).forEach((items,i)=>pages.push({type:'spelling',items,offset:i*5}));
  return pages
 }
+function printQuestion(q,index){
+ // Deterministic per-question rotation: the on-screen preview and downloaded
+ // PDF use identical option order and the answer key follows the rotation.
+ if(!Array.isArray(q.options)||q.options.length<2)return q;
+ const n=q.options.length,shift=(index+1)%n,options=Array.from({length:n},(_,i)=>q.options[(i-shift+n)%n]);
+ const original=Number.isInteger(q.correct)?q.correct:q.options.indexOf(q.answer);
+ return {...q,options,correct:original>=0?(original+shift)%n:undefined}
+}
 function plan(includeAnswers){
  const pages=p.kind==='spelling'?spellingPages():[];
+ const printable=p.kind==='quiz'?p.questions.map(printQuestion):[];
  if(p.kind==='quiz'){
   chunk(p.pages||[],3).forEach((items,i)=>pages.push({type:'study',items,offset:i*3}));
-  chunk(p.questions,4).forEach((items,i)=>pages.push({type:'quiz',items,offset:i*4}));
+  chunk(printable,4).forEach((items,i)=>pages.push({type:'quiz',items,offset:i*4}));
  }
  if(includeAnswers){
   const answers=p.kind==='spelling'
@@ -71,7 +80,7 @@ function plan(includeAnswers){
       number:'Αντιστοίχιση',
       text:page.items.map((word,i)=>(i+1)+' → '+matchLetters[page.options.indexOf(word)]).join('   ·   ')
      }]).concat(pages.filter(x=>x.type==='spelling').flatMap(page=>page.items.map(w=>({number:w.number,text:L(w.text)}))))
-   :p.questions.map((q,i)=>({number:i+1,text:L(q.answer||q.options?.[q.correct]||'')}));
+   :printable.map((q,i)=>({number:i+1,text:(Array.isArray(q.options)&&q.options.length>1&&Number.isInteger(q.correct)?String.fromCharCode(65+q.correct)+' · ':'')+L(q.answer||q.options?.[q.correct]||'')}));
   chunk(answers,14).forEach((items,i)=>pages.push({type:'answers',items,offset:i*14}))
  }
  return pages
@@ -352,5 +361,5 @@ async function pdfDownload(){
 }
 $('downloadPdf').onclick=pdfDownload;
 show();
-window.MathainoWorksheetPrint=Object.freeze({plan,pdfFromJpegs,gap,matchingOrder});
+window.MathainoWorksheetPrint=Object.freeze({plan,pdfFromJpegs,gap,matchingOrder,printQuestion});
 })();
