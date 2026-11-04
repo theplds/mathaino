@@ -91,3 +91,30 @@ html[data-theme="dark"] .curriculum-finish-summary{color:#e4d6c6}
  .curriculum-study-card{padding:13px;gap:10px}
  .curriculum-catalog{padding:14px}
 }
+
+/* v0.6.66 — short written answers (Greek text or numerical results). */
+.curriculum-written{display:grid;gap:10px;max-width:570px}
+.curriculum-written label{font-size:.95rem;font-weight:750;color:#594c40}
+.curriculum-written-input{
+ width:100%;min-height:52px;
+ background:#fffdf8;color:#493b31;
+ border:2px solid #b6a38c;border-radius:12px;
+ padding:11px 13px;font:inherit;font-size:1.18rem;
+}
+.curriculum-written-input:focus-visible{outline:3px solid #39866d;outline-offset:2px}
+.curriculum-written-input:disabled{background:#edf4e9;color:#296447}
+.curriculum-written-check{
+ justify-self:start;min-height:44px;
+ background:#e7eee5;color:#215e42;
+ border:1.7px solid #7ba88b;border-radius:12px;
+ padding:10px 19px;font-weight:780;
+}
+.curriculum-written-check:disabled{opacity:.55}
+html[data-theme="dark"] .curriculum-written label{color:#e8d9c8}
+html[data-theme="dark"] .curriculum-written-input{
+ background:#384046;color:#f6ebdd;border-color:#8d806e;
+}
+html[data-theme="dark"] .curriculum-written-input:disabled{background:#284839;color:#d7efdf}
+html[data-theme="dark"] .curriculum-written-check{
+ background:#2e5941;color:#e0f6e8;border-color:#79bd8b;
+}
