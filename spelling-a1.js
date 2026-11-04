@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.61 — μικτές ασκήσεις ορθογραφίας Α΄ Δημοτικού, χωρίς βαθμολόγηση τόνου.
+/* Μαθαίνω! v0.6.64 — μικτές ασκήσεις ορθογραφίας Α΄ Δημοτικού, χωρίς βαθμολόγηση τόνου.
    Κάθε συνεδρία συνδυάζει αυτόματα γράμματα, κενά και πλήρη γραφή, χωρίς βαθμούς ή χρονόμετρο. */
 (function(){
 'use strict';
@@ -21,7 +21,7 @@ const modes=[
  {id:'missing',title:'Συμπληρώνω',description:'Λείπει ένα γράμμα. Διάλεξε ποιο ταιριάζει.'},
  {id:'write',title:'Γράφω μόνος μου',description:'Γράψε ολόκληρη τη λέξη στα ελληνικά. Ο τόνος είναι προαιρετικός.'}
 ];
-let state={mode:'tiles',modePlan:[],group:'all',items:[],index:0,tiles:[],selected:[],blank:-1,options:[],solved:false,tries:0,revealed:false,wrongOption:[],lastAnswer:''};
+let state={mode:'tiles',modePlan:[],group:'all',items:[],index:0,tiles:[],selected:[],blank:-1,options:[],solved:false,tries:0,revealed:false,wrongOption:[],lastAnswer:'',skipped:[]};
 const normalize=x=>String(x||'').normalize('NFC').trim().replace(/\s+/g,' ').toLocaleLowerCase('el-GR');
 // Αγνοούμε μόνο τον τόνο: τα διαλυτικά (ϊ, ϋ) παραμένουν σημαντικά.
 const noAccent=x=>normalize(x).normalize('NFD').replace(/\u0301/g,'').normalize('NFC');
@@ -98,6 +98,7 @@ function startSession(){
  if(state.group==='all')state.items=state.items.slice(0,12);
  state.modePlan=makeModePlan(state.items.length);
  state.index=0;
+ state.skipped=[];
  $s('spellFinish').hidden=true;$s('spellExercise').hidden=false;
  renderWord()
 }
@@ -127,6 +128,7 @@ function renderWord(){
  $s('spellCheck').hidden=state.mode==='missing';
  $s('spellCheck').disabled=true;
  $s('spellNext').hidden=true;
+ $s('spellSkip').hidden=false;
  $s('spellTyping').hidden=state.mode!=='write';
  $s('spellTiles').hidden=state.mode!=='tiles';
  $s('spellMissing').hidden=state.mode!=='missing';
@@ -212,6 +214,7 @@ function checkAnswer(answer,optionIndex){
   $s('spellFeedback').dataset.state='good';
   $s('spellCheck').hidden=true;
   $s('spellNext').hidden=false;
+  $s('spellSkip').hidden=true;
   $s('spellNext').textContent=state.index===state.items.length-1?'Ολοκλήρωση':'Επόμενη λέξη';
   $s('spellProgressFill').style.width=((state.index+1)/state.items.length*100)+'%';
   $s('spellProgress').setAttribute('aria-valuenow',String(state.index+1));
@@ -230,15 +233,41 @@ function checkCurrent(){
  if(!normalize(answer))return;
  checkAnswer(answer)
 }
-function nextWord(){
- if(!state.solved)return;
+function advanceWord(){
  if(state.index===state.items.length-1){finish();return}
  state.index++;renderWord()
 }
+function nextWord(){
+ if(!state.solved)return;
+ advanceWord()
+}
+function skipWord(){
+ if(state.solved)return;
+ // Keep the unanswered word and its exercise type for an optional retry.
+ // A skip is never sent as a correct or incorrect answer to learning reports.
+ state.skipped.push({word:current(),mode:state.mode});
+ advanceWord()
+}
+function retrySkipped(){
+ if(!state.skipped.length)return;
+ const retry=state.skipped.slice();
+ state.skipped=[];
+ state.items=retry.map(entry=>entry.word);
+ state.modePlan=retry.map(entry=>entry.mode);
+ state.index=0;
+ $s('spellFinish').hidden=true;
+ $s('spellExercise').hidden=false;
+ renderWord()
+}
 function finish(){
  $s('spellExercise').hidden=true;$s('spellFinish').hidden=false;
+ const skipped=state.skipped.length;
  $s('spellFinishTitle').textContent='Ολοκλήρωσες τις λέξεις!';
- $s('spellFinishText').textContent='Δούλεψες με '+state.items.length+' λέξεις. Μπορείς να κάνεις ξανά εξάσκηση ή να διαλέξεις μια άλλη ενότητα. Χωρίς βιασύνη.';
+ $s('spellFinishText').textContent='Δούλεψες με '+state.items.length+' λέξεις.'+
+  (skipped?' Παρέλειψες '+skipped+' '+(skipped===1?'λέξη':'λέξεις')+' και μπορείς να τις δοκιμάσεις ξανά.':' Μπράβο για την προσπάθεια!')+
+  ' Χωρίς βιασύνη.';
+ $s('spellRetrySkipped').hidden=!skipped;
+ $s('spellRetrySkipped').textContent='Δοκίμασε '+(skipped===1?'τη λέξη':'τις '+skipped+' λέξεις')+' που παρέλειψες'
 }
 function openSpelling(){
  $s('spellGroup').value=$s('topic').value||'all';
@@ -308,6 +337,8 @@ $s('spellPrint').onclick=()=>openSpellingWorksheet();
 $s('spellTryAgain').onclick=startSession;
 $s('spellFinishBack').onclick=()=>viewAll('home');
 $s('spellNext').onclick=nextWord;
+$s('spellSkip').onclick=skipWord;
+$s('spellRetrySkipped').onclick=retrySkipped;
 $s('spellCheck').onclick=checkCurrent;
 $s('spellUndo').onclick=()=>{if(state.selected.length){state.selected.pop();$s('spellFeedback').textContent='';renderAnswer()}};
 $s('spellInput').addEventListener('input',renderAnswer);
