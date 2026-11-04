@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.60 — μικτές ασκήσεις ορθογραφίας Α΄ Δημοτικού, χωρίς βαθμολόγηση τόνου.
+/* Μαθαίνω! v0.6.61 — μικτές ασκήσεις ορθογραφίας Α΄ Δημοτικού, χωρίς βαθμολόγηση τόνου.
    Κάθε συνεδρία συνδυάζει αυτόματα γράμματα, κενά και πλήρη γραφή, χωρίς βαθμούς ή χρονόμετρο. */
 (function(){
 'use strict';
@@ -246,6 +246,22 @@ function openSpelling(){
  startSession();
  viewAll('spellingLesson')
 }
+function openSpellingWorksheet(){
+ if(!window.MathainoWorksheet?.open)return;
+ const selected=$s('spellGroup').value;
+ const lesson=lessons[Number(selected)];
+ const currentWords=(state.group===selected&&state.items.length)?state.items:getGroup();
+ const title=selected==='all'?'Ορθογραφία · Λίγο από όλα':
+  selected==='book:all'?'Ορθογραφία · Επανάληψη βιβλίου':
+  lesson?.name||'Ορθογραφία Α΄';
+ const subtitle=lesson?.bookUnit
+  ?'Γλώσσα Α΄ · Ενότητα '+lesson.bookUnit+' · '+lesson.bookUnitTitle
+  :'Γλώσσα Α΄ Δημοτικού · Πρωτότυπη εξάσκηση με εικόνες';
+ window.MathainoWorksheet.open({
+  kind:'spelling',title,subtitle,grade:'Α΄ Δημοτικού',
+  words:currentWords.slice(0,12).map(x=>({text:x.text,picture:x.picture,blank:x.blank}))
+ })
+}
 function fillUnits(){
  fillLessonOptions($s('spellGroup'));
 }
@@ -288,6 +304,7 @@ fillUnits();
 $s('spellBack').onclick=()=>viewAll('home');
 $s('spellGroup').onchange=startSession;
 $s('spellRestart').onclick=startSession;
+$s('spellPrint').onclick=()=>openSpellingWorksheet();
 $s('spellTryAgain').onclick=startSession;
 $s('spellFinishBack').onclick=()=>viewAll('home');
 $s('spellNext').onclick=nextWord;
