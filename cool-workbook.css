@@ -253,3 +253,51 @@ html[data-theme="dark"][data-workbook="on"] .mathaino-dock-next{
 }
 html[data-theme="dark"][data-workbook="on"] button.primary:hover:not(:disabled),
 html[data-theme="dark"][data-workbook="on"] #practice:hover:not(:disabled){background:#1d704e!important}
+
+/* Preserve answer feedback and selected lesson tabs above the neutral surfaces. */
+html[data-workbook="on"] .curriculum-tab.active{
+  background:#d9f1e8;border-color:#379576;color:#1d614a;
+}
+html[data-theme="dark"][data-workbook="on"] .curriculum-tab.active{
+  background:#315f53;border-color:#91d7b9;color:#fff;
+}
+html[data-workbook="on"] #testPackLesson button.pack-choice.pack-wrong{
+  background:#fbe8e4!important;border-color:#ce8b81!important;color:#7a4644;
+}
+html[data-theme="dark"][data-workbook="on"] #testPackLesson button.pack-choice.pack-wrong{
+  background:#62433f!important;border-color:#b7827d!important;color:#ffeae8;
+}
+html[data-workbook="on"] #testPackLesson,
+html[data-workbook="on"] #testPackLesson .pack-intro,
+html[data-workbook="on"] #testPackLesson .pack-feedback,
+html[data-workbook="on"] #testPackLesson .pack-count{color:var(--wb-ink)}
+html[data-workbook="on"] #testPackLesson .pack-eyebrow,
+html[data-workbook="on"] .pack-card-grade,
+html[data-workbook="on"] #testPackLesson .pack-source a{color:#286d83}
+html[data-workbook="on"] #testPackLesson .pack-reveal{
+  background:#e8f3f9;border-color:#a9cfdf;color:#35586b;
+}
+html[data-workbook="on"] #testPackLesson .pack-feedback[data-state="good"]{color:#217650}
+html[data-workbook="on"] #testPackLesson .pack-feedback[data-state="try"]{color:#9b562f}
+html[data-workbook="on"] .curriculum-book-link,
+html[data-workbook="on"] .curriculum-art,
+html[data-workbook="on"] .curriculum-written-input,
+html[data-workbook="on"] #spellBookNote.spell-book-note{
+  background:#eff8fc;color:#29485c;border-color:#c6dfea;
+}
+html[data-workbook="on"] #spellBookNote.spell-book-note{border-left-color:#389e88}
+html[data-theme="dark"][data-workbook="on"] .curriculum-book-link,
+html[data-theme="dark"][data-workbook="on"] .curriculum-art,
+html[data-theme="dark"][data-workbook="on"] .curriculum-written-input,
+html[data-theme="dark"][data-workbook="on"] #spellBookNote.spell-book-note{
+  background:#335262;color:#f0faff;border-color:#6b92a3;
+}
+html[data-theme="dark"][data-workbook="on"] #spellBookNote.spell-book-note{border-left-color:#80cdb4}
+html[data-theme="dark"][data-workbook="on"] #testPackLesson .pack-reveal{
+  background:#355768;border-color:#749aaa;color:#f0faff;
+}
+html[data-theme="dark"][data-workbook="on"] #testPackLesson .pack-eyebrow,
+html[data-theme="dark"][data-workbook="on"] #testPackLesson .pack-source a,
+html[data-theme="dark"][data-workbook="on"] .pack-card-grade{color:#9cd5e9}
+html[data-theme="dark"][data-workbook="on"] #testPackLesson .pack-feedback[data-state="good"]{color:#a8e6bf}
+html[data-theme="dark"][data-workbook="on"] #testPackLesson .pack-feedback[data-state="try"]{color:#ffc69c}
