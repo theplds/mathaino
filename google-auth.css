@@ -1,0 +1,16 @@
+/* v0.6.72 — Google sign-in and explicit family onboarding. */
+.google-login-divider{display:flex;gap:12px;align-items:center;margin:20px 0 13px;color:#596879;font-size:.91rem}
+.google-login-divider:before,.google-login-divider:after{content:"";height:1px;flex:1;background:#bcc8d7}
+.google-auth-btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:52px;padding:12px 18px;border:1.5px solid #c0cbd8;background:#fff;color:#24344a;border-radius:13px;font:inherit;font-weight:700;cursor:pointer;touch-action:manipulation}
+.google-auth-btn:focus-visible,#createFamily:focus-visible,#setupSwitchAccount:focus-visible{outline:3px solid #3177b8;outline-offset:3px}
+.google-auth-btn:not(:disabled):hover{background:#f7fbff;border-color:#8da8c2}
+.google-auth-btn:disabled{cursor:not-allowed;opacity:.58}
+.google-mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:800;font-family:Arial,Helvetica,sans-serif;color:#4285f4;background:#eff6ff}
+.google-auth-hint{min-height:1.2em;color:#5d6c7c;font-size:.84rem;line-height:1.45;margin:9px 0 0}
+#accountSetup p{line-height:1.55}
+#accountSetup .setup-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+#accountSetup .setup-actions button{min-height:46px}
+#setupEmail{font-weight:700;overflow-wrap:anywhere}
+html[data-theme="dark"] .google-auth-btn{background:#213044;color:#ecf2ff;border-color:#61758e}
+html[data-theme="dark"] .google-auth-hint{color:#cfdae8}
+html[data-theme="dark"] .google-mark{background:#304460}
