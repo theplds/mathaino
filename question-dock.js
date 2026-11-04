@@ -48,7 +48,8 @@ function updateViewport(){
  // On mobile Safari the keyboard reduces the visual viewport without always
  // resizing the layout viewport. Keep the buttons above it.
  const occlusion=vv?Math.max(0,window.innerHeight-vv.height-vv.offsetTop):0;
- dock.style.bottom=Math.round(occlusion)+'px';
+ const desired=Math.round(occlusion)+'px';
+ if(dock.style.bottom!==desired)dock.style.bottom=desired;
 }
 function sync(){
  const found=context();
@@ -66,14 +67,15 @@ function sync(){
   document.body.classList.remove('mathaino-action-dock-active');
   return
  }
- skip.hidden=!showSkip;
- next.hidden=!showNext;
+ if(skip.hidden!==!showSkip)skip.hidden=!showSkip;
+ if(next.hidden!==!showNext)next.hidden=!showNext;
  if(showNext){
   const label=found.next?.textContent?.trim()||'Επόμενη άσκηση';
-  next.textContent=/Ολοκλήρωση|Ξανά από την αρχή|Τέλος/i.test(label)?label:'Επόμενη άσκηση →'
+  const desired=/Ολοκλήρωση|Ξανά από την αρχή|Τέλος/i.test(label)?label:'Επόμενη άσκηση →';
+  if(next.textContent!==desired)next.textContent=desired;
  }
- skip.disabled=!showSkip;
- next.disabled=!showNext;
+ if(skip.disabled!==!showSkip)skip.disabled=!showSkip;
+ if(next.disabled!==!showNext)next.disabled=!showNext;
  if(dock.hidden)dock.hidden=false;
  document.body.classList.add('mathaino-action-dock-active');
  updateViewport()
