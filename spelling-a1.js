@@ -112,7 +112,7 @@ function renderWord(){
  if(!word){finish();return}
  state.mode=state.modePlan[state.index]||'tiles';
  resetAnswer();
- $s('spellWordArt').innerHTML=window.MathainoIllustrations?.word(word.picture)||'';
+ $s('spellWordArt').innerHTML=window.MathainoArtStyle?.render(word.picture)||window.MathainoIllustrations?.word(word.picture)||'';
  $s('spellWordArt').setAttribute('aria-label','Εικόνα της λέξης που θα γράψεις');
  $s('spellCounter').textContent='Λέξη '+(state.index+1)+' από '+state.items.length;
  $s('spellUnitName').textContent=word.group;
@@ -284,7 +284,7 @@ function openSpellingWorksheet(){
   selected==='book:all'?'Ορθογραφία · Επανάληψη βιβλίου':
   lesson?.name||'Ορθογραφία Α΄';
  const subtitle=lesson?.bookUnit
-  ?'Γλώσσα Α΄ · Ενότητα '+lesson.bookUnit+' · '+lesson.bookUnitTitle
+  ?'Γλώσσα Α΄ · Ενότητα '+lesson.bookUnit+' · '+lesson.bookUnitTitle+' · '+lesson.focus
   :'Γλώσσα Α΄ Δημοτικού · Πρωτότυπη εξάσκηση με εικόνες';
  window.MathainoWorksheet.open({
   kind:'spelling',title,subtitle,grade:'Α΄ Δημοτικού',
@@ -324,7 +324,7 @@ function updateBookNote(){
  note.replaceChildren();
  const titleNode=document.createElement('strong');titleNode.textContent=title;
  const explanation=document.createElement('span');
- explanation.textContent=' · Πρωτότυπες θεματικές ασκήσεις — όχι αντιγραφή των ασκήσεων του βιβλίου. ';
+ explanation.textContent=(lesson?.focus?' · Εστίαση: '+lesson.focus+'.':'')+' · Πρωτότυπες εικονογραφημένες ασκήσεις, όχι αυτούσιες λέξεις ή ασκήσεις του βιβλίου. ';
  const link=document.createElement('a');link.href=window.MathainoBookSpelling.source;
  link.textContent='Άνοιξε το σχολικό βιβλίο';link.target='_blank';link.rel='noopener noreferrer';
  note.append(titleNode,explanation,link);

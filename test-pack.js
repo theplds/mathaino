@@ -118,7 +118,7 @@ const stage=html('section','hidden');
 stage.id='testPackLesson';
 $('learn').parentElement.insertBefore(stage,$('learn'));
 const state={lesson:null,index:0,mode:'study',tries:0,solved:false,firstTry:0,revealed:false,choices:[],queue:[],skipped:[]};
-const art=id=>window.MathainoCrayonArt?.word(id)||window.MathainoWarmArt?.draw(id,true)||'';
+const art=id=>window.MathainoArtStyle?.render(id,true)||window.MathainoCrayonArt?.word(id)||window.MathainoWarmArt?.draw(id,true)||'';
 const pick=a=>{const arr=a.slice();for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr};
 function canUse(l){
  const p=profiles[child];if(!p)return false;

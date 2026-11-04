@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.65 — structured curriculum library for Β΄, Δ΄, Ε΄.
+/* Μαθαίνω! v0.6.67 — structured curriculum library for Β΄, Δ΄, Ε΄.
    Original study notes + independent comprehension, practice, revision banks.
    No timers, mandatory ordering, streaks, marks or paid APIs. */
 (function(){
@@ -58,17 +58,17 @@ function permitted(l){
  const p=profile();
  if(!p)return false;
  const allowed=Array.isArray(p.allowed)?p.allowed:[];
+ // Respect explicit parental permissions. Only a matching-grade child receives
+ // the default school subjects when the relevant settings have NOT been saved.
  if(allowed.includes(l.subject))return true;
  if(gradeOf(p)!==l.grade)return false;
- // An unconfigured family should see normal curricular subjects by grade.
- // Once parent permissions are explicitly configured, honor them.
  if(['science5','history5'].includes(l.subject))return !p.grade5SubjectsConfigured;
- if(l.subject==='history')return !p.extraSubjectsConfigured;
+ if(['reading','addition','math','history'].includes(l.subject))return !p.extraSubjectsConfigured;
  return false
 }
 function gradeChosen(){return gradeSelect.value==='mine'?gradeOf(profile()):gradeSelect.value}
 function media(key){
- const out=window.MathainoCrayonArt?.word(key)||window.MathainoWarmArt?.draw(key,true)||'';
+ const out=window.MathainoArtStyle?.render(key,true)||window.MathainoCrayonArt?.word(key)||window.MathainoWarmArt?.draw(key,true)||'';
  return out
 }
 function createArt(key){
@@ -336,7 +336,7 @@ chooseChild=function(index){
 };
 refreshHome();
 window.MathainoCurriculumLibrary=Object.freeze({
- version:'0.6.66',
+ version:'0.6.67',
  count:library.length,
  lessons:library.map(l=>({id:l.id,title:l.title,grade:l.grade,subject:l.subject,
    pages:l.pages.length,questionCount:l.quiz.length+l.practice.length+l.review.length})),

@@ -1,0 +1,26 @@
+/* Μαθαίνω! v0.6.67 — illustration choices. The sketch option reuses
+   existing original SVG drawings but treats them like ink on paper. */
+#artStyleOpt{display:block;width:min(100%,420px);min-height:44px;padding:10px 12px;border:1.5px solid #aabbb3;border-radius:11px;background:#fffdf6;color:#334b43}
+#artStyleHint{font-size:.85rem;color:#66594b;line-height:1.5;margin:5px 0 15px}
+body[data-illustration-style="sketch"] .curriculum-art,
+body[data-illustration-style="sketch"] .pack-hero,
+body[data-illustration-style="sketch"] .pack-card-art,
+body[data-illustration-style="sketch"] .pack-study-art,
+body[data-illustration-style="sketch"] #spellWordArt{
+ background:repeating-linear-gradient(172deg,#f6f1e8 0 10px,#e5dfd3 10px 10.6px,#f6f1e8 11px 21px);
+ border:1px solid #d2c3ae;
+ box-shadow:inset 0 0 0 4px #fbf8f0;
+}
+body[data-illustration-style="sketch"] .curriculum-art svg,
+body[data-illustration-style="sketch"] .pack-hero svg,
+body[data-illustration-style="sketch"] .pack-card-art svg,
+body[data-illustration-style="sketch"] .pack-study-art svg,
+body[data-illustration-style="sketch"] #spellWordArt svg,
+body[data-illustration-style="sketch"] #history4Hero svg,
+body[data-illustration-style="sketch"] #grade5Hero svg{
+ filter:grayscale(.55) sepia(.2) saturate(.75) contrast(1.1)
+}
+body[data-illustration-style="warm"] .curriculum-art svg,
+body[data-illustration-style="warm"] .pack-card-art svg{filter:saturate(.95)}
+html[data-theme="dark"] #artStyleOpt{background:#2c3b43;color:#f2ede3;border-color:#667981}
+html[data-theme="dark"] #artStyleHint{color:#e0cfbf}
