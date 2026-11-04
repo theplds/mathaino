@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.62 • Print-ready A4 worksheets and downloadable offline PDFs.
+/* Μαθαίνω! v0.6.63 • Print-ready A4 worksheets and downloadable offline PDFs.
    No paid service, tracker, or server. PDF pages are print-resolution JPEGs. */
 (function(){
 'use strict';
@@ -25,14 +25,12 @@ if(!p){
  return
 }
 const names={spelling:'Ορθογραφία',quiz:'Φύλλο εργασίας'};
-const modeNames={missing:'Συμπλήρωσε το γράμμα που λείπει',tiles:'Βάλε τα γράμματα στη σειρά',write:'Γράψε τη λέξη'};
-const modes=['missing','tiles','write'];
-const accent=x=>L(x).normalize('NFD').replace(/\u0301/g,'').normalize('NFC');
-function scrambled(word){
- const letters=Array.from(L(word));
- const a=letters.slice(1).concat(letters[0]);
- if(a.join('')===word)a.reverse();
- return a
+const modeNames={missing:'Συμπλήρωσε το γράμμα που λείπει',write:'Γράψε τη λέξη'};
+const matchLetters=['Α','Β','Γ','Δ','Ε'];
+function matchingOrder(items){
+ // A one-place rotation guarantees that no label faces its own illustration.
+ if(items.length<2)return items.slice();
+ return items.map((_,i)=>items[(i+1)%items.length]);
 }
 function gap(word){
  const chars=Array.from(L(word.text));
@@ -40,19 +38,37 @@ function gap(word){
  const pos=Math.max(0,Math.min(chars.length-1,Number(word.blank)||0));
  chars[pos]='_';return chars.join('')
 }
-function plan(includeAnswers){
+function spellingPages(){
+ const matches=[],handwriting=[];
+ p.words.forEach((word,i)=>{
+  if(i%3===1)matches.push(word);
+  else handwriting.push({...word,mode:i%3===0?'missing':'write',number:handwriting.length+1});
+ });
  const pages=[];
- if(p.kind==='spelling'){
-  chunk(p.words,4).forEach((items,i)=>pages.push({type:'spelling',items,offset:i*4}));
- }else{
+ if(matches.length>=2){
+  const options=matchingOrder(matches);
+  pages.push({type:'matching',items:matches,options});
+ }else if(matches.length){
+  // For unusually short lessons, never create a one-pair matching exercise.
+  handwriting.push({...matches[0],mode:'write',number:handwriting.length+1});
+ }
+ chunk(handwriting,5).forEach((items,i)=>pages.push({type:'spelling',items,offset:i*5}));
+ return pages
+}
+function plan(includeAnswers){
+ const pages=p.kind==='spelling'?spellingPages():[];
+ if(p.kind==='quiz'){
   chunk(p.pages||[],3).forEach((items,i)=>pages.push({type:'study',items,offset:i*3}));
   chunk(p.questions,4).forEach((items,i)=>pages.push({type:'quiz',items,offset:i*4}));
  }
  if(includeAnswers){
   const answers=p.kind==='spelling'
-   ?p.words.map((w,i)=>({number:i+1,text:L(w.text)}))
+   ?pages.filter(x=>x.type==='matching').flatMap(page=>[{
+      number:'Αντιστοίχιση',
+      text:page.items.map((word,i)=>(i+1)+' → '+matchLetters[page.options.indexOf(word)]).join('   ·   ')
+     }]).concat(pages.filter(x=>x.type==='spelling').flatMap(page=>page.items.map(w=>({number:w.number,text:L(w.text)}))))
    :p.questions.map((q,i)=>({number:i+1,text:L(q.answer||q.options?.[q.correct]||'')}));
-  chunk(answers,14).forEach((items,i)=>pages.push({type:'answers',items,offset:i*14}));
+  chunk(answers,14).forEach((items,i)=>pages.push({type:'answers',items,offset:i*14}))
  }
  return pages
 }
@@ -76,19 +92,37 @@ function header(page,index,count){
 function appendPicture(parent,key){
  const wrap=make('div','task-graphic');wrap.innerHTML=art(key);parent.append(wrap)
 }
-function spellingTask(item,index){
- const mode=modes[index%modes.length];
+function spellingTask(item){
  const block=make('article','task'),content=make('div','task-main');
  appendPicture(block,L(item.picture));
- content.append(make('div','task-label',(index+1)+'. '+modeNames[mode]));
- if(mode==='missing')content.append(make('div','task-letter',gap(item)));
- if(mode==='tiles'){
-  const tiles=make('div','task-tiles');
-  scrambled(L(item.text)).forEach(ch=>tiles.append(make('b','',accent(ch))));
-  content.append(tiles)
- }
- const guides=make('div','write-guides');guides.setAttribute('aria-hidden','true');content.append(guides);
- block.append(content);return block
+ content.append(make('div','task-label',item.number+'. '+modeNames[item.mode]));
+ if(item.mode==='missing')content.append(make('div','task-letter',gap(item)));
+ const guides=make('div','write-guides');
+ guides.setAttribute('aria-hidden','true');
+ content.append(guides);block.append(content);
+ return block
+}
+function matchingTask(page){
+ const wrap=make('section','matching-page');
+ wrap.append(make('h2','matching-title','Αντιστοίχιση: Ένωσε κάθε εικόνα με τη σωστή λέξη.'));
+ wrap.append(make('p','matching-hint','Τράβηξε μια γραμμή από τον κύκλο της εικόνας στον κύκλο της λέξης.'));
+ const columns=make('div','matching-columns');
+ const pictures=make('div','matching-column matching-pictures');
+ const words=make('div','matching-column matching-words');
+ page.items.forEach((item,i)=>{
+  const row=make('div','matching-row');
+  row.append(make('span','matching-index',(i+1)+'.'));
+  const picture=make('span','matching-picture');picture.innerHTML=art(item.picture);
+  row.append(picture,make('span','matching-dot'));pictures.append(row)
+ });
+ page.options.forEach((item,i)=>{
+  const row=make('div','matching-row');
+  row.append(make('span','matching-dot'),make('span','matching-word',L(item.text)));
+  row.append(make('span','matching-index',matchLetters[i]+'.'));
+  words.append(row)
+ });
+ columns.append(pictures,words);wrap.append(columns);
+ return wrap
 }
 function studyTask(item){
  const e=make('article','study-card');
@@ -113,7 +147,8 @@ function show(){
  pages.forEach((page,i)=>{
   const sheet=make('article','sheet');sheet.append(header(page,i,pages.length));
   const body=make('div',page.type==='answers'?'answer-list':'tasks');
-  if(page.type==='spelling')page.items.forEach((w,j)=>body.append(spellingTask(w,page.offset+j)));
+  if(page.type==='spelling')page.items.forEach(w=>body.append(spellingTask(w)));
+  if(page.type==='matching')body.append(matchingTask(page));
   if(page.type==='study')page.items.forEach(st=>body.append(studyTask(st)));
   if(page.type==='quiz')page.items.forEach((q,j)=>body.append(quizTask(q,page.offset+j)));
   if(page.type==='answers')page.items.forEach(a=>body.append(answerTask(a)));
@@ -158,30 +193,56 @@ function pageCanvas(desc,index,total,atlas){
   ctx.fillText('Όνομα: ___________________________',left,263);
   ctx.fillText('Ημερομηνία: _______________',650,263);
  }
+ if(desc.type==='matching'){
+  ctx.fillStyle=ink;ctx.font='bold 34px system-ui, sans-serif';
+  ctx.fillText('Αντιστοίχιση',left+12,342);
+  ctx.font='26px system-ui, sans-serif';
+  ctx.fillText('Ένωσε κάθε εικόνα με τη σωστή λέξη.',left+12,390);
+  const count=desc.items.length,step=Math.min(320,1120/count),y0=465;
+  desc.items.forEach((item,j)=>{
+   const y=y0+j*step;
+   ctx.fillStyle=ink;ctx.font='bold 30px system-ui, sans-serif';
+   ctx.fillText((j+1)+'.',left+12,y+85);
+   if(atlas&&item.picture){
+    const idx=window.MathainoCrayonArt?.ids.indexOf(item.picture);
+    if(idx>=0)ctx.drawImage(atlas,(idx%6)*200,Math.floor(idx/6)*200,200,200,left+65,y-8,175,175);
+   }
+   ctx.strokeStyle='#766f67';ctx.lineWidth=3;
+   ctx.beginPath();ctx.arc(left+290,y+80,11,0,Math.PI*2);ctx.stroke();
+  });
+  desc.options.forEach((item,j)=>{
+   const y=y0+j*step;
+   ctx.strokeStyle='#766f67';ctx.lineWidth=3;
+   ctx.beginPath();ctx.arc(left+665,y+80,11,0,Math.PI*2);ctx.stroke();
+   ctx.fillStyle=ink;ctx.font='bold 41px system-ui, sans-serif';
+   ctx.fillText(L(item.text),left+720,y+90);
+   ctx.font='bold 28px system-ui, sans-serif';
+   ctx.fillText(matchLetters[j]+'.',right-58,y+90);
+  })
+ }
  if(desc.type==='spelling'){
+  const count=desc.items.length;
+  const step=count>4?263:327;
+  const boxHeight=count>4?244:306;
   desc.items.forEach((w,j)=>{
-   const n=desc.offset+j,mode=modes[n%3],y=312+j*327;
-   ctx.strokeStyle='#d1c9bc';ctx.lineWidth=2;ctx.strokeRect(left,y,1064,306);
+   const y=312+j*step;
+   ctx.strokeStyle='#d1c9bc';ctx.lineWidth=2;
+   ctx.strokeRect(left,y,1064,boxHeight);
    if(atlas&&w.picture){
     const idx=window.MathainoCrayonArt?.ids.indexOf(w.picture);
-    if(idx>=0)ctx.drawImage(atlas,(idx%6)*200,Math.floor(idx/6)*200,200,200,left+23,y+60,185,185)
+    if(idx>=0)ctx.drawImage(atlas,(idx%6)*200,Math.floor(idx/6)*200,200,200,left+23,y+38,175,175);
    }
    ctx.fillStyle=ink;ctx.font='bold 29px system-ui, sans-serif';
-   ctx.fillText((n+1)+'. '+modeNames[mode],left+238,y+58);
-   if(mode==='missing'){
-    ctx.font='bold 55px system-ui, sans-serif';ctx.fillText(gap(w),left+255,y+143)
-   }
-   if(mode==='tiles'){
-    let x=left+255;
-    scrambled(L(w.text)).forEach(ch=>{
-     ctx.strokeStyle='#9e8f81';ctx.lineWidth=2;ctx.strokeRect(x,y+90,50,56);
-     ctx.fillStyle=ink;ctx.font='bold 35px system-ui, sans-serif';
-     ctx.fillText(accent(ch),x+13,y+129);x+=59
-    })
+   ctx.fillText(w.number+'. '+modeNames[w.mode],left+238,y+51);
+   if(w.mode==='missing'){
+    ctx.font='bold 53px system-ui, sans-serif';
+    ctx.fillText(gap(w),left+253,y+127)
    }
    ctx.strokeStyle='#acaaa4';ctx.lineWidth=2;
-   ctx.setLineDash([5,10]);ctx.beginPath();ctx.moveTo(left+242,y+203);ctx.lineTo(right-30,y+203);ctx.stroke();ctx.setLineDash([]);
-   ctx.beginPath();ctx.moveTo(left+242,y+252);ctx.lineTo(right-30,y+252);ctx.stroke()
+   ctx.setLineDash([5,10]);
+   ctx.beginPath();ctx.moveTo(left+242,y+178);ctx.lineTo(right-30,y+178);ctx.stroke();
+   ctx.setLineDash([]);
+   ctx.beginPath();ctx.moveTo(left+242,y+222);ctx.lineTo(right-30,y+222);ctx.stroke()
   })
  }
  if(desc.type==='study'){
@@ -285,5 +346,5 @@ async function pdfDownload(){
 }
 $('downloadPdf').onclick=pdfDownload;
 show();
-window.MathainoWorksheetPrint=Object.freeze({plan,pdfFromJpegs,gap,scrambled});
+window.MathainoWorksheetPrint=Object.freeze({plan,pdfFromJpegs,gap,matchingOrder});
 })();
