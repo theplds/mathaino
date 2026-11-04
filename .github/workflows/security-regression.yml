@@ -19,6 +19,10 @@ jobs:
         run: node scripts/intro-regression.cjs
       - name: Verify Google OAuth sign-in and account linking safeguards
         run: node scripts/google-auth-regression.cjs
+      - name: Check public Google provider availability (informational)
+        continue-on-error: true
+        run: |
+          node -e "(async()=>{const r=await fetch('https://yijpejuacjmucarqntlf.supabase.co/auth/v1/settings',{headers:{apikey:'sb_publishable_ONNT2HmZBkTVQVREZ-1IXA_V82D5-AI'}});if(!r.ok){throw Error('Auth settings status '+r.status)}const data=await r.json();console.log('Mathaino Google provider enabled:',data.external?.google===true)})().catch(e=>{console.error('Provider status unavailable:',e.message)})"
       - name: Check pinned Supabase CDN against official npm release and report SRI
         shell: bash
         run: |
