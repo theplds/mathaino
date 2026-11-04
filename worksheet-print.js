@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.61 • Print-ready A4 worksheets and downloadable offline PDFs.
+/* Μαθαίνω! v0.6.62 • Print-ready A4 worksheets and downloadable offline PDFs.
    No paid service, tracker, or server. PDF pages are print-resolution JPEGs. */
 (function(){
 'use strict';
@@ -267,7 +267,7 @@ async function pdfDownload(){
   for(let i=0;i<pages.length;i++){
    const canvas=pageCanvas(pages[i],i,pages.length,atlas);
    const uri=canvas.toDataURL('image/jpeg',.85);
-   if(!uri.startsWith('data:image/jpeg,'))throw new Error('Το πρόγραμμα δεν μπορεί να δημιουργήσει PDF στη συσκευή.');
+   if(!/^data:image\/jpeg(?:;[^,]*)?;base64,/i.test(uri))throw new Error('Το πρόγραμμα δεν μπορεί να δημιουργήσει PDF στη συσκευή.');
    const binary=atob(uri.slice(uri.indexOf(',')+1));
    const bytes=new Uint8Array(binary.length);
    for(let n=0;n<binary.length;n++)bytes[n]=binary.charCodeAt(n);
