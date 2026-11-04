@@ -1,7 +1,7 @@
-/* Μαθαίνω! v0.6.60 — original picture-based spelling practice organized
+/* Μαθαίνω! v0.6.67 — original picture-based spelling practice organized
    by the Diophantos first-grade Greek Language textbook units.
-   IMPORTANT: vocabulary themes are supplemental practice, not a reproduction
-   of the textbook's exercises or a claim that each word appears in the chapter. */
+   The first chapters now match the order of textbook letter focus. Some later
+   exercises remain clearly identified as supplemental, not textbook word lists. */
 (function(){
 'use strict';
 const source='https://www.ebooks.edu.gr/ebooks/v/html/8547/1993/Glossa_A-Dimotikou_html-empl/index.html';
@@ -17,21 +17,21 @@ const bank={
 };
 const units=[
  {number:1,title:'Πού είναι ο Άρης;',chapters:[
-   {title:'Πού είναι ο Άρης;',words:['παπί','μπάλα','ήλιος','νερό','ψάρι','σπίτι']}
+   {title:'Πού είναι ο Άρης;',focus:'Προαναγνωστική εξάσκηση · παπί',words:['παπί']}
  ]},
  {number:2,title:'Η παρέα',chapters:[
-   {title:'Αντίο, θάλασσα',words:['νερό','ψάρι','ήλιος','καράβι','παπί','ομπρέλα']},
-   {title:'Ο κύριος με το καπέλο',words:['καπέλο','πουλί','σκύλος','γάτα','σπίτι','δέντρο']}
+   {title:'Αντίο, θάλασσα',focus:'Α α',words:['παπί']},
+   {title:'Ο κύριος με το καπέλο',focus:'Κ κ',words:['καπέλο','παπί','τρένο']}
  ]},
  {number:3,title:'Μια παράσταση στην πλατεία',chapters:[
-   {title:'Μήλα και καμήλα',words:['μήλο','μπανάνα','ψωμί','γάλα','παγωτό','νερό']},
-   {title:'Γάτα και παπαγάλος',words:['γάτα','πουλί','παπί','σκύλος','ψάρι','δέντρο']}
+   {title:'Μήλα και καμήλα',focus:'Η η',words:['μήλο','παπί','καπέλο']},
+   {title:'Γάτα και παπαγάλος',focus:'Γ γ',words:['γάτα','παπί','μήλο','καπέλο']}
  ]},
  {number:4,title:'Το σύννεφο έφερε βροχή',chapters:[
-   {title:'Χωρίς φως',words:['ομπρέλα','νερό','φεγγάρι','ήλιος','δέντρο','σπίτι']}
+   {title:'Χωρίς φως',focus:'Φ φ',words:['φεγγάρι','γάτα','μήλο','καπέλο']}
  ]},
  {number:5,title:'Σκανταλιές',chapters:[
-   {title:'Ένας καινούριος μαθητής',words:['σχολείο','τσάντα','μολύβι','βιβλίο','πόρτα','ρολόι']}
+   {title:'Ένας καινούριος μαθητής',focus:'Αι αι · θεματική επανάληψη',words:['σχολείο','τσάντα','μολύβι','βιβλίο','πόρτα','ρολόι']}
  ]},
  {number:6,title:'Το χαμένο κλειδί',chapters:[
    {title:'Κοντά στο τζάκι',words:['σπίτι','πόρτα','καπέλο','βιβλίο','φεγγάρι','ρολόι']}
@@ -51,10 +51,11 @@ const units=[
 ];
 const lessons=units.flatMap(unit=>unit.chapters.map(chapter=>({
  name:'Εν. '+unit.number+' · '+chapter.title,
- description:'Συμπληρωματική θεματική ορθογραφία με δικές μας εικόνες, συνδεδεμένη με το βιβλίο.',
+ description:'Πρωτότυπη εικονογραφημένη εξάσκηση ανά ενότητα. Δεν είναι αυτούσιος κατάλογος λέξεων του βιβλίου.',
  bookUnit:unit.number,
  bookUnitTitle:unit.title,
  bookChapter:chapter.title,
+ focus:chapter.focus||'Επανάληψη / θεματικές λέξεις',
  source,
  items:chapter.words.map(w=>{
   if(!bank[w])throw new Error('Missing spelling crayon picture for '+w);
