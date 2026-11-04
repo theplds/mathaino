@@ -301,3 +301,19 @@ html[data-theme="dark"][data-workbook="on"] #testPackLesson .pack-source a,
 html[data-theme="dark"][data-workbook="on"] .pack-card-grade{color:#9cd5e9}
 html[data-theme="dark"][data-workbook="on"] #testPackLesson .pack-feedback[data-state="good"]{color:#a8e6bf}
 html[data-theme="dark"][data-workbook="on"] #testPackLesson .pack-feedback[data-state="try"]{color:#ffc69c}
+
+
+/* v0.6.74: Filled letter slots must never have pale backgrounds with white text.
+   Keep selected letters readable in dark mode and preserve distinct unused tiles. */
+html[data-theme="dark"][data-workbook="on"] #spellSlots .spell-slot.filled{
+  background:#2f6372;
+  color:#ffffff;
+  border-color:#90cbd5;
+  opacity:1;
+}
+html[data-theme="dark"][data-workbook="on"] #spellSlots .spell-slot:not(.filled){
+  background:#294656;color:#effaff;border-color:#6d98a8;
+}
+html[data-theme="dark"][data-workbook="on"] #spellSlots .spell-slot.filled:disabled{
+  opacity:1;
+}
