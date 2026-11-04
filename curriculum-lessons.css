@@ -1,0 +1,93 @@
+/* Μαθαίνω! v0.6.65 — workbook-style course catalog and complete lessons. */
+.curriculum-catalog{margin:21px 0;padding:20px;background:#fffaf0;border:1.5px solid #e7d5c2;border-radius:22px;box-shadow:0 3px 0 rgba(97,70,45,.07)}
+.curriculum-catalog[hidden]{display:none!important}
+.curriculum-catalog-top{display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px;justify-content:space-between}
+.curriculum-overline{font-size:.74rem;letter-spacing:.11em;font-weight:850;color:#936844;margin:0 0 7px;text-transform:uppercase}
+.curriculum-catalog h3{font-size:1.4rem;margin:0 0 6px;color:#47382d}
+.curriculum-catalog-top p:not(.curriculum-overline){font-size:.92rem;margin:0 0 10px;color:#756256;line-height:1.5}
+.curriculum-catalog-controls{display:flex;align-items:center;gap:9px}
+.curriculum-catalog-controls label{font-weight:750;color:#654b39}
+.curriculum-catalog-controls select{background:#fffdf9;border:1.5px solid #caae92;border-radius:10px;padding:10px 8px;color:#493b31}
+.curriculum-subject-group{margin-top:18px}
+.curriculum-subject-group h4{font-size:1.12rem;margin:10px 0;color:#4e463a}
+.curriculum-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.curriculum-lesson-card{display:flex;align-items:center;text-align:left;gap:12px;width:100%;min-width:0;padding:12px;border:1.5px solid #ddc8b4;border-radius:17px;background:#fffef9;color:#4e3f33;box-shadow:0 2px 0 #92765312;cursor:pointer;min-height:120px}
+.curriculum-lesson-card:hover{background:#fff6e7;border-color:#be9471}
+.curriculum-lesson-card:focus-visible{outline:3px solid #39866d;outline-offset:3px}
+.curriculum-lesson-copy{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;font-size:.91rem;line-height:1.35}
+.curriculum-lesson-copy strong{font-weight:800;font-size:1.05rem;color:#3c342b;line-height:1.28}
+.curriculum-lesson-unit{font-size:.76rem;font-weight:720;color:#946949}
+.curriculum-lesson-detail{font-size:.85rem;color:#675a50}
+.curriculum-lesson-meta{font-size:.75rem;color:#8a7b6d;margin-top:5px}
+.curriculum-art{width:85px;height:85px;flex:none;border-radius:16px;background:#faf0de;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.curriculum-art svg{width:100%;height:100%;display:block}
+.curriculum-art-fallback{font-size:2rem;color:#a27556}
+.curriculum-empty{margin:18px 0 7px;color:#756457;font-size:.95rem}
+#curriculumLesson{max-width:900px;margin:18px auto;padding:clamp(15px,3.5vw,32px);border:1.5px solid #e1cebc;border-radius:24px;background:#fffaf1;box-shadow:0 5px 20px #49311b0d}
+#curriculumLesson.hidden{display:none!important}
+.curriculum-lesson-top{display:flex;align-items:flex-start;gap:16px}
+.curriculum-back{flex:none;background:#faf1e5;color:#624b3b;border:1.5px solid #cdb49b;min-height:44px;padding:10px 12px}
+.curriculum-heading{min-width:0}
+.curriculum-heading h2{font-size:clamp(1.5rem,4vw,2rem);line-height:1.25;color:#43362e;margin:0 0 6px}
+.curriculum-book-unit{margin:0;color:#8c6a54;font-size:.93rem;line-height:1.45}
+.curriculum-tools{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}
+.curriculum-print,.curriculum-book-link{display:inline-flex;align-items:center;justify-content:center;padding:10px 13px;min-height:44px;border-radius:11px;text-decoration:none;font-size:.9rem;font-weight:730;background:#eee2d3;border:1.5px solid #c6a78a;color:#594335}
+.curriculum-book-link{background:#fbf5ea}
+.curriculum-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0 20px}
+.curriculum-tab{padding:10px 8px;min-height:49px;border:1.5px solid #cfb9a2;background:#fffefa;border-radius:12px;color:#6d5644;font-weight:750;font-size:.88rem;line-height:1.22}
+.curriculum-tab.active{background:#e6efe8;color:#206347;border:2px solid #579d79}
+.curriculum-body{min-height:215px}
+.curriculum-objectives{background:#f2f8f1;border:1px solid #d1e5d4;border-radius:14px;padding:13px 16px;margin:0 0 17px}
+.curriculum-objectives h3{margin:0 0 8px;color:#2b674c;font-size:1.05rem}
+.curriculum-objectives ul{margin:0;padding:0 0 0 21px;color:#3f624d;line-height:1.6}
+.curriculum-study-card{display:flex;align-items:flex-start;gap:14px;border:1px solid #e1d1c0;background:#fffcf5;border-radius:16px;padding:16px;margin:12px 0}
+.curriculum-study-card .curriculum-art{width:90px;height:90px}
+.curriculum-study-copy{flex:1;min-width:0}
+.curriculum-study-copy h3{font-size:1.1rem;color:#4a3a2d;margin:0 0 7px}
+.curriculum-study-copy p{color:#5e5046;font-size:1.02rem;line-height:1.75;margin:0}
+.curriculum-study-note{font-size:.82rem;color:#857466;line-height:1.55;margin:16px 0}
+.curriculum-start{font-weight:800;min-height:48px;padding:12px 17px}
+.curriculum-progress{color:#7a6655;font-size:.91rem;font-weight:750;display:grid;gap:8px;margin:0 0 19px}
+.curriculum-progress-track{height:11px;border-radius:12px;border:1px solid #b5d6c0;background:#e6f1e7;overflow:hidden}
+.curriculum-progress-fill{display:block;height:100%;width:0;background:#56a77e;transition:width .18s}
+.curriculum-question-card{padding:clamp(13px,3vw,23px);border:1.5px solid #dfc9b2;border-radius:18px;background:#fffef9}
+.curriculum-question-title{font-size:clamp(1.1rem,2.8vw,1.36rem);line-height:1.48;color:#44392e;margin:3px 0 18px}
+.curriculum-options{display:grid;gap:10px}
+.curriculum-choice{width:100%;text-align:left;background:#faf6ee;color:#514233;border:1.7px solid #d3bba5;border-radius:13px;padding:13px 15px;font-size:1rem;line-height:1.5;min-height:52px}
+.curriculum-choice:hover:not(:disabled){background:#f6e9d5;border-color:#a97c5c}
+.curriculum-choice.correct{background:#e0f4e7!important;border-color:#48a26f!important;color:#23573a!important}
+.curriculum-choice.incorrect{background:#f7e4e1!important;border-color:#c77e72!important;color:#7f403a!important}
+.curriculum-choice:disabled{cursor:default}
+.curriculum-feedback{min-height:1rem;font-weight:650;font-size:.95rem;line-height:1.5;margin:13px 0}
+.curriculum-feedback.good{color:#216440}
+.curriculum-feedback.try{color:#8b513e}
+.curriculum-answer-actions,.curriculum-finish-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.curriculum-skip,.curriculum-retry,.curriculum-repeat,.curriculum-return{background:#f4eee7!important;border:1.5px solid #cdbca9!important;color:#594c40!important;min-height:44px;padding:10px 15px;font-weight:730;border-radius:12px}
+.curriculum-next{min-height:44px;padding:10px 15px;font-weight:780}
+.curriculum-next[hidden],.curriculum-skip[hidden]{display:none!important}
+.curriculum-finish-title{font-size:1.4rem;color:#366b4b;margin:6px 0 12px}
+.curriculum-finish-summary{font-size:1.04rem;color:#604f42;line-height:1.7}
+#curriculumLesson button:focus-visible,#curriculumLesson a:focus-visible{outline:3px solid #448b70;outline-offset:3px}
+html[data-theme="dark"] .curriculum-catalog,html[data-theme="dark"] #curriculumLesson{background:#272b30;border-color:#655749;color:#ece3d7}
+html[data-theme="dark"] .curriculum-catalog h3,html[data-theme="dark"] .curriculum-lesson-copy strong,html[data-theme="dark"] .curriculum-heading h2{color:#f0e4d5}
+html[data-theme="dark"] .curriculum-catalog-top p:not(.curriculum-overline),html[data-theme="dark"] .curriculum-book-unit,html[data-theme="dark"] .curriculum-lesson-detail{color:#ddc8b3}
+html[data-theme="dark"] .curriculum-lesson-card,html[data-theme="dark"] .curriculum-study-card,html[data-theme="dark"] .curriculum-question-card{background:#33383d;border-color:#736453;color:#f0e4d6}
+html[data-theme="dark"] .curriculum-study-copy h3,html[data-theme="dark"] .curriculum-question-title,html[data-theme="dark"] .curriculum-study-copy p{color:#f0e4d6}
+html[data-theme="dark"] .curriculum-objectives{background:#304438;border-color:#4f8463}
+html[data-theme="dark"] .curriculum-objectives h3,html[data-theme="dark"] .curriculum-objectives ul{color:#d4eed9}
+html[data-theme="dark"] .curriculum-choice{background:#394046;color:#f0e4d6;border-color:#7c705f}
+html[data-theme="dark"] .curriculum-choice:hover:not(:disabled){background:#4c4b44}
+html[data-theme="dark"] .curriculum-tab{background:#383b3e;color:#e6d7c9;border-color:#766656}
+html[data-theme="dark"] .curriculum-tab.active{background:#345641;color:#dff5e6;border-color:#75be94}
+html[data-theme="dark"] .curriculum-lesson-meta{color:#c2ae9d}
+html[data-theme="dark"] .curriculum-finish-summary{color:#e4d6c6}
+@media(max-width:680px){
+ .curriculum-card-grid{grid-template-columns:1fr}
+ .curriculum-art{width:72px;height:72px}
+ .curriculum-lesson-card{min-height:105px}
+ .curriculum-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .curriculum-lesson-top{flex-direction:column;gap:12px}
+ .curriculum-study-card .curriculum-art{width:66px;height:66px}
+ .curriculum-study-card{padding:13px;gap:10px}
+ .curriculum-catalog{padding:14px}
+}
