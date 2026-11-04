@@ -1,0 +1,35 @@
+/* Μαθαίνω! v0.6.61 — consistent printable worksheet export controls. */
+#spellPrint,.worksheet-export-button,#exportLesson,.pack-print-button{
+ display:inline-flex;align-items:center;justify-content:center;
+ gap:7px;min-height:44px;
+ padding:10px 13px;
+ background:#f9ecdb;color:#694f3a;border:1.7px solid #cfad8e;
+ border-radius:13px;
+ font-size:.91rem;font-weight:750;
+ box-shadow:1px 2px 0 rgba(92,62,36,.08);
+ cursor:pointer;
+}
+#spellPrint:hover,.worksheet-export-button:hover,#exportLesson:hover,.pack-print-button:hover{
+ background:#f3ddc5;border-color:#ab815f;
+}
+#spellPrint:focus-visible,.worksheet-export-button:focus-visible,
+#exportLesson:focus-visible,.pack-print-button:focus-visible{
+ outline:3px solid #377c62;outline-offset:3px;
+}
+#exportLesson[hidden]{display:none!important}
+#spellPrint[disabled],.worksheet-export-button[disabled],#exportLesson[disabled]{opacity:.6}
+html[data-theme="dark"] #spellPrint,
+html[data-theme="dark"] .worksheet-export-button,
+html[data-theme="dark"] #exportLesson,
+html[data-theme="dark"] .pack-print-button{
+ background:#40352e;color:#f5e5d1;border-color:#977758;
+}
+html[data-theme="dark"] #spellPrint:hover,
+html[data-theme="dark"] .worksheet-export-button:hover,
+html[data-theme="dark"] #exportLesson:hover,
+html[data-theme="dark"] .pack-print-button:hover{background:#514032}
+@media(max-width:540px){
+ #spellPrint{flex:1 1 100%;width:100%}
+ #grade5Export,#historyExport{margin:8px 0}
+ #testPackLesson .pack-print-button{flex:1 1 140px}
+}
