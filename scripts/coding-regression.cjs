@@ -81,7 +81,7 @@ test('no data calls, tracking, or in-app login bypass',()=>{
  assert.ok(ui.includes("id!=='codingLesson'||!ready"),'must not bypass existing auth gating');
  assert.ok(ui.includes('previousChoose(index)'));
  assert.ok(ui.includes('if(!document.querySelector'), 'child fallback should not bypass welcome gate');
- assert.ok(ui.includes('sub=\\'coding\\'')||ui.includes("sub='coding'"));
+ assert.ok(ui.includes("sub='coding'"));
 });
 test('touch navigation, visible actions, dark appearance, offline assets',()=>{
  for(const t of ['codingRun','codingStep','codingStop','codingReset','codingNext','codingBack','codingHint','codingUndo','codingClear']){
