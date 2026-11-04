@@ -48,6 +48,7 @@ stage.id='curriculumLesson';
 lessonAnchor.parentNode.insertBefore(stage,lessonAnchor);
 const state={lesson:null,mode:'study',index:0,queue:[],skipped:[],tries:0,solved:false,firstCorrect:0,round:0};
 const banks={quiz:'Καταλαβαίνω',practice:'Εξασκούμαι',review:'Επαναλαμβάνω'};
+const normalizeWritten=x=>String(x||'').normalize('NFD').replace(/\u0301/g,'').normalize('NFC').trim().replace(/\s+/g,' ').toLocaleLowerCase('el-GR');
 function profile(){return child>=0?profiles?.[child]||null:null}
 function gradeOf(p){
  const raw=String(p?.grade||'');
@@ -187,7 +188,7 @@ function recordAnswer(q,choice,correct){
    subject:state.lesson.subject,
    topic:state.lesson.unit+' · '+state.lesson.title+' · '+banks[state.mode],
    question:q[0],selected_answer:String(choice).slice(0,100),
-   correct_answer:q[1][q[2]],is_correct:correct,attempt_number:state.tries};
+   correct_answer:q[1].length?q[1][q[2]]:q[2],is_correct:correct,attempt_number:state.tries};
   db.from('answer_events').insert(attempt).then(({error})=>{
    if(error)console.warn('Curriculum answer not saved:',error.message)
   }).catch(e=>console.warn('Curriculum answer not saved:',e?.message))
@@ -241,6 +242,40 @@ function quiz(body){
  const next=action(state.index===state.queue.length-1?'Ολοκλήρωση →':'Επόμενη →',advance,'primary mathaino-completion curriculum-next');
  next.hidden=true;
  buttons.append(next,skip);
+ if(!q[1].length){
+  const prompt=el('div','curriculum-written');
+  const label=el('label','','Γράψε την απάντησή σου');
+  label.htmlFor='curriculumWrittenAnswer';
+  const input=el('input','curriculum-written-input');
+  input.type='text';input.id='curriculumWrittenAnswer';
+  input.setAttribute('autocomplete','off');
+  input.setAttribute('autocorrect','off');
+  input.setAttribute('spellcheck','false');
+  input.setAttribute('aria-label','Γράψε την απάντηση');
+  if(state.lesson.subject==='reading'||state.lesson.subject==='history'||state.lesson.subject==='history5'||state.lesson.subject==='science5')input.lang='el';
+  const check=action('Έλεγχος',()=>{
+   if(state.solved||!input.value.trim())return;
+   state.tries++;
+   const good=normalizeWritten(input.value)===normalizeWritten(q[2]);
+   recordAnswer(q,input.value,good);
+   if(good){
+    state.solved=true;input.disabled=true;check.disabled=true;
+    feedback.className='curriculum-feedback good';
+    feedback.textContent='Σωστά! '+q[3];
+    next.hidden=false;skip.hidden=true;
+    fill.style.width=((state.index+1)/state.queue.length*100)+'%'
+   }else{
+    feedback.className='curriculum-feedback try';
+    feedback.textContent='Δεν είναι ακόμη σωστό. Προσπάθησε ξανά ή πάτησε Παράλειψη.'
+   }
+  },'curriculum-written-check');
+  check.disabled=true;
+  input.addEventListener('input',()=>{check.disabled=!input.value.trim()||state.solved});
+  input.addEventListener('keydown',e=>{
+   if(e.key==='Enter'){e.preventDefault();if(!check.disabled)check.onclick()}
+  });
+  prompt.append(label,input,check);options.append(prompt)
+ }else{
  const permutation=shuffled([0,1,2]);
  permutation.forEach(k=>{
   const b=action(q[1][k],()=>{
@@ -264,6 +299,7 @@ function quiz(body){
   },'curriculum-choice');
   options.append(b)
  });
+ }
  card.append(feedback,buttons);body.append(card)
 }
 function render(){
@@ -283,7 +319,7 @@ function exportLesson(){
   kind:'quiz',title:l.title,subtitle:l.unit+' · '+desc[tab],
   grade:l.grade+' Δημοτικού',subject:l.subject,
   pages:l.pages.map(([title,text])=>({title,text})),
-  questions:questions.map(([q,options,correct])=>({q,options,correct,answer:options[correct]}))
+  questions:questions.map(([q,options,correct])=>({q,options:options.length?options:undefined,correct:options.length?correct:undefined,answer:options.length?options[correct]:correct}))
  })
 }
 const oldViewAll=viewAll;
@@ -300,7 +336,7 @@ chooseChild=function(index){
 };
 refreshHome();
 window.MathainoCurriculumLibrary=Object.freeze({
- version:'0.6.65',
+ version:'0.6.66',
  count:library.length,
  lessons:library.map(l=>({id:l.id,title:l.title,grade:l.grade,subject:l.subject,
    pages:l.pages.length,questionCount:l.quiz.length+l.practice.length+l.review.length})),
