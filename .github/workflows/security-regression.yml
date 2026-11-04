@@ -24,11 +24,12 @@ jobs:
           mkdir -p /tmp/mathaino-sdk && cd /tmp/mathaino-sdk
           npm pack --silent "$PACKAGE" > tarball_name.txt
           tar -xzf "$(cat tarball_name.txt)"
-          echo 'Package files matching supabase / UMD:'
-          find package -type f | grep -E 'umd|supabase(\.min)?\.js' | head -25 || true
+          # npm ships original UMD; jsDelivr generates its minified variant.
+          test -f package/dist/umd/supabase.js
+          curl --fail --location --silent --show-error --max-time 30 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.10/dist/umd/supabase.js" -o cdn-original.js
+          cmp package/dist/umd/supabase.js cdn-original.js
           curl --fail --location --silent --show-error --max-time 30 "$CDN" -o cdn.js
-          echo "CDN bytes: $(wc -c < cdn.js)"
-          if test -f package/dist/umd/supabase.min.js; then cmp package/dist/umd/supabase.min.js cdn.js; else echo 'No prebuilt UMD minified file in npm archive'; exit 1; fi
+          test "$(wc -c < cdn.js)" -gt 80000
           printf 'Verified SRI: sha384-'
           openssl dgst -sha384 -binary cdn.js | openssl base64 -A
           printf '\n'
