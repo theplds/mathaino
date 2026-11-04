@@ -77,6 +77,7 @@ function sync(){
  if(skip.disabled!==!showSkip)skip.disabled=!showSkip;
  if(next.disabled!==!showNext)next.disabled=!showNext;
  if(dock.hidden)dock.hidden=false;
+ dock.classList.toggle('mathaino-unsolved',!showNext);
  document.body.classList.add('mathaino-action-dock-active');
  updateViewport()
 }
