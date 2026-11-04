@@ -1,9 +1,9 @@
-/* Μαθαίνω! v0.6.57 — μικτές ασκήσεις ορθογραφίας Α΄ Δημοτικού, χωρίς βαθμολόγηση τόνου.
+/* Μαθαίνω! v0.6.60 — μικτές ασκήσεις ορθογραφίας Α΄ Δημοτικού, χωρίς βαθμολόγηση τόνου.
    Κάθε συνεδρία συνδυάζει αυτόματα γράμματα, κενά και πλήρη γραφή, χωρίς βαθμούς ή χρονόμετρο. */
 (function(){
 'use strict';
 const $s=id=>document.getElementById(id);
-const lessons=[
+const freeLessons=[
  {name:'Οι πρώτες λέξεις',description:'Μικρές, καθημερινές λέξεις με εικόνες.',items:[
   ['παπί','duck',2],['γάτα','cat',1],['μήλο','apple',0],['νερό','water',1],['γάλα','milk',2],['ήλιος','sun',0]]},
  {name:'Συχνές λέξεις',description:'Μαθαίνω να γράφω γνωστές λέξεις με εικόνες.',items:[
@@ -13,6 +13,9 @@ const lessons=[
  {name:'Στο σχολείο',description:'Οκτώ νέες λέξεις με ενιαίες ζεστές εικόνες.',items:[
   ['σχολείο','school',3],['τσάντα','backpack',2],['μολύβι','pencil',4],['πόρτα','door',2],['ρολόι','clock',3],['παγωτό','icecream',3],['φεγγάρι','moon',2],['ομπρέλα','umbrella',4]]}
 ];
+const bookLessons=window.MathainoBookSpelling?.lessons||[];
+// Keep existing indexes (0–3) stable for links from the seven-lesson test pack.
+const lessons=[...freeLessons,...bookLessons];
 const modes=[
  {id:'tiles',title:'Βάζω γράμματα',description:'Βάλε τα γράμματα στη σειρά.'},
  {id:'missing',title:'Συμπληρώνω',description:'Λείπει ένα γράμμα. Διάλεξε ποιο ταιριάζει.'},
@@ -77,11 +80,20 @@ function makeOptions(word){
 }
 function getGroup(){
  const selected=$s('spellGroup').value;
- return selected==='all'?lessons.flatMap(g=>g.items.map(item=>({text:item[0],picture:item[1],blank:item[2],group:g.name}))):
-  (lessons[Number(selected)]||lessons[0]).items.map(item=>({text:item[0],picture:item[1],blank:item[2],group:lessons[Number(selected)]?.name||lessons[0].name}))
+ if(selected==='all'||selected==='book:all'){
+  const source=selected==='all'?lessons:bookLessons;
+  const distinct=new Map();
+  for(const group of source)for(const item of group.items){
+   if(!distinct.has(item[0]))distinct.set(item[0],{text:item[0],picture:item[1],blank:item[2],group:group.name});
+  }
+  return [...distinct.values()]
+ }
+ const group=lessons[Number(selected)]||lessons[0];
+ return group.items.map(item=>({text:item[0],picture:item[1],blank:item[2],group:group.name}))
 }
 function startSession(){
  state.group=$s('spellGroup').value;
+ updateBookNote();
  state.items=shuffled(getGroup());
  if(state.group==='all')state.items=state.items.slice(0,12);
  state.modePlan=makeModePlan(state.items.length);
@@ -235,9 +247,42 @@ function openSpelling(){
  viewAll('spellingLesson')
 }
 function fillUnits(){
- $s('spellGroup').replaceChildren(...[{value:'all',label:'Λίγο από όλα'},...lessons.map((g,i)=>({value:String(i),label:g.name}))].map(o=>{
-  const el=document.createElement('option');el.value=o.value;el.textContent=o.label;return el
- }));
+ fillLessonOptions($s('spellGroup'));
+}
+function fillLessonOptions(select){
+ select.replaceChildren();
+ function option(value,label,parent){
+  const el=document.createElement('option');el.value=value;el.textContent=label;(parent||select).append(el)
+ }
+ option('all','Λίγο από όλα · όλα τα θέματα');
+ const free=document.createElement('optgroup');free.label='Ελεύθερη εξάσκηση';
+ freeLessons.forEach((group,i)=>option(String(i),group.name,free));select.append(free);
+ if(!bookLessons.length)return;
+ option('book:all','Επανάληψη από όλες τις ενότητες του βιβλίου');
+ for(const unit of window.MathainoBookSpelling.units){
+  const g=document.createElement('optgroup');g.label='Ενότητα '+unit.number+' · '+unit.title;
+  bookLessons.forEach((lesson,i)=>{
+   if(lesson.bookUnit===unit.number)option(String(freeLessons.length+i),lesson.bookChapter,g)
+  });
+  select.append(g)
+ }
+}
+function updateBookNote(){
+ const note=$s('spellBookNote');if(!note)return;
+ const selected=$s('spellGroup').value;
+ const lesson=lessons[Number(selected)];
+ const isBook=selected==='book:all'||!!lesson?.bookUnit;
+ note.hidden=!isBook;
+ if(!isBook)return;
+ const title=selected==='book:all'?'Επαναληπτική εξάσκηση σε ενότητες του βιβλίου':
+   'Βιβλίο Α΄ Δημοτικού · Ενότητα '+lesson.bookUnit+' — '+lesson.bookUnitTitle;
+ note.replaceChildren();
+ const titleNode=document.createElement('strong');titleNode.textContent=title;
+ const explanation=document.createElement('span');
+ explanation.textContent=' · Πρωτότυπες θεματικές ασκήσεις — όχι αντιγραφή των ασκήσεων του βιβλίου. ';
+ const link=document.createElement('a');link.href=window.MathainoBookSpelling.source;
+ link.textContent='Άνοιξε το σχολικό βιβλίο';link.target='_blank';link.rel='noopener noreferrer';
+ note.append(titleNode,explanation,link);
 }
 fillUnits();
 $s('spellBack').onclick=()=>viewAll('home');
@@ -289,9 +334,7 @@ chooseChild=function(index){
 const oldTopics=topics;
 topics=function(){
  if(sub!=='spelling'){$s('practice').hidden=false;oldTopics();return}
- $s('topic').replaceChildren(...[{name:'Λίγο από όλα',value:'all'},...lessons.map((g,i)=>({name:g.name,value:String(i)}))].map(g=>{
-  const o=document.createElement('option');o.value=g.value;o.textContent=g.name;return o
- }));
+ fillLessonOptions($s('topic'));
  refreshSubjectPanel();
  $s('selectedSubjectDescription').textContent='Γράμματα και λέξεις. Γράφω με τα δικά μου χέρια.';
  $s('countGroup').hidden=true;
@@ -306,5 +349,10 @@ if(subjectButton){
  subjectButton.innerHTML='<span class="subject-illustration" aria-hidden="true"><svg viewBox="0 0 360 210" role="img" xmlns="http://www.w3.org/2000/svg"><rect width="360" height="210" rx="24" fill="#eaf3ee"/><path d="M97 33q-8 1-8 10v129q0 8 9 8h167q9 0 9-9V43q0-10-11-10Z" fill="#fdfbf2" stroke="#3c6a79" stroke-width="4"/><path d="M115 70q56-5 130 0M115 98q53-4 130 0M115 128q56-4 130 0M115 155q49-3 112 0" stroke="#b4d5d7" stroke-width="2" stroke-linecap="round"/><text x="130" y="120" font-size="43" font-weight="780" fill="#396c78" font-family="system-ui,sans-serif">Α α</text><path d="m217 148 47-70 17 12-47 70-26 15Z" fill="#edc37e" stroke="#416876" stroke-width="4" stroke-linejoin="round"/><path d="m208 175 26-15-15-11Z" fill="#fff7e9" stroke="#416876" stroke-width="3"/></svg></span><span class="subject-title">Ορθογραφία Α΄</span><span class="subject-desc">Γράφω λέξεις και συμπληρώνω γράμματα</span>';
  subjectButton.setAttribute('aria-label','Ορθογραφία Α΄ Δημοτικού');
 }
-window.MathainoSpelling=Object.freeze({wordCount:lessons.reduce((n,g)=>n+g.items.length,0),groups:lessons.map(g=>g.name),modes:modes.map(m=>m.id),normalize,noAccent});
+window.MathainoSpelling=Object.freeze({
+ wordCount:lessons.reduce((n,g)=>n+g.items.length,0),
+ bookChapters:bookLessons.length,
+ bookUnits:window.MathainoBookSpelling?.units.length||0,
+ groups:lessons.map(g=>g.name),modes:modes.map(m=>m.id),normalize,noAccent
+});
 })();
