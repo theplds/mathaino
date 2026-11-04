@@ -759,7 +759,8 @@ quiz:[
 {q:'Τι συνέβη με τους χώρους λατρείας στη νέα πρωτεύουσα;',options:['Διατηρήθηκαν παλαιοί ναοί και χτίστηκαν νέοι χριστιανικοί','Καταργήθηκαν όλοι οι ναοί','Χτίστηκαν μόνο δημόσια λουτρά'],a:0,why:'Σύμφωνα με το σχολικό βιβλίο, διατηρήθηκαν ναοί της παλιάς θρησκείας και ανεγέρθηκαν χριστιανικοί ναοί.'},
 {q:'Από πού μεταφέρθηκαν έργα τέχνης για την Κωνσταντινούπολη;',options:['Από τη Ρώμη και άλλα μέρη της αυτοκρατορίας','Μόνο από τη θάλασσα','Αποκλειστικά από την Κωνσταντινούπολη'],a:0,why:'Έφεραν έργα τέχνης από άλλες περιοχές για να στολίσουν την αγορά, τις πλατείες και δημόσιους χώρους.'}
 ]}};
-let grade5Subject='science5',grade5Mode='study',grade5QuizIndex=0,grade5Answered=false,grade5Attempts=0;
+let grade5Subject='science5',grade5Mode='study',grade5QuizIndex=0,grade5Answered=false,grade5Attempts=0,grade5Queue=[],grade5Skipped=[];
+function resetGrade5Quiz(){grade5Queue=grade5Lessons[grade5Subject].quiz.map((_,i)=>i);grade5Skipped=[];grade5QuizIndex=0;}
 let grade5CityBuilt=new Set(),grade5EnergyIndex=0,grade5EnergySolved=new Set();
 const grade5EnergyCases=[
 {art:'bread',name:'Το πρωινό σου',scene:'Ένα κομμάτι ψωμί περιέχει ενέργεια που μπορεί να αξιοποιήσει ο οργανισμός μας.',answer:'Χημική',why:'Η τροφή περιέχει χημική ενέργεια. Το σώμα μας την αξιοποιεί για τις λειτουργίες του.'},
@@ -776,7 +777,7 @@ const grade5EnergyTypes=['Χημική','Ηλεκτρική','Πυρηνική',
 function grade5Button(label,fn,cls=''){const b=document.createElement('button');b.type='button';b.textContent=label;if(cls)b.className=cls;b.onclick=fn;return b}
 function grade5Panel(title,content){const div=document.createElement('div');div.className='g5-panel';div.innerHTML='<h3>'+title+'</h3>'+content;return div}
 function grade5SetMode(mode){grade5Mode=mode;[['study','grade5Study'],['explore','grade5Explore'],['quiz','grade5Questions']].forEach(([m,id])=>$(id).classList.toggle('primary',mode===m));grade5Render()}
-function grade5Open(subject,mode){grade5Subject=subject;grade5QuizIndex=0;grade5CityBuilt=new Set();grade5EnergyIndex=0;grade5EnergySolved=new Set();$('grade5Subtitle').textContent=grade5Lessons[subject].label;$('grade5Title').textContent=grade5Lessons[subject].title;$('grade5HistoryHero').classList.toggle('hidden',subject!=='history5');if(subject==='history5')$('grade5HistoryHero').innerHTML=window.MathainoIllustrations?.subject('history5')||'';grade5Mode=mode==='practice'?'quiz':'study';viewAll('grade5Lesson');grade5SetMode(grade5Mode)}
+function grade5Open(subject,mode){grade5Subject=subject;resetGrade5Quiz();grade5CityBuilt=new Set();grade5EnergyIndex=0;grade5EnergySolved=new Set();$('grade5Subtitle').textContent=grade5Lessons[subject].label;$('grade5Title').textContent=grade5Lessons[subject].title;$('grade5HistoryHero').classList.toggle('hidden',subject!=='history5');if(subject==='history5')$('grade5HistoryHero').innerHTML=window.MathainoIllustrations?.subject('history5')||'';grade5Mode=mode==='practice'?'quiz':'study';viewAll('grade5Lesson');grade5SetMode(grade5Mode)}
 function grade5Source(){return '<p class="g5-small">Σχολικό βιβλίο: <a target="_blank" rel="noopener noreferrer" href="'+grade5Lessons[grade5Subject].source+'">Άνοιξε τις αντίστοιχες σελίδες</a>. Το περιεχόμενο εδώ είναι πρωτότυπη απλοποιημένη εξήγηση.</p>'}
 function energyDraw(key,compact=false){return window.MathainoArt?window.MathainoArt.draw(key,compact):''}
 function grade5EnergyFormCards(){return [
@@ -812,7 +813,7 @@ const body=$('grade5Body');body.replaceChildren();const total=grade5EnergyCases.
 if(grade5EnergyIndex>=total){
 body.innerHTML='<div class="g5-panel"><h3>Αποστολή ολοκληρώθηκε!</h3><p>Αναγνώρισες τις μορφές ενέργειας σε καθημερινά παραδείγματα, όπως ακριβώς ζητά το ΦΕ1.</p><p><strong>Θυμάσαι τα επτά ονόματα;</strong> Χημική, ηλεκτρική, πυρηνική, θερμότητα, κινητική, δυναμική, φωτεινή.</p></div>';
 body.append(grade5Button('↺ Παίξε ξανά',()=>{grade5EnergyIndex=0;grade5EnergySolved=new Set();grade5RenderEnergyLab()},'primary'));
-body.append(grade5Button('Ερωτήσεις επανάληψης',()=>{grade5QuizIndex=0;grade5SetMode('quiz')}));return}
+body.append(grade5Button('Ερωτήσεις επανάληψης',()=>{resetGrade5Quiz();grade5SetMode('quiz')}));return}
 const item=grade5EnergyCases[grade5EnergyIndex];
 const heading=document.createElement('div');heading.className='g5-energy-scene';heading.innerHTML='<div class="g5-energy-art">'+energyDraw(item.art)+'</div><p class="g5-small">ΑΠΟΣΤΟΛΗ '+(grade5EnergyIndex+1)+' ΑΠΟ '+total+'</p><h3>'+item.name+'</h3><p>'+item.scene+'</p>';
 const progress=document.createElement('div');progress.className='g5-energy-progress';const bar=document.createElement('div');bar.style.width=Math.round(100*grade5EnergyIndex/total)+'%';progress.append(bar);
@@ -847,14 +848,58 @@ const options=[['wall','Τείχη','Τα τείχη προστάτευαν τη
 const btns=$('g5CityButtons');options.forEach(([key,label,explain,id])=>{const btn=grade5Button(label,()=>{grade5CityBuilt.add(key);$(id).classList.add('built');btn.classList.add('g5-built');$('g5CityFeedback').textContent=explain;if(grade5CityBuilt.size===options.length){$('g5CityFeedback').textContent+=' Ολοκλήρωσες τα σημαντικότερα έργα της νέας πρωτεύουσας!'}});btn.classList.toggle('g5-built',grade5CityBuilt.has(key));btns.append(btn);$(id).classList.toggle('built',grade5CityBuilt.has(key))});
 $('g5CityReset').onclick=()=>{grade5CityBuilt=new Set();grade5RenderCity()}}
 function grade5RecordQuiz(question,choice,attempt){if(!ready||!db||!cloudChildren[child])return;const payload={child_id:cloudChildren[child].id,subject:grade5Subject,topic:grade5Lessons[grade5Subject].title,question:question.q,selected_answer:question.options[choice],correct_answer:question.options[question.a],is_correct:choice===question.a,attempt_number:attempt};db.from('answer_events').insert(payload).then(({error})=>{if(error)console.warn('Grade 5 answer save failed:',error.message)}).catch(()=>{})}
-function grade5RenderQuiz(){const body=$('grade5Body'),items=grade5Lessons[grade5Subject].quiz;if(grade5QuizIndex>=items.length){body.innerHTML='<h3>Ολοκλήρωσες τις ερωτήσεις!</h3><p>Εδώ μπορείς να ξαναμελετήσεις ή να δοκιμάσεις άλλη φορά, χωρίς χρονόμετρο και βαθμούς.</p>';body.append(grade5Button('↺ Ξανά από την αρχή',()=>{grade5QuizIndex=0;grade5Render()},'primary'));return}
-grade5Answered=false;grade5Attempts=0;const item=items[grade5QuizIndex];const count=document.createElement('p');count.className='g5-small';count.textContent='Ερώτηση '+(grade5QuizIndex+1)+' από '+items.length;const heading=document.createElement('h3');heading.textContent=item.q;const opts=document.createElement('div'),feedback=document.createElement('p');feedback.setAttribute('role','status');body.append(count,heading,opts,feedback);
-const order=[...item.options.keys()].sort(()=>Math.random()-.5);
-order.forEach(i=>{const b=grade5Button(item.options[i],()=>{if(grade5Answered)return;grade5Attempts++;grade5RecordQuiz(item,i,grade5Attempts);if(i===item.a){grade5Answered=true;b.classList.add('good');feedback.className='g5-feedback good';feedback.textContent='Σωστά! '+item.why;opts.querySelectorAll('button').forEach(x=>x.disabled=true);body.append(grade5Button(grade5QuizIndex===items.length-1?'Ολοκλήρωση →':'Επόμενη →',()=>{grade5QuizIndex++;grade5Render() },'primary mathaino-completion'))}else{b.classList.add('bad');b.disabled=true;feedback.className='g5-feedback';feedback.textContent='Ξανασκέψου το! '+(grade5Subject==='science5'?'Θυμήσου όσα παρατήρησες στο πείραμα.':'Ξανασκέψου τα έργα της πόλης.')}});b.className='g5-choice';opts.append(b)})}
+function grade5RenderQuiz(){
+ const body=$('grade5Body'),all=grade5Lessons[grade5Subject].quiz;
+ if(!grade5Queue.length)resetGrade5Quiz();
+ if(grade5QuizIndex>=grade5Queue.length){
+  body.innerHTML='<h3>Ολοκλήρωσες τις ερωτήσεις!</h3>';
+  const text=document.createElement('p');
+  text.textContent=grade5Skipped.length?'Παρέλειψες '+grade5Skipped.length+' '+(grade5Skipped.length===1?'ερώτηση.':'ερωτήσεις.')+' Μπορείς να τις δοκιμάσεις ξανά.':'Μπορείς να ξαναμελετήσεις ή να δοκιμάσεις άλλη φορά, χωρίς βαθμούς.';
+  body.append(text);
+  if(grade5Skipped.length)body.append(grade5Button('Δοκίμασε τις παραλειμμένες ('+grade5Skipped.length+')',()=>{
+   grade5Queue=grade5Skipped.slice();grade5Skipped=[];grade5QuizIndex=0;grade5Render()
+  },'question-retry'));
+  body.append(grade5Button('↺ Ξανά από την αρχή',()=>{resetGrade5Quiz();grade5Render()},'primary'));
+  return
+ }
+ grade5Answered=false;grade5Attempts=0;
+ const item=all[grade5Queue[grade5QuizIndex]];
+ const count=document.createElement('p');count.className='g5-small';
+ count.textContent='Ερώτηση '+(grade5QuizIndex+1)+' από '+grade5Queue.length;
+ const heading=document.createElement('h3');heading.textContent=item.q;
+ const opts=document.createElement('div'),feedback=document.createElement('p');
+ feedback.setAttribute('role','status');body.append(count,heading,opts,feedback);
+ const skip=grade5Button('Παράλειψη →',()=>{
+  if(grade5Answered)return;
+  grade5Skipped.push(grade5Queue[grade5QuizIndex]);
+  grade5QuizIndex++;grade5Render()
+ },'question-skip');
+ const order=[...item.options.keys()].sort(()=>Math.random()-.5);
+ order.forEach(i=>{
+  const b=grade5Button(item.options[i],()=>{
+   if(grade5Answered)return;
+   grade5Attempts++;grade5RecordQuiz(item,i,grade5Attempts);
+   if(i===item.a){
+    grade5Answered=true;b.classList.add('good');
+    feedback.className='g5-feedback good';feedback.textContent='Σωστά! '+item.why;
+    opts.querySelectorAll('button').forEach(x=>x.disabled=true);
+    skip.hidden=true;
+    body.append(grade5Button(grade5QuizIndex===grade5Queue.length-1?'Ολοκλήρωση →':'Επόμενη →',()=>{
+     grade5QuizIndex++;grade5Render()
+    },'primary mathaino-completion'))
+   }else{
+    b.classList.add('bad');b.disabled=true;feedback.className='g5-feedback';
+    feedback.textContent='Ξανασκέψου το! '+(grade5Subject==='science5'?'Θυμήσου όσα παρατήρησες στο πείραμα.':'Ξανασκέψου τα έργα της πόλης.')
+   }
+  });
+  b.className='g5-choice';opts.append(b)
+ });
+ body.append(skip)
+}
 $('grade5Back').onclick=()=>viewAll('home');
 $('grade5Study').onclick=()=>grade5SetMode('study');
 $('grade5Explore').onclick=()=>grade5SetMode('explore');
-$('grade5Questions').onclick=()=>{grade5QuizIndex=0;grade5SetMode('quiz')};
+$('grade5Questions').onclick=()=>{resetGrade5Quiz();grade5SetMode('quiz')};
 $('historyPlay').innerHTML=lineIcon('play');
 $('historyPause').innerHTML=lineIcon('pause');
 $('historyReplay').innerHTML=lineIcon('repeat');
