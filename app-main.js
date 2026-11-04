@@ -14,7 +14,7 @@ b.querySelector('.subject-title').textContent=title;
 b.querySelector('.subject-desc').textContent=library?.descriptions[id]||'';
 b.setAttribute('aria-pressed',String(b.classList.contains('active')))
 }}
-const wordItems=[{"q":"παπί","a":"παπί","icon":"duck"},{"q":"μπάλα","a":"μπάλα","icon":"ball"},{"q":"μήλο","a":"μήλο","icon":"apple"},{"q":"γάτα","a":"γάτα","icon":"cat"},{"q":"σπίτι","a":"σπίτι","icon":"house"},{"q":"ψάρι","a":"ψάρι","icon":"fish"},{"q":"νερό","a":"νερό","icon":"water"},{"q":"ήλιος","a":"ήλιος","icon":"sun"},{"q":"σκύλος","a":"σκύλος","icon":"dog"},{"q":"πουλί","a":"πουλί","icon":"bird"},{"q":"βιβλίο","a":"βιβλίο","icon":"book"},{"q":"δέντρο","a":"δέντρο","icon":"tree"},{"q":"ψωμί","a":"ψωμί","icon":"bread"},{"q":"γάλα","a":"γάλα","icon":"milk"},{"q":"καπέλο","a":"καπέλο","icon":"hat"},{"q":"αμάξι","a":"αμάξι","icon":"car"},{"q":"τρένο","a":"τρένο","icon":"train"},{"q":"καράβι","a":"καράβι","icon":"ship"},{"q":"λουλούδι","a":"λουλούδι","icon":"flower"},{"q":"μπανάνα","a":"μπανάνα","icon":"banana"}];
+const wordItems=window.MathainoIntro.wordItems;
 const defaults=Array.from({length:3},(_,i)=>({name:'Παιδί '+(i+1),icon:'star',age:null,grade:'Α΄ Δημοτικού',allowed:[],tables:''}));
 let profiles=defaults;try{localStorage.removeItem('mathaino-profiles-v04')}catch(e){}
 let child=-1,editing=0,gatePicture=null;
@@ -52,7 +52,8 @@ card.append(zone);return card
 // Gentle entrance for early readers: day only, then one clear image.
 let simpleWelcome=false;
 function isEarlyReader(p){
-return String(p.grade||'').trim().startsWith('Β')||((p.allowed||[]).includes('reading')&&!(p.allowed||[]).includes('math'))
+const level=window.MathainoIntro.levelOf(p);
+return level===1||(level===2&&(!!p.reading||!!p.focus||((p.allowed||[]).includes('reading')&&!(p.allowed||[]).includes('addition'))))
 }
 function weekdayInGreek(){
 try{
@@ -60,41 +61,7 @@ const day=new Intl.DateTimeFormat('el-GR',{weekday:'long',timeZone:'Europe/Athen
 return day.charAt(0).toLocaleUpperCase('el-GR')+day.slice(1)
 }catch(error){return ['Κυριακή','Δευτέρα','Τρίτη','Τετάρτη','Πέμπτη','Παρασκευή','Σάββατο'][new Date().getDay()]}
 }
-// 20 word pictures: 8 foundation, 8 familiar additions, then 4 gentle next-step words.
-// Keep the first eight welcomes within the easier group; later include advanced items occasionally.
-const simplePictureWords=wordItems.filter(x=>window.MathainoIllustrations?.wordIds.includes(x.icon));
-const welcomeNextStepIds=new Set(['train','ship','flower','banana']);
-const introHistoryFallback=new Map();
-function introHistoryKey(index){
-const profile=profiles[index]||{};
-const cloud=typeof cloudChildren!=='undefined'?cloudChildren[index]:null;
-return 'mathaino-intro-20-v1:'+(cloud?.id||String(index)+'-'+String(profile.name||''));
-}
-function readIntroHistory(index){
-const key=introHistoryKey(index);
-let data=introHistoryFallback.get(key)||{shown:0,recent:[]};
-try{const stored=JSON.parse(localStorage.getItem(key)||'null');if(stored&&typeof stored==='object')data=stored}catch(e){}
-return {shown:Number.isInteger(data.shown)&&data.shown>=0?data.shown:0,
-recent:Array.isArray(data.recent)?data.recent.filter(x=>typeof x==='string').slice(-5):[]}
-}
-function nextIntroPicture(index){
-const history=readIntroHistory(index);
-const regular=simplePictureWords.filter(x=>!welcomeNextStepIds.has(x.icon));
-const bank=history.shown<8?regular:simplePictureWords;
-const available=bank.filter(x=>!history.recent.includes(x.icon));
-const possible=available.length?available:bank;
-const easy=possible.filter(x=>!welcomeNextStepIds.has(x.icon));
-const nextStep=possible.filter(x=>welcomeNextStepIds.has(x.icon));
-const useNextStep=history.shown>=8&&nextStep.length>0&&Math.random()<0.15;
-const candidates=useNextStep?nextStep:easy.length?easy:possible;
-const picture=candidates[Math.floor(Math.random()*candidates.length)];
-if(!picture)return null;
-const key=introHistoryKey(index);
-const updated={shown:history.shown+1,recent:[...history.recent,picture.icon].slice(-5)};
-introHistoryFallback.set(key,updated);
-try{localStorage.setItem(key,JSON.stringify(updated))}catch(e){}
-return picture
-}
+// Grade-aware, no-repeat introduction banks live in intro-questions.js.
 function chooseChild(j){
 child=j;const p=profiles[j];
 document.body.classList.toggle('reading-mode',!!p.reading);
@@ -111,7 +78,7 @@ $('gateAnswers').replaceChildren();
 $('gateNext').classList.toggle('hidden',!simpleWelcome);
 $('gateNext').textContent=simpleWelcome?'Εντάξει!':'Συνέχεια';
 if(simpleWelcome){$('gateWord').textContent=weekdayInGreek();viewAll('gate');return}
-const item={q:'Πόσο κάνει 4 × 3;',a:'12',options:['12','7','16','14']};
+const item=window.MathainoIntro.nextQuestion(p,j);
 $('gateWord').textContent=item.q;
 $('gateAnswers').replaceChildren(...shuffle(item.options).map(answer=>{
 const b=document.createElement('button');b.textContent=answer;
@@ -120,14 +87,14 @@ b.onclick=()=>{if(answer===item.a){b.classList.add('good');$('gateFeedback').tex
 viewAll('gate')
 }
 $('gateNext').onclick=()=>{
-const items=simpleWelcome?simplePictureWords:wordItems;
-gatePicture=simpleWelcome?nextIntroPicture(child):items[Math.floor(Math.random()*items.length)];
+const items=window.MathainoIntro.picturesFor(profiles[child]);
+gatePicture=window.MathainoIntro.nextPicture(profiles[child],child);
 if(!gatePicture){$('gateFeedback').textContent='Δεν υπάρχουν διαθέσιμες εικόνες. Δοκίμασε ξανά.';return}
-$('picture').innerHTML=window.MathainoIllustrations?.word(gatePicture.icon)||lineIcon(gatePicture.icon||'star');
+$('picture').innerHTML=window.MathainoArtStyle?.render(gatePicture.icon)||window.MathainoIllustrations?.word(gatePicture.icon)||lineIcon(gatePicture.icon||'star');
 $('pictureMessage').textContent='';
 $('pictureDone').classList.toggle('hidden',!simpleWelcome);
 $('pictureDone').textContent='Συνέχεια';
-const choicesPool=simpleWelcome?items.filter(x=>!welcomeNextStepIds.has(x.icon)):items;
+const choicesPool=items;
 const others=shuffle(choicesPool.filter(x=>x.a!==gatePicture.a)).slice(0,3);
 $('pictureAnswers').replaceChildren(...shuffle([gatePicture,...others]).map(item=>{
 const b=document.createElement('button');b.textContent=item.a;
@@ -161,6 +128,7 @@ const API_KEY='sb_publishable_ONNT2HmZBkTVQVREZ-1IXA_V82D5-AI';
 let db=null,cloudChildren=[],familyId=null,ready=false;
 function purgePrivateBrowserData(){
  try{for(const key of Object.keys(localStorage))if(key.startsWith('mathaino-')&&key!=='mathaino-theme')localStorage.removeItem(key)}catch(e){}
+ try{window.MathainoIntro?.clear?.()}catch(e){}
  try{if(window.caches)caches.keys().then(names=>Promise.all(names.filter(n=>n.startsWith('mathaino-')).map(n=>caches.delete(n)))).catch(()=>{})}catch(e){}
  try{navigator.serviceWorker?.controller?.postMessage({type:'CLEAR_PRIVATE_DATA'})}catch(e){}
  cloudChildren=[];profiles=defaults;child=-1;
