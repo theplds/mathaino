@@ -16,7 +16,8 @@ function render(key,wide){
  const style=effective(currentProfile());
  const crayons=()=>window.MathainoCrayonArt?.word(key)||'';
  const warm=()=>window.MathainoWarmArt?.draw(key,!!wide)||'';
- return style==='crayon'?crayons()||warm():warm()||crayons()
+ const sketch=()=>window.MathainoSketchArt?.draw(key)||'';
+ return style==='crayon'?crayons()||warm():style==='sketch'?sketch()||warm()||crayons():warm()||crayons()
 }
 function apply(profile){
  document.body.dataset.illustrationStyle=effective(profile);
