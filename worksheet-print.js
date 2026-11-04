@@ -46,8 +46,7 @@ function spellingPages(){
  });
  const pages=[];
  if(matches.length>=2){
-  const options=matchingOrder(matches);
-  pages.push({type:'matching',items:matches,options});
+  chunk(matches,4).forEach(items=>pages.push({type:'matching',items,options:matchingOrder(items)}));
  }else if(matches.length){
   // For unusually short lessons, never create a one-pair matching exercise.
   handwriting.push({...matches[0],mode:'write',number:handwriting.length+1});
