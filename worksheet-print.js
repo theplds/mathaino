@@ -139,9 +139,11 @@ function renderLines(ctx,text,x,y,maxWidth,lineHeight,maxLines=10){
  return count
 }
 function pageCanvas(desc,index,total,atlas){
- const canvas=document.createElement('canvas');canvas.width=1240;canvas.height=1754;
+ const canvas=document.createElement('canvas');canvas.width=1654;canvas.height=2339;
  const ctx=canvas.getContext('2d');
  if(!ctx)throw new Error('Δεν είναι διαθέσιμος ο καμβάς PDF.');
+ // A4 at approximately 200 dpi, with a 1240×1754 design coordinate system.
+ ctx.scale(1654/1240,2339/1754);
  ctx.fillStyle='#fff';ctx.fillRect(0,0,1240,1754);
  const ink='#413b34',muted='#8b705d',accentC='#6c7e70',left=88,right=1152;
  ctx.textBaseline='alphabetic';
@@ -234,7 +236,7 @@ function pdfFromJpegs(items){
  items.forEach((entry,i)=>{
   const imgId=3+i*3,contentId=imgId+1,pageId=imgId+2;
   offsets[imgId]=size;
-  write(imgId+' 0 obj\n<< /Type /XObject /Subtype /Image /Width 1240 /Height 1754 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+entry.length+' >>\nstream\n');
+  write(imgId+' 0 obj\n<< /Type /XObject /Subtype /Image /Width 1654 /Height 2339 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+entry.length+' >>\nstream\n');
   write(entry);write('\nendstream\nendobj\n');
   const commands='q\n595.28 0 0 841.89 0 0 cm\n/Im0 Do\nQ\n';
   obj(contentId,'<< /Length '+ascii(commands).length+' >>\nstream\n'+commands+'endstream');
