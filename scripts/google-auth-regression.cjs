@@ -39,7 +39,7 @@ async function scenario(settings,cancel=false){
  assert.ok(home.includes('id="googleSignIn"')&&home.includes('id="accountSetup"'));
  assert.ok(home.includes('id="createFamily"')&&home.includes('id="setupSwitchAccount"'));
  assert.ok(home.indexOf('google-auth.js?v=672')<home.indexOf('app-main.js?v=672'));
- assert.ok(cache.includes("mathaino-v0.6.75")&&cache.includes("'./google-auth.js?v=672'")&&cache.includes("'./google-auth.css?v=672'"));
+ assert.ok(cache.includes("mathaino-v0.6.76")&&cache.includes("'./google-auth.js?v=672'")&&cache.includes("'./google-auth.css?v=672'"));
  assert.ok(cache.includes("url.origin===self.location.origin&&ASSET_PATHS.has(url.pathname)"));
  assert.ok(main.includes("if(!allowCreate)return false"),'must not auto-create a second family after Google sign-in');
  assert.ok(main.includes("const success=await initializeFamily(true)"),'new household requires explicit button');

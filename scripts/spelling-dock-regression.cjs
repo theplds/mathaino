@@ -85,5 +85,5 @@ assert.match(css,/html\[data-theme="dark"\]\[data-workbook="on"\] #spellSlots \.
 assert.ok(html.includes('question-dock.js?v=674'));
 assert.ok(html.includes('question-dock.css?v=674'));
 assert.ok(html.includes('cool-workbook.css?v=674'));
-assert.ok(cache.includes('mathaino-v0.6.75'));
+assert.ok(cache.includes('mathaino-v0.6.76'));
 console.log('PASS spelling dock incomplete/ready/correct/missing modes and dark contrast');
