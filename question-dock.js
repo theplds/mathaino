@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.67 — accessible sticky question navigation.
+/* Μαθαίνω! v0.6.70 — accessible sticky question and introductory navigation.
    Mirror the original controls rather than moving them: each lesson engine
    remains responsible for answer validation, attempts, skips and progress. */
 (function(){
@@ -31,11 +31,13 @@ function context(){
   ['#spellingLesson:not(.hidden)','#spellExercise:not([hidden])','#spellSkip','#spellNext'],
   ['#test:not(.hidden)','#test','#skipQuestion','#next'],
   ['#historyLesson:not(.hidden)','#historyQuizSection','#historySkip','#historyNext'],
-  ['#grade5Lesson:not(.hidden)','#grade5Body','#grade5Body .question-skip','#grade5Body .mathaino-completion']
+  ['#grade5Lesson:not(.hidden)','#grade5Body','#grade5Body .question-skip','#grade5Body .mathaino-completion'],
+  ['#gate:not(.hidden)','#gate',null,'#gateNext'],
+  ['#pictureGate:not(.hidden)','#pictureGate',null,'#pictureDone']
  ];
  for(const [rootSel,areaSel,skipSel,nextSel] of cases){
   const root=document.querySelector(rootSel);if(!root)continue;
-  const area=areaSel==='#test'?root:root.querySelector(areaSel);
+  const area=['#test','#gate','#pictureGate'].includes(areaSel)?root:root.querySelector(areaSel);
   if(!area||area.hidden||area.classList.contains('hidden'))continue;
   const skipNode=(area.querySelector(skipSel)||root.querySelector(skipSel));
   const nextNode=(area.querySelector(nextSel)||root.querySelector(nextSel));
@@ -71,7 +73,8 @@ function sync(){
  if(next.hidden!==!showNext)next.hidden=!showNext;
  if(showNext){
   const label=found.next?.textContent?.trim()||'Επόμενη άσκηση';
-  const desired=/Ολοκλήρωση|Ξανά από την αρχή|Τέλος/i.test(label)?label:'Επόμενη άσκηση →';
+  const isIntro=found.area.id==='gate'||found.area.id==='pictureGate';
+  const desired=isIntro||/Ολοκλήρωση|Ξανά από την αρχή|Τέλος/i.test(label)?label:'Επόμενη άσκηση →';
   if(next.textContent!==desired)next.textContent=desired;
  }
  if(skip.disabled!==!showSkip)skip.disabled=!showSkip;
@@ -91,7 +94,7 @@ function focusQuestion(){
  const c=context();
  if(!c?.area)return;
  const heading=c.area.querySelector(
-  '.curriculum-question-title,.pack-count,#spellCounter,#question,#historyQuestion,.g5-small'
+  '.curriculum-question-title,.pack-count,#spellCounter,#question,#historyQuestion,.g5-small,#gateWord,#pictureGate h2'
  );
  (heading||c.area).scrollIntoView({behavior:'auto',block:'start'});
  schedule()
