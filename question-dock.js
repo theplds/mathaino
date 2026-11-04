@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.70 — accessible sticky question and introductory navigation.
+/* Μαθαίνω! v0.6.74 — sticky question, spelling-check and introductory navigation.
    Mirror the original controls rather than moving them: each lesson engine
    remains responsible for answer validation, attempts, skips and progress. */
 (function(){
@@ -28,19 +28,23 @@ function context(){
  const cases=[
   ['#curriculumLesson:not(.hidden)','.curriculum-question-card','.curriculum-skip','.curriculum-next'],
   ['#testPackLesson:not(.hidden)','.pack-question-card','.pack-skip','.mathaino-completion'],
-  ['#spellingLesson:not(.hidden)','#spellExercise:not([hidden])','#spellSkip','#spellNext'],
+  ['#spellingLesson:not(.hidden)','#spellExercise:not([hidden])','#spellSkip','#spellNext','#spellCheck'],
   ['#test:not(.hidden)','#test','#skipQuestion','#next'],
   ['#historyLesson:not(.hidden)','#historyQuizSection','#historySkip','#historyNext'],
   ['#grade5Lesson:not(.hidden)','#grade5Body','#grade5Body .question-skip','#grade5Body .mathaino-completion'],
   ['#gate:not(.hidden)','#gate',null,'#gateNext'],
   ['#pictureGate:not(.hidden)','#pictureGate',null,'#pictureDone']
  ];
- for(const [rootSel,areaSel,skipSel,nextSel] of cases){
+ for(const [rootSel,areaSel,skipSel,nextSel,checkSel] of cases){
   const root=document.querySelector(rootSel);if(!root)continue;
   const area=['#test','#gate','#pictureGate'].includes(areaSel)?root:root.querySelector(areaSel);
   if(!area||area.hidden||area.classList.contains('hidden'))continue;
   const skipNode=(area.querySelector(skipSel)||root.querySelector(skipSel));
-  const nextNode=(area.querySelector(nextSel)||root.querySelector(nextSel));
+  const advanceNode=(area.querySelector(nextSel)||root.querySelector(nextSel));
+  // Spelling has an intermediate action: a complete answer must be checked
+  // before the child is offered the next word. Use its real enabled state.
+  const checkNode=checkSel?(area.querySelector(checkSel)||root.querySelector(checkSel)):null;
+  const nextNode=visible(advanceNode)?advanceNode:visible(checkNode)?checkNode:advanceNode;
   if(visible(skipNode)||visible(nextNode))return {area,skip:skipNode,next:nextNode}
  }
  return null
@@ -74,7 +78,8 @@ function sync(){
  if(showNext){
   const label=found.next?.textContent?.trim()||'Επόμενη άσκηση';
   const isIntro=found.area.id==='gate'||found.area.id==='pictureGate';
-  const desired=isIntro||/Ολοκλήρωση|Ξανά από την αρχή|Τέλος/i.test(label)?label:'Επόμενη άσκηση →';
+  const desired=found.next?.id==='spellCheck'?'Έλεγχος ✓':
+    isIntro||/Ολοκλήρωση|Ξανά από την αρχή|Τέλος/i.test(label)?label:'Επόμενη άσκηση →';
   if(next.textContent!==desired)next.textContent=desired;
  }
  if(skip.disabled!==!showSkip)skip.disabled=!showSkip;
