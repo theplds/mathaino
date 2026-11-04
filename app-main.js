@@ -19,7 +19,7 @@ const defaults=Array.from({length:3},(_,i)=>({name:'Παιδί '+(i+1),icon:'sta
 let profiles=defaults;try{localStorage.removeItem('mathaino-profiles-v04')}catch(e){}
 let child=-1,editing=0,gatePicture=null;
 function saveProfiles(){/* Child records stay in authenticated database, not browser-local profile storage. */}
-function viewAll(id){['passwordRecovery','auth','profiles','avatarPicker','gate','pictureGate','parentUnlock','parent','reports','home','historyLesson','learn','test','end'].forEach(x=>$(x).classList.toggle('hidden',x!==id));window.scrollTo(0,0)}
+function viewAll(id){['passwordRecovery','auth','accountSetup','profiles','avatarPicker','gate','pictureGate','parentUnlock','parent','reports','home','historyLesson','learn','test','end'].forEach(x=>$(x).classList.toggle('hidden',x!==id));window.scrollTo(0,0)}
 screen=function(id){viewAll(id)};
 const avatarChangeGlyph='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15"/><path d="m7 22-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg>';
 function avatarDrawing(iconId){return window.MathainoAvatars?window.MathainoAvatars.draw(iconId):lineIcon(iconId)}
@@ -137,7 +137,7 @@ const recoveryLinkMarker=new URLSearchParams(location.search).has('password_rese
 let recoveryActive=recoveryLinkMarker||location.hash.includes('type=recovery')||new URLSearchParams(location.search).get('type')==='recovery';
 try{if(window.supabase)db=window.supabase.createClient(API_URL,API_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}})}catch(e){}
 const oldViewAll=viewAll;
-viewAll=function(id){if(!ready&&id!=='auth'&&id!=='passwordRecovery')id='auth';oldViewAll(id);$('sessionBar').classList.toggle('hidden',!ready)};
+viewAll=function(id){if(!ready&&id!=='auth'&&id!=='passwordRecovery'&&id!=='accountSetup')id='auth';oldViewAll(id);$('sessionBar').classList.toggle('hidden',!ready)};
 const originalSave=$('saveSettings').onclick;
 $('saveSettings').onclick=async()=>{if(!ready||!parentUnlocked)return;originalSave();const p=profiles[editing],record=cloudChildren[editing];if(!record)return;const {data,error}=await db.from('children').update({name:p.name,icon:p.icon,age:p.age||null,grade:p.grade,allowed_subjects:p.allowed,settings:{reading:p.reading,focus:p.focus,color:p.color,tables:p.tables,grade5SubjectsConfigured:!!p.grade5SubjectsConfigured,extraSubjectsConfigured:!!p.extraSubjectsConfigured,spellingConfigured:!!p.spellingConfigured,illustrationStyle:p.illustrationStyle||'auto'}}).eq('id',record.id).select('id').maybeSingle();
 if(error||!data){
@@ -147,9 +147,51 @@ if(error||!data){
 }
 $('saveMessage').textContent='Αποθηκεύτηκε στο cloud!'}
 function displayError(error){$('authStatus').textContent=error?.message||String(error)}
-async function initializeFamily(){let {data:members,error:me}=await db.from('family_members').select('family_id').limit(1);if(me)throw me;if(!members.length){let {error:boot}=await db.rpc('create_my_family');if(boot)throw boot}let {data:rows,error}=await db.from('children').select('*').order('created_at',{ascending:true});if(error)throw error;cloudChildren=rows||[];profiles=cloudChildren.map(c=>({name:c.name,icon:c.icon,age:c.age||'',grade:c.grade,allowed:c.allowed_subjects||[],tables:c.settings?.tables||'',reading:!!c.settings?.reading,focus:!!c.settings?.focus,color:!!c.settings?.color,grade5SubjectsConfigured:!!c.settings?.grade5SubjectsConfigured,extraSubjectsConfigured:!!c.settings?.extraSubjectsConfigured,spellingConfigured:!!c.settings?.spellingConfigured,illustrationStyle:c.settings?.illustrationStyle||'auto'}));ready=true;drawProfiles();viewAll('profiles')}
-async function sessionChanged(session){ready=false;familyId=null;if(recoveryActive){viewAll('passwordRecovery');return}if(!session){purgePrivateBrowserData();viewAll('auth');return}try{$('signedEmail').textContent=session.user.email||'Γονέας';await initializeFamily();$('authStatus').textContent=''}catch(e){displayError(e);viewAll('auth')}}
-async function bootAuth(){if(!db){$('authStatus').textContent='Δεν φορτώθηκε η υπηρεσία σύνδεσης. Χρειάζεται σύνδεση στο Internet. Δοκίμασε ανανέωση.';viewAll('auth');return}db.auth.onAuthStateChange((event,session)=>{if(event==='PASSWORD_RECOVERY'){recoveryActive=true;viewAll('passwordRecovery');$('recoveryStatus').textContent='Ο σύνδεσμος επιβεβαιώθηκε. Μπορείς να ορίσεις νέο κωδικό.'}else if(event==='SIGNED_OUT'&&!recoveryActive){ready=false;purgePrivateBrowserData();viewAll('auth')}});const {data,error}=await db.auth.getSession();if(error)displayError(error);if(recoveryActive||location.hash.includes('type=recovery')){recoveryActive=true;viewAll('passwordRecovery');if(!data?.session)$('recoveryStatus').textContent='Ο σύνδεσμος επαληθεύεται. Αν δεν ενεργοποιηθεί, ζήτησε νέο email.';return}await sessionChanged(data?.session)}
+async function initializeFamily(allowCreate=false){let {data:members,error:me}=await db.from('family_members').select('family_id').limit(1);if(me)throw me;if(!members.length){if(!allowCreate)return false;let {error:boot}=await db.rpc('create_my_family');if(boot)throw boot}let {data:rows,error}=await db.from('children').select('*').order('created_at',{ascending:true});if(error)throw error;cloudChildren=rows||[];profiles=cloudChildren.map(c=>({name:c.name,icon:c.icon,age:c.age||'',grade:c.grade,allowed:c.allowed_subjects||[],tables:c.settings?.tables||'',reading:!!c.settings?.reading,focus:!!c.settings?.focus,color:!!c.settings?.color,grade5SubjectsConfigured:!!c.settings?.grade5SubjectsConfigured,extraSubjectsConfigured:!!c.settings?.extraSubjectsConfigured,spellingConfigured:!!c.settings?.spellingConfigured,illustrationStyle:c.settings?.illustrationStyle||'auto'}));ready=true;drawProfiles();viewAll('profiles');return true}
+let authLoadingFor=null;
+async function sessionChanged(session){
+ if(recoveryActive){viewAll('passwordRecovery');return}
+ if(!session){
+  authLoadingFor=null;ready=false;familyId=null;purgePrivateBrowserData();viewAll('auth');return
+ }
+ const userId=session.user?.id;
+ if(!userId)return;
+ if(ready&&authLoadingFor===userId)return;
+ if(authLoadingFor===userId)return;
+ authLoadingFor=userId;ready=false;familyId=null;
+ try{
+  $('signedEmail').textContent=session.user.email||'Γονέας';
+  const hasFamily=await initializeFamily();
+  if(!hasFamily){
+   $('setupEmail').textContent=session.user.email||'Δεν υπάρχει email στον λογαριασμό';
+   $('setupStatus').textContent='';
+   viewAll('accountSetup');
+  }else $('authStatus').textContent='';
+ }catch(e){
+  authLoadingFor=null;displayError(e);viewAll('auth')
+ }
+}
+async function bootAuth(){if(!db){$('authStatus').textContent='Δεν φορτώθηκε η υπηρεσία σύνδεσης. Χρειάζεται σύνδεση στο Internet. Δοκίμασε ανανέωση.';viewAll('auth');return}db.auth.onAuthStateChange((event,session)=>{if(event==='PASSWORD_RECOVERY'){recoveryActive=true;viewAll('passwordRecovery');$('recoveryStatus').textContent='Ο σύνδεσμος επιβεβαιώθηκε. Μπορείς να ορίσεις νέο κωδικό.'}else if(event==='SIGNED_OUT'&&!recoveryActive){authLoadingFor=null;ready=false;purgePrivateBrowserData();viewAll('auth')}
+ else if(event==='SIGNED_IN'&&session&&!recoveryActive){
+  // Supabase's redirect callback may finish AFTER the initial getSession().
+  // Defer DB calls outside the synchronous auth callback to avoid deadlocks.
+  setTimeout(()=>sessionChanged(session),0)
+ }});const {data,error}=await db.auth.getSession();if(error)displayError(error);if(recoveryActive||location.hash.includes('type=recovery')){recoveryActive=true;viewAll('passwordRecovery');if(!data?.session)$('recoveryStatus').textContent='Ο σύνδεσμος επαληθεύεται. Αν δεν ενεργοποιηθεί, ζήτησε νέο email.';return}await sessionChanged(data?.session)}
+$('createFamily').onclick=async()=>{
+ const btn=$('createFamily'),status=$('setupStatus');
+ if(!db||btn.disabled)return;
+ btn.disabled=true;status.textContent='Δημιουργία οικογένειας…';
+ try{
+  const {data,error}=await db.auth.getUser();
+  if(error||!data?.user)throw Error('Η σύνδεση έληξε. Συνδέσου ξανά.');
+  const success=await initializeFamily(true);
+  if(!success)throw Error('Δεν ήταν δυνατή η δημιουργία οικογένειας.');
+  status.textContent='';
+ }catch(e){status.textContent='Αποτυχία: '+(e?.message||'Δοκίμασε ξανά.')}
+ finally{btn.disabled=false}
+};
+$('setupSwitchAccount').onclick=()=>$('signOut').click();
+window.MathainoGoogleSignIn?.init(db);
 $('authForm').onsubmit=async e=>{e.preventDefault();if(!db){$('authStatus').textContent='Δεν φορτώθηκε η υπηρεσία σύνδεσης. Έλεγξε τη σύνδεση στο Internet και κάνε ανανέωση.';return}const email=$('authEmail').value.trim(),password=$('authPassword').value;$('authStatus').textContent='Σύνδεση…';const {data,error}=await db.auth.signInWithPassword({email,password});if(error)return displayError(error);await sessionChanged(data.session)};
 $('signUp').onclick=async()=>{if(!db){$('authStatus').textContent='Δεν φορτώθηκε η υπηρεσία σύνδεσης. Κάνε ανανέωση.';return}const email=$('authEmail').value.trim(),password=$('authPassword').value;if(!email||password.length<12){$('authStatus').textContent='Χρειάζεται email και νέος κωδικός τουλάχιστον 12 χαρακτήρων.';return}$('authStatus').textContent='Δημιουργία λογαριασμού…';let data,error;try{({data,error}=await db.auth.signUp({email,password,options:{emailRedirectTo:'https://theplds.github.io/mathaino/'}}))}catch(e){displayError(e);return}if(error)return displayError(error);if(data.session)await sessionChanged(data.session);else $('authStatus').textContent='Έλεγξε το email σου για επιβεβαίωση. Ο σύνδεσμος πρέπει να οδηγεί πίσω στο Μαθαίνω!'};
 $('forgot').onclick=async()=>{if(!db)return;const email=$('authEmail').value.trim();if(!email){$('authStatus').textContent='Συμπλήρωσε πρώτα το email.';return}const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:'https://theplds.github.io/mathaino/reset.html?password_reset=1'});$('authStatus').textContent=error?error.message:'Αν υπάρχει λογαριασμός, θα σταλεί email επαναφοράς.'};
