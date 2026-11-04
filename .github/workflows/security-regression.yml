@@ -23,6 +23,8 @@ jobs:
         run: node scripts/spelling-dock-regression.cjs
       - name: Verify spelling accent rules and beginner feedback
         run: node scripts/spelling-accent-regression.cjs
+      - name: Verify six coding puzzles, engine, offline setup and child navigation
+        run: node scripts/coding-regression.cjs
       - name: Verify Google OAuth sign-in and account linking safeguards
         run: node scripts/google-auth-regression.cjs
       - name: Check public Google provider availability (informational)
