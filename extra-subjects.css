@@ -1,0 +1,18 @@
+/* Μαθαίνω! v0.6.77 — supplementary school subject tiles and permissions */
+#allowScience4Row[hidden],#allowGeo4Row[hidden],#allowGeo5Row[hidden]{
+ display:none!important;
+}
+#subjects button.extra-subject .extra-subject-illustration{
+ display:flex;align-items:center;justify-content:center;
+ min-height:100px;background:#eaf5f9;border-radius:13px;
+}
+#subjects button.extra-subject .extra-subject-illustration svg{
+ display:block;width:100%;height:auto;max-width:240px;max-height:145px;overflow:visible;
+}
+html[data-theme="dark"] #subjects button.extra-subject .extra-subject-illustration{
+ background:#2b4b59;
+}
+html[data-workbook="on"] #subjects button.extra-subject{background:#e8f5f9;color:#2a5265;border-color:#b7d7e1}
+html[data-workbook="on"] #subjects button.extra-subject.active{background:#d4f0e3!important;border-color:#349976;color:#19563e}
+html[data-theme="dark"][data-workbook="on"] #subjects button.extra-subject{background:#304f60;color:#effaff;border-color:#7298aa}
+html[data-theme="dark"][data-workbook="on"] #subjects button.extra-subject.active{background:#2b6b53!important;color:#fff;border-color:#94dabd}
