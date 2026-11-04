@@ -145,7 +145,9 @@ function show(){
  const pages=plan($('includeAnswers').checked),target=$('sheets');
  target.replaceChildren();
  pages.forEach((page,i)=>{
-  const sheet=make('article','sheet');sheet.append(header(page,i,pages.length));
+  const sheet=make('article','sheet');
+  if(page.type==='spelling'&&page.items.length>=5)sheet.classList.add('sheet-five');
+  sheet.append(header(page,i,pages.length));
   const body=make('div',page.type==='answers'?'answer-list':'tasks');
   if(page.type==='spelling')page.items.forEach(w=>body.append(spellingTask(w)));
   if(page.type==='matching')body.append(matchingTask(page));
