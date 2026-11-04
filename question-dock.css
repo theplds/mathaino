@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.67 — non-obstructing iPad/phone question action dock. */
+/* Μαθαίνω! v0.6.70 — non-obstructing iPad/phone question action dock. */
 .mathaino-action-dock[hidden],.mathaino-action-dock button[hidden]{display:none!important}
 .mathaino-action-dock{
  position:fixed;left:0;right:0;bottom:0;z-index:990;
@@ -29,7 +29,9 @@ body.mathaino-action-dock-active #test #next,
 body.mathaino-action-dock-active #historyQuizSection #historySkip,
 body.mathaino-action-dock-active #historyQuizSection #historyNext,
 body.mathaino-action-dock-active #grade5Body .question-skip,
-body.mathaino-action-dock-active #grade5Body .mathaino-completion{
+body.mathaino-action-dock-active #grade5Body .mathaino-completion,
+body.mathaino-action-dock-active #gate #gateNext,
+body.mathaino-action-dock-active #pictureGate #pictureDone{
  display:none!important
 }
 #curriculumLesson .curriculum-question-title,#testPackLesson .pack-count,
