@@ -1,0 +1,96 @@
+/* Μαθαίνω! v0.6.76 — Μικρός Προγραμματιστής: responsive no-dependency puzzle UI. */
+#codingLesson{--code-ink:#294a5a;--code-muted:#557080;--code-line:#bbd9e5;--code-surface:#f1f8fc;--code-cell:#e3f4f8;--code-accent:#237e55;color:var(--code-ink)}
+#codingLesson button{touch-action:manipulation;min-height:44px}
+#codingLesson [hidden],#codingLesson .hidden{display:none!important}
+#codingLesson .coding-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#codingLesson .coding-top span{font-size:.75rem;letter-spacing:.055em;font-weight:800;color:#3b828a}
+#codingLesson h2{margin:13px 0 8px}
+#codingLesson h3{color:var(--code-ink)}
+#codingLesson .coding-intro{max-width:64ch;color:var(--code-muted);margin:5px 0 15px}
+#codingLesson .coding-levels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 22px}
+#codingLesson .coding-level{min-height:60px;padding:9px 11px;font-size:.89rem;font-weight:730;line-height:1.3;text-align:left;background:#f1f7fb;border:1.6px solid #bdd7e4;color:#305269}
+#codingLesson .coding-level.active{background:#d5f1e7;border:2px solid #27916d;color:#175b45;box-shadow:inset 0 0 0 1px #9ad9be}
+#codingLesson .coding-title-line{display:flex;justify-content:space-between;align-items:start;gap:10px}
+#codingLesson .coding-title-line h3{margin:0 0 5px;font-size:1.26rem}
+#codingLesson #codingConcept{color:#377a73;font-size:.86rem;font-weight:730;margin:0}
+#codingLesson #codingCount{white-space:nowrap;font-size:.8rem;font-weight:750;color:var(--code-muted)}
+#codingLesson .coding-prompt{background:#ecf7f4;border-left:5px solid #3c9b7f;border-radius:10px;padding:12px 14px;color:#2e5055;font-weight:630;line-height:1.55}
+#codingLesson .coding-workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:17px;margin-top:17px;align-items:start}
+#codingLesson .coding-map-panel,#codingLesson .coding-control-panel{min-width:0}
+#codingLesson .coding-board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;max-width:400px;padding:8px;margin:0 auto;background:#d8edf4;border:2px solid #a0c9d8;border-radius:20px}
+#codingLesson .coding-cell{position:relative;display:flex;align-items:center;justify-content:center;min-height:45px;height:clamp(45px,7vw,66px);background:#f7fcff;border:1.5px solid #bddde8;border-radius:9px;font-size:clamp(1.4rem,4vw,2rem);padding:0;color:#486b7c}
+#codingLesson .coding-cell.is-wall{background:#6d8793;color:white;border-color:#4e6977}
+#codingLesson .coding-cell.is-goal{background:#fff4ce;border-color:#e0bc5c}
+#codingLesson .coding-cell.is-robot{background:#bfe8dd;border-color:#439e81}
+#codingLesson .coding-star{position:absolute;color:#b26a04;font-size:1.15em}
+#codingLesson .coding-robot{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;font-size:1.06em}
+#codingLesson .coding-robot small{position:absolute;bottom:-.33em;right:-.45em;background:#175d49;color:white;border-radius:12px;border:2px solid #fff;font-size:.56em;line-height:1.2;padding:0 3px}
+#codingLesson .coding-legend{text-align:center;font-size:.8rem;color:var(--code-muted)}
+#codingLesson .coding-control-panel h3{font-size:.99rem;margin:2px 0 9px}
+#codingLesson .coding-toolbox{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:8px 0 16px}
+#codingLesson .coding-command{background:#e3f2f8;border:1.7px solid #9bc5d5;color:#254d63;font-size:.86rem;line-height:1.3;font-weight:750;padding:9px 7px}
+#codingLesson .coding-command:hover:not(:disabled){background:#d4ebf5;border-color:#5da8c2}
+#codingLesson .coding-helper{font-size:.85rem;line-height:1.45;color:var(--code-muted);margin:0 0 8px}
+#codingLesson .coding-program{display:flex;align-items:stretch;align-content:flex-start;gap:5px;flex-wrap:wrap;min-height:69px;padding:12px 8px;margin:10px 0;background:#eff7fa;border:1.5px dashed #a8cbdc;border-radius:15px}
+#codingLesson .coding-empty{margin:0;color:var(--code-muted);font-size:.87rem}
+#codingLesson .coding-program-item{display:flex;gap:1px;border:1px solid #b1d0db;border-radius:10px;background:#fff;overflow:hidden}
+#codingLesson .coding-program-command{min-width:44px;font-size:.83rem;font-weight:800;color:#27516c;background:#fff;border:0!important;border-radius:0!important;padding:8px 5px}
+#codingLesson .coding-program-command.selected{background:#d4f0e4;color:#175943}
+#codingLesson .coding-program-command.executing{background:#fff0b4;color:#674400}
+#codingLesson .coding-delete{min-width:30px;min-height:44px;color:#9d4c4e;font-size:1.18rem;font-weight:800;background:#fcf0ee;border:0!important;border-radius:0!important;padding:3px}
+#codingLesson .coding-insertion{display:flex;align-items:center;font-size:1rem;color:#177051;font-weight:900;min-width:10px}
+#codingLesson .coding-edit-actions,#codingLesson .coding-extra-actions{display:flex;flex-wrap:wrap;gap:8px;margin:13px 0}
+#codingLesson .coding-edit-actions button,#codingLesson .coding-extra-actions button{flex:1 1 128px;padding:10px 8px;font-size:.88rem;background:#e7f1f7;border-color:#bed5e0;color:#305569}
+#codingLesson .coding-bottom{position:sticky;bottom:0;z-index:15;margin:16px -6px -9px;padding:10px 10px calc(10px + env(safe-area-inset-bottom));background:rgba(250,253,255,.98);border:1.5px solid #bedce5;border-radius:15px;box-shadow:0 -5px 20px rgba(37,82,101,.13)}
+#codingLesson .coding-status{font-size:.92rem;font-weight:650;line-height:1.35;color:#3d6475;margin:0 0 7px}
+#codingLesson .coding-status[data-kind="good"]{color:#166c44}
+#codingLesson .coding-status[data-kind="try"]{color:#9a552c}
+#codingLesson .coding-status[data-kind="hint"]{color:#1c6b83}
+#codingLesson .coding-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#codingLesson .coding-actions button{min-width:0;background:#237e55!important;color:white!important;border:2px solid #166743!important;font-weight:800}
+#codingLesson .coding-actions button:hover:not(:disabled){background:#196944!important}
+#codingLesson .coding-actions button:disabled{opacity:.48;cursor:not-allowed}
+#codingLesson #codingNext{grid-column:1/-1}
+#codingLesson .coding-level:focus-visible,#codingLesson button:focus-visible{outline:3px solid #2e99ac;outline-offset:3px}
+#subjects [data-sub="coding"] .coding-subject-art svg{width:100%;max-height:130px;height:auto;display:block}
+html[data-theme="dark"] #codingLesson{--code-ink:#f0f9ff;--code-muted:#c6dce7;--code-line:#5c7e8e;--code-surface:#2a4351;color:var(--code-ink)}
+html[data-theme="dark"] #codingLesson h3{color:var(--code-ink)}
+html[data-theme="dark"] #codingLesson .coding-level{background:#354e60;color:#eaf5fa;border-color:#67899a}
+html[data-theme="dark"] #codingLesson .coding-level.active{background:#286b51;color:#fff;border-color:#85d6aa}
+html[data-theme="dark"] #codingLesson .coding-prompt{background:#294e4f;color:#edfff9;border-left-color:#8fd3b8}
+html[data-theme="dark"] #codingLesson #codingConcept{color:#96dfc5}
+html[data-theme="dark"] #codingLesson .coding-board{background:#36586a;border-color:#658c9c}
+html[data-theme="dark"] #codingLesson .coding-cell{background:#405d6d;border-color:#668ca0;color:#f0f9ff}
+html[data-theme="dark"] #codingLesson .coding-cell.is-wall{background:#1d3543;border-color:#90a7b4}
+html[data-theme="dark"] #codingLesson .coding-cell.is-goal{background:#69552b;border-color:#d3ac65}
+html[data-theme="dark"] #codingLesson .coding-cell.is-robot{background:#2d715b;border-color:#92d8bd}
+html[data-theme="dark"] #codingLesson .coding-star{color:#ffdc74}
+html[data-theme="dark"] #codingLesson .coding-command{background:#315767;color:#effaff;border-color:#679aac}
+html[data-theme="dark"] #codingLesson .coding-command:hover:not(:disabled){background:#386b7b}
+html[data-theme="dark"] #codingLesson .coding-program{background:#2a4655;border-color:#6a91a3}
+html[data-theme="dark"] #codingLesson .coding-program-item{background:#344c5a;border-color:#7193a1}
+html[data-theme="dark"] #codingLesson .coding-program-command{background:#344c5a;color:#f2fbff}
+html[data-theme="dark"] #codingLesson .coding-program-command.selected{background:#276548;color:white}
+html[data-theme="dark"] #codingLesson .coding-program-command.executing{background:#765d2d;color:#fff5cb}
+html[data-theme="dark"] #codingLesson .coding-delete{background:#604042;color:#ffe9e8}
+html[data-theme="dark"] #codingLesson .coding-edit-actions button,html[data-theme="dark"] #codingLesson .coding-extra-actions button{background:#365362;color:#eef9ff;border-color:#7493a3}
+html[data-theme="dark"] #codingLesson .coding-bottom{background:rgba(35,55,68,.98);border-color:#6d8b9a}
+html[data-theme="dark"] #codingLesson .coding-status{color:#dfedf4}
+html[data-theme="dark"] #codingLesson .coding-status[data-kind="good"]{color:#a3e8c0}
+html[data-theme="dark"] #codingLesson .coding-status[data-kind="try"]{color:#ffd1a1}
+html[data-theme="dark"] #codingLesson .coding-status[data-kind="hint"]{color:#9fddee}
+@media(max-width:640px){
+ #codingLesson .coding-levels{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #codingLesson .coding-workspace{grid-template-columns:1fr;gap:12px}
+ #codingLesson .coding-board{max-width:375px}
+ #codingLesson .coding-cell{height:clamp(45px,14vw,67px)}
+ #codingLesson .coding-toolbox{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #codingLesson .coding-bottom{margin-left:-8px;margin-right:-8px}
+ #codingLesson .coding-title-line h3{font-size:1.13rem}
+}
+@media(max-width:360px){
+ #codingLesson .coding-cell{height:47px;min-height:42px}
+ #codingLesson .coding-level{font-size:.81rem}
+ #codingLesson .coding-command{font-size:.78rem}
+}
+@media(prefers-reduced-motion:reduce){#codingLesson *{transition:none!important}}
