@@ -1,8 +1,8 @@
-/* Μαθαίνω! v0.6.64 • Seven-lesson testing pack. Self-contained offline lessons. */
+/* Μαθαίνω! v0.6.65 • Seven-lesson testing pack. Self-contained offline lessons. */
 (function(){
 'use strict';
 const $=id=>document.getElementById(id);
-const lessons=[
+const originalLessons=[
  {id:'spell-school',title:'Στο σχολείο',grade:'Α΄–Β΄',subject:'spelling',kind:'spelling',subtitle:'8 νέες λέξεις · μικτή ορθογραφία',art:'pencil',group:'3'},
  {id:'reading-cat',title:'Η Μαρία και η γάτα',grade:'Β΄',subject:'reading',art:'cat',
  subtitle:'Μικρή ιστορία · 8 ερωτήσεις',
@@ -105,14 +105,15 @@ const lessons=[
  ['Ποια πρόταση είναι σωστή;',['Η ενέργεια μπορεί να αποθηκεύεται και να μετατρέπεται','Μόνο ό,τι λάμπει έχει ενέργεια','Οι μπαταρίες παράγουν ενέργεια από το τίποτα'],0,'Η ενέργεια μπορεί να αποθηκεύεται και να μεταφέρεται ή να μετατρέπεται.']
  ]}
 ];
-const subjectNames={spelling:'Ορθογραφία',reading:'Ανάγνωση',addition:'Μαθηματικά',math:'Μαθηματικά',history:'Ιστορία',science5:'Φυσικά'};
+const lessons=[...originalLessons,...(window.MathainoLessonsB2||[]),...(window.MathainoLessonsD4||[]),...(window.MathainoLessonsE5||[])];
+const subjectNames={spelling:'Ορθογραφία',reading:'Ανάγνωση',addition:'Μαθηματικά',math:'Μαθηματικά',history:'Ιστορία',history5:'Ιστορία',science5:'Φυσικά'};
 const html=(tag,cls,text)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el};
 const button=(text,fn,cls='')=>{const el=html('button',cls,text);el.type='button';el.onclick=fn;return el};
 const home=$('home');
 if(!home)return;
 const pack=html('div','mathaino-test-pack');
 pack.id='testPackHome';
-pack.append(html('h3','', 'Καινούργια μαθήματα για δοκιμή'),html('p','', 'Διάλεξε ένα νέο μάθημα. Χωρίς χρονόμετρο και χωρίς πίεση.'));
+pack.append(html('h3','', 'Βιβλιοθήκη μαθημάτων'),html('p','', 'Διάλεξε μάθημα από την τάξη σου. Μελέτη, ερωτήσεις και εκτυπώσιμο φύλλο εργασίας. Χωρίς χρονόμετρο ή βαθμούς.'));
 const list=html('div','pack-lesson-grid');pack.append(list);home.append(pack);
 const stage=html('section','hidden');
 stage.id='testPackLesson';
@@ -122,7 +123,18 @@ const art=id=>window.MathainoCrayonArt?.word(id)||window.MathainoWarmArt?.draw(i
 const pick=a=>{const arr=a.slice();for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr};
 function canUse(l){
  const p=profiles[child];if(!p)return false;
- const allowed=p.allowed||[];if(allowed.includes(l.subject))return true;
+ const allowed=p.allowed||[];
+ // The twenty curriculum lessons are grouped by the child's actual school grade.
+ // Preserve explicit parental subject choices rather than showing all 20.
+ if(l.unit!==undefined){
+  if(!String(p.grade||'').startsWith(l.grade))return false;
+  if(allowed.includes(l.subject))return true;
+  if(l.subject==='history5'&&!p.grade5SubjectsConfigured)return true;
+  if(l.subject==='science5'&&!p.grade5SubjectsConfigured)return true;
+  if(['reading','addition','math','history'].includes(l.subject)&&!p.extraSubjectsConfigured)return true;
+  return false
+ }
+ if(allowed.includes(l.subject))return true;
  if(l.subject==='spelling'&&!p.spellingConfigured&&['Α','Β'].some(c=>String(p.grade||'').startsWith(c)))return true;
  if(l.subject==='science5'&&!p.grade5SubjectsConfigured&&String(p.grade||'').startsWith('Ε'))return true;
  return false;
@@ -248,5 +260,5 @@ function finish(body){
 const prevView=viewAll;
 viewAll=function(id){prevView(id);stage.classList.toggle('hidden',id!=='testPackLesson');if(id==='home')showHome()};
 showHome();
-window.MathainoContentPack=Object.freeze({version:'0.6.64',lessons:lessons.map(l=>({id:l.id,title:l.title,grade:l.grade,subject:l.subject,questionCount:l.questions?.length||0})),canUse:id=>{const l=lessons.find(x=>x.id===id);return !!l&&canUse(l)}});
+window.MathainoContentPack=Object.freeze({version:'0.6.65',lessons:lessons.map(l=>({id:l.id,title:l.title,grade:l.grade,subject:l.subject,questionCount:l.questions?.length||0})),canUse:id=>{const l=lessons.find(x=>x.id===id);return !!l&&canUse(l)}});
 })();
