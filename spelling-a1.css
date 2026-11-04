@@ -100,3 +100,24 @@ html[data-theme="dark"] #spellFinish h3{color:#b8f4ec}
 html[data-theme="dark"] #spellClue{background:#2b4d57;color:#d6f4eb;border-color:#78aba9}
 #spellingLesson .spell-voice-line button{flex:0 1 auto}
 @media(max-width:420px){#spellingLesson .spell-voice-line{gap:7px}#spellingLesson .spell-voice-line button{padding:10px 9px;font-size:.85rem}}
+
+/* First-grade textbook unit/chapter navigation; equally usable with the warm skin off. */
+#spellBookNote.spell-book-note{
+ border-left:4px solid #ab8660;
+ border-radius:10px;
+ background:#fff6e9;
+ color:#624d3d;
+ padding:11px 13px;
+ margin:5px 0 16px;
+ font-size:.88rem;
+ line-height:1.55;
+}
+#spellBookNote.spell-book-note[hidden]{display:none!important}
+#spellBookNote a{color:#87563b;text-decoration:underline;text-underline-offset:2px}
+#spellBookNote strong{font-weight:750}
+#spellGroup optgroup,#topic optgroup{font-weight:700}
+#spellGroup option,#topic option{font-weight:400}
+html[data-theme="dark"] #spellBookNote.spell-book-note{
+ background:#40362c;color:#f3e5d6;border-left-color:#d0a37a;
+}
+html[data-theme="dark"] #spellBookNote a{color:#f2c39c}
