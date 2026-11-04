@@ -49,7 +49,7 @@ assert.ok(!Object.keys(data).some(k=>k.includes('former-name')),'legacy personal
 assert.ok(Object.keys(data).every(k=>/^mathaino-intro-v3-slot-\d+$/.test(k)),'only anonymous rotation state stored');
 assert.ok(!app.includes("const item={q:'Πόσο κάνει 4 × 3;'"),'hard-coded question removed');
 assert.ok(root.indexOf('intro-questions.js?v=671')<root.indexOf('app-main.js?v=672'),'loaded before main');
-assert.ok(sw.includes("mathaino-v0.6.73")&&sw.includes("intro-questions.js?v=671"),'offline cache versioned');
+assert.ok(sw.includes("mathaino-v0.6.74")&&sw.includes("intro-questions.js?v=671"),'offline cache versioned');
 intro.clear();
 assert.equal(Object.keys(data).length,0,'logout clears intro state');
 console.log('Grade-aware intro regression: PASS');

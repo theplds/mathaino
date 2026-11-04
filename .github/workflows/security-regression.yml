@@ -19,6 +19,8 @@ jobs:
         run: node scripts/intro-regression.cjs
       - name: Verify cool palette, next-step affordances and accessible contrast
         run: node scripts/theme-regression.cjs
+      - name: Verify spelling Check navigation and dark-mode slot contrast
+        run: node scripts/spelling-dock-regression.cjs
       - name: Verify Google OAuth sign-in and account linking safeguards
         run: node scripts/google-auth-regression.cjs
       - name: Check public Google provider availability (informational)
