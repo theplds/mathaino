@@ -1,12 +1,12 @@
-/* Μαθαίνω! v0.6.67 — structured curriculum library for Β΄, Δ΄, Ε΄.
+/* Μαθαίνω! v0.6.77 — structured curriculum library for Β΄, Δ΄, Ε΄.
    Original study notes + independent comprehension, practice, revision banks.
    No timers, mandatory ordering, streaks, marks or paid APIs. */
 (function(){
 'use strict';
 const $=id=>document.getElementById(id);
 const library=window.MathainoLessonData||[];
-const subjectNames={reading:'Γλώσσα',addition:'Μαθηματικά',history:'Ιστορία',math:'Μαθηματικά',science5:'Φυσικά',history5:'Ιστορία'};
-const gradeSubjects={'Β΄':['reading','addition'],'Δ΄':['history','math'],'Ε΄':['science5','history5']};
+const subjectNames={reading:'Γλώσσα',addition:'Μαθηματικά',history:'Ιστορία',math:'Μαθηματικά',science4:'Φυσικές επιστήμες · Μελέτη Περιβάλλοντος',geo4:'Γεωγραφία · Μελέτη Περιβάλλοντος',science5:'Φυσικά',history5:'Ιστορία',geo5:'Γεωγραφία'};
+const gradeSubjects={'Β΄':['reading','addition'],'Δ΄':['history','math','science4','geo4'],'Ε΄':['science5','history5','geo5']};
 const el=(tag,cls,text)=>{
  const node=document.createElement(tag);
  if(cls)node.className=cls;
@@ -27,7 +27,7 @@ const section=el('section','curriculum-catalog');
 section.id='curriculumLibrary';
 const top=el('div','curriculum-catalog-top');
 top.append(el('div','curriculum-overline','ΒΙΒΛΙΟΘΗΚΗ ΜΑΘΗΜΑΤΩΝ'),
- el('h3','', '20 νέα μαθήματα'),
+ el('h3','',library.length+' μαθήματα'),
  el('p','', 'Μελέτη, ερωτήσεις, εξάσκηση και επανάληψη. Διάλεξε όποιο μάθημα θέλεις.'));
 const controls=el('div','curriculum-catalog-controls');
 const gradeLabel=el('label','','Τάξη');
@@ -62,6 +62,7 @@ function permitted(l){
  // the default school subjects when the relevant settings have NOT been saved.
  if(allowed.includes(l.subject))return true;
  if(gradeOf(p)!==l.grade)return false;
+ if(['science4','geo4','geo5'].includes(l.subject))return !p.newCurriculumSubjectsConfigured;
  if(['science5','history5'].includes(l.subject))return !p.grade5SubjectsConfigured;
  if(['reading','addition','math','history'].includes(l.subject))return !p.extraSubjectsConfigured;
  return false
@@ -111,11 +112,11 @@ function refreshHome(){
  })
 }
 gradeSelect.onchange=refreshHome;
-function open(id){
+function open(id,initialMode='study'){
  const lesson=library.find(l=>l.id===id);
  if(!lesson||!permitted(lesson))return;
  state.lesson=lesson;
- state.mode='study';state.round=0;
+ state.mode=['quiz','practice','review'].includes(initialMode)?initialMode:'study';state.round=0;
  resetBank();render();
  viewAll('curriculumLesson');
 }
@@ -252,7 +253,7 @@ function quiz(body){
   input.setAttribute('autocorrect','off');
   input.setAttribute('spellcheck','false');
   input.setAttribute('aria-label','Γράψε την απάντηση');
-  if(state.lesson.subject==='reading'||state.lesson.subject==='history'||state.lesson.subject==='history5'||state.lesson.subject==='science5')input.lang='el';
+  if(['reading','history','history5','science5','science4','geo4','geo5'].includes(state.lesson.subject))input.lang='el';
   const check=action('Έλεγχος',()=>{
    if(state.solved||!input.value.trim())return;
    state.tries++;
@@ -336,7 +337,7 @@ chooseChild=function(index){
 };
 refreshHome();
 window.MathainoCurriculumLibrary=Object.freeze({
- version:'0.6.67',
+ version:'0.6.77',
  count:library.length,
  lessons:library.map(l=>({id:l.id,title:l.title,grade:l.grade,subject:l.subject,
    pages:l.pages.length,questionCount:l.quiz.length+l.practice.length+l.review.length})),
