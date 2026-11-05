@@ -27,6 +27,8 @@ jobs:
         run: node scripts/coding-regression.cjs
       - name: Verify Greek D and E science, history and geography curriculum, permissions and offline delivery
         run: node scripts/new-curriculum-regression.cjs
+      - name: Verify Grade Γ curriculum, parent access, offline and regression protections
+        run: node scripts/grade-g-regression.cjs
       - name: Verify Google OAuth sign-in and account linking safeguards
         run: node scripts/google-auth-regression.cjs
       - name: Check public Google provider availability (informational)
