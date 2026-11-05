@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),assert=require('node:assert/strict'),vm=require('node:vm');
 const read=p=>fs.readFileSync(p,'utf8');
-const basic=['lessons-grade-b.js','lessons-grade-d.js','lessons-grade-e.js','lessons-grade-d-e-expanded.js'];
+const basic=['lessons-grade-b.js','lessons-grade-d.js','lessons-grade-e.js','lessons-grade-d-e-expanded.js','lessons-grade-g.js'];
 const win={};
 for(const name of basic)vm.runInNewContext(read(name),{window:win});
 const lessons=win.MathainoLessonData;
@@ -10,7 +10,7 @@ const html=read('index.html'),sw=read('sw.js'),catalog=read('curriculum-lessons.
 const main=read('app-main.js'),ui=read('extra-subjects.js'),css=read('extra-subjects.css');
 function test(name,fn){try{fn();console.log('PASS',name)}catch(e){console.error('FAIL',name,e.message);process.exitCode=1}}
 test('12 new lessons, 6 per grade, 2 in each of six subject groups',()=>{
- assert.equal(addition.count,12);assert.equal(lessons.length,32);
+ assert.equal(addition.count,12);assert.equal(lessons.length,44);
  const added=lessons.filter(l=>addition.ids.includes(l.id));
  assert.equal(added.length,12);
  for(const grade of ['Δ΄','Ε΄'])assert.equal(added.filter(l=>l.grade===grade).length,6);
@@ -67,7 +67,7 @@ test('catalog has dynamic count and subject-specific modes',()=>{
  assert.ok(ui.includes("const oldStudy=$x('study').onclick,oldPractice=$x('practice').onclick"));
 });
 test('asset ordering and offline cache are versioned',()=>{
- assert.ok(html.includes('v0.6.77'));assert.ok(sw.includes('mathaino-v0.6.77'));
+ assert.ok(html.includes('v0.6.78'));assert.ok(sw.includes('mathaino-v0.6.78'));
  for(const path of ['lessons-grade-d-e-expanded.js','extra-subjects.js','extra-subjects.css']){
   assert.ok(html.includes('./'+path+'?v=677'),path+' missing from HTML');
   assert.ok(sw.includes("'./"+path+"?v=677'"),path+' missing from offline cache');
