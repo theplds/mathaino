@@ -74,7 +74,7 @@ test('cloud-backed permission keys use existing text[] and settings JSON',()=>{
   assert.ok(app.includes("['"+checkbox+"','"+subject+"']"),subject);
   assert.ok(ui.includes("id:'"+subject+"'"),subject);
  }
- assert.ok(app.includes('p.grade3SubjectsConfigured=true'));
+ assert.ok(app.includes("p.grade3SubjectsConfigured=!!p.grade3SubjectsConfigured||String(p.grade||'').trim().startsWith('Γ')"));
  assert.ok(app.includes('grade3SubjectsConfigured:!!p.grade3SubjectsConfigured'));
  assert.ok(app.includes('grade3SubjectsConfigured:!!c.settings?.grade3SubjectsConfigured'));
  assert.ok(ui.includes('previousChoose(index)'),'must preserve the child welcome gate');
