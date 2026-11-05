@@ -1,12 +1,12 @@
-/* Μαθαίνω! v0.6.77 — structured curriculum library for Β΄, Δ΄, Ε΄.
+/* Μαθαίνω! v0.6.78 — structured curriculum library for Β΄, Γ΄, Δ΄, Ε΄.
    Original study notes + independent comprehension, practice, revision banks.
    No timers, mandatory ordering, streaks, marks or paid APIs. */
 (function(){
 'use strict';
 const $=id=>document.getElementById(id);
 const library=window.MathainoLessonData||[];
-const subjectNames={reading:'Γλώσσα',addition:'Μαθηματικά',history:'Ιστορία',math:'Μαθηματικά',science4:'Φυσικές επιστήμες · Μελέτη Περιβάλλοντος',geo4:'Γεωγραφία · Μελέτη Περιβάλλοντος',science5:'Φυσικά',history5:'Ιστορία',geo5:'Γεωγραφία'};
-const gradeSubjects={'Β΄':['reading','addition'],'Δ΄':['history','math','science4','geo4'],'Ε΄':['science5','history5','geo5']};
+const subjectNames={reading:'Γλώσσα',addition:'Μαθηματικά',history:'Ιστορία',math:'Μαθηματικά',science4:'Φυσικές επιστήμες · Μελέτη Περιβάλλοντος',geo4:'Γεωγραφία · Μελέτη Περιβάλλοντος',science5:'Φυσικά',history5:'Ιστορία',geo5:'Γεωγραφία',language3:'Γλώσσα',history3:'Ιστορία',math3:'Μαθηματικά'};
+const gradeSubjects={'Β΄':['reading','addition'],'Γ΄':['language3','history3','math3'],'Δ΄':['history','math','science4','geo4'],'Ε΄':['science5','history5','geo5']};
 const el=(tag,cls,text)=>{
  const node=document.createElement(tag);
  if(cls)node.className=cls;
@@ -33,7 +33,7 @@ const controls=el('div','curriculum-catalog-controls');
 const gradeLabel=el('label','','Τάξη');
 gradeLabel.htmlFor='curriculumGrade';
 const gradeSelect=el('select');gradeSelect.id='curriculumGrade';gradeSelect.setAttribute('aria-label','Επιλογή σχολικής τάξης');
-[['mine','Η τάξη μου'],['Β΄','Β΄ Δημοτικού'],['Δ΄','Δ΄ Δημοτικού'],['Ε΄','Ε΄ Δημοτικού']].forEach(([val,label])=>{
+[['mine','Η τάξη μου'],['Β΄','Β΄ Δημοτικού'],['Γ΄','Γ΄ Δημοτικού'],['Δ΄','Δ΄ Δημοτικού'],['Ε΄','Ε΄ Δημοτικού']].forEach(([val,label])=>{
  const opt=el('option','',label);opt.value=val;gradeSelect.append(opt)
 });
 gradeSelect.value='mine';
@@ -52,12 +52,15 @@ const normalizeWritten=x=>String(x||'').normalize('NFD').replace(/\u0301/g,'').n
 function profile(){return child>=0?profiles?.[child]||null:null}
 function gradeOf(p){
  const raw=String(p?.grade||'');
- return ['Β΄','Δ΄','Ε΄'].find(g=>raw.startsWith(g[0]))||'Β΄'
+ return ['Β΄','Γ΄','Δ΄','Ε΄'].find(g=>raw.startsWith(g[0]))||'Β΄'
 }
 function permitted(l){
  const p=profile();
  if(!p)return false;
  const allowed=Array.isArray(p.allowed)?p.allowed:[];
+ // Grade Γ has its own subject permissions. A saved explicit deselection wins.
+ if(['language3','history3','math3'].includes(l.subject))
+  return gradeOf(p)==='Γ΄'&&(!p.grade3SubjectsConfigured||allowed.includes(l.subject));
  // Respect explicit parental permissions. Only a matching-grade child receives
  // the default school subjects when the relevant settings have NOT been saved.
  if(allowed.includes(l.subject))return true;
@@ -337,7 +340,7 @@ chooseChild=function(index){
 };
 refreshHome();
 window.MathainoCurriculumLibrary=Object.freeze({
- version:'0.6.77',
+ version:'0.6.78',
  count:library.length,
  lessons:library.map(l=>({id:l.id,title:l.title,grade:l.grade,subject:l.subject,
    pages:l.pages.length,questionCount:l.quiz.length+l.practice.length+l.review.length})),

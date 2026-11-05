@@ -1,0 +1,26 @@
+/* Μαθαίνω v0.6.78 — Γ΄ subjects and grade-specific parent controls */
+#allowLanguage3Row[hidden],#allowHistory3Row[hidden],#allowMath3Row[hidden]{
+ display:none!important;
+}
+#subjects button.grade-g-subject .grade-g-art{
+ display:flex;align-items:center;justify-content:center;background:#edf8fb;
+ border-radius:14px;min-height:100px;
+}
+#subjects button.grade-g-subject .grade-g-art svg{
+ display:block;width:100%;height:auto;max-width:230px;max-height:140px;
+}
+html[data-workbook="on"] #subjects button.grade-g-subject{
+ background:#edf7fc;color:#294f67;border-color:#b5dbe7;
+}
+html[data-workbook="on"] #subjects button.grade-g-subject.active{
+ background:#d7f1e6!important;border-color:#318c6d;color:#1a5b44;
+}
+html[data-theme="dark"] #subjects button.grade-g-subject .grade-g-art{
+ background:#2d4d5b;
+}
+html[data-theme="dark"][data-workbook="on"] #subjects button.grade-g-subject{
+ background:#335361;color:#f2fbff;border-color:#698d9f;
+}
+html[data-theme="dark"][data-workbook="on"] #subjects button.grade-g-subject.active{
+ background:#2d6c55!important;border-color:#a3dec1;color:#fff;
+}
