@@ -73,7 +73,7 @@ test('asset ordering and offline cache are versioned',()=>{
   assert.ok(sw.includes("'./"+path+"?v=677'"),path+' missing from offline cache');
  }
  assert.ok(html.indexOf('lessons-grade-d-e-expanded.js?v=677')<html.indexOf('lessons-writing.js?v=666'));
- assert.ok(html.indexOf('lessons-grade-d-e-expanded.js?v=677')<html.indexOf('curriculum-lessons.js?v=667'));
+ assert.ok(html.indexOf('lessons-grade-d-e-expanded.js?v=677')<html.indexOf('curriculum-lessons.js?v=678'));
  assert.ok(html.indexOf('extra-subjects.js?v=677')>html.indexOf('coding-lesson.js?v=676'));
 });
 test('new content and UI scripts parse',()=>{
