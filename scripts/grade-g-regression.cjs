@@ -96,7 +96,7 @@ test('Greek lesson assets bundled offline, subject cards responsive, source load
   assert.ok(html.includes('./'+path+'?v=678'),path+' missing HTML');
   assert.ok(sw.includes("'./"+path+"?v=678'"),path+' missing SW');
  }
- assert.ok(html.indexOf('lessons-grade-g.js?v=678')<html.indexOf('curriculum-lessons.js?v=667'));
+ assert.ok(html.indexOf('lessons-grade-g.js?v=678')<html.indexOf('curriculum-lessons.js?v=678'));
  assert.ok(html.indexOf('grade-g-subjects.js?v=678')>html.indexOf('extra-subjects.js?v=677'));
  for(const id of ['allowLanguage3Row','allowHistory3Row','allowMath3Row']){
   assert.ok(css.includes('#'+id+'[hidden]'));
