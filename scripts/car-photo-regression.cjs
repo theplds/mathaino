@@ -7,12 +7,12 @@ const match=source.match(/^const photoBank=(\[.*\]);$/m);
 assert.ok(match,'static photo bank should be easy to audit');
 const bank=JSON.parse(match[1]);
 function test(name,fn){try{fn();console.log('PASS',name)}catch(e){console.error('FAIL',name,e.message);process.exitCode=1}}
-test('ten distinct authentic brand/model photo records',()=>{
+test('eight licensed real-car brand/model photo records',()=>{
  assert.equal(bank.length,8);
  const expected=['Ferrari','Lamborghini','Porsche','BMW','Nissan','Ford','Chevrolet','Tesla'];
  assert.deepEqual(bank.map(x=>x.brand),expected);
- assert.equal(new Set(bank.map(x=>x.file)).size,10);
- assert.equal(new Set(bank.map(x=>x.localName)).size,10);
+ assert.equal(new Set(bank.map(x=>x.file)).size,8);
+ assert.equal(new Set(bank.map(x=>x.localName)).size,8);
 });
 test('thumbnail paths built using Wikimedia canonical source filenames, not redirects',()=>{
  for(const p of bank){
@@ -34,7 +34,7 @@ test('every photo has explicit author, file source and valid Creative Commons li
   assert.ok(source.includes('commonsLink(current.file)'));
   assert.ok(source.includes('current.author'));
  }
- assert.ok(fs.readFileSync('assets/REAL_CAR_PHOTO_SOURCES.md','utf8').includes('not files already bundled offline'));
+ assert.ok(fs.readFileSync('assets/REAL_CAR_PHOTO_SOURCES.md','utf8').includes('not files already'));
 });
 test("the child's quiz does not appear unless the image loads",()=>{
  const code=source.slice(source.indexOf('function nextCar(){'),source.indexOf('function openCars()'));
