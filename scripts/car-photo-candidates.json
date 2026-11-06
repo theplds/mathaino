@@ -70,5 +70,13 @@
     "author": "Ethan Llamas",
     "license": "CC BY-SA 4.0",
     "model": "Corvette C8"
+  },
+  {
+    "id": "lambo-green-dealer",
+    "brand": "Lamborghini",
+    "file": "Green 2018 Lamborghini Huracan.jpg",
+    "author": "Xboxrocker84",
+    "license": "CC BY-SA 4.0",
+    "model": "Huracán"
   }
 ]
