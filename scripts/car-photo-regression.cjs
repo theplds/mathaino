@@ -29,7 +29,7 @@ test('thumbnail paths built using Wikimedia canonical source filenames, not redi
 test('every photo has explicit author, file source and valid Creative Commons licence',()=>{
  for(const p of bank){
   assert.ok(p.author&&p.model&&p.file,p.brand);
-  assert.ok(/^CC (BY|BY-SA|0)/.test(p.license),p.brand);
+  assert.ok(/^(CC BY|CC BY-SA|CC0)/.test(p.license),p.brand);
   assert.ok(p.licenseUrl.startsWith('https://creativecommons.org/'),p.brand);
   assert.ok(source.includes('commonsLink(current.file)'));
   assert.ok(source.includes('current.author'));
