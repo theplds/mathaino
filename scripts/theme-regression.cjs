@@ -16,13 +16,13 @@ function contrast(hexA,hexB){
  return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);
 }
 test('new theme loaded last',()=>{
- assert.ok(page.includes('v0.6.78'));
+ assert.ok(page.includes('v0.6.79'));
  assert.ok(page.includes('cool-workbook.css?v=674'));
  assert.ok(page.indexOf('cool-workbook.css?v=674')>page.indexOf('warm-workbook.css?v=664'));
  assert.ok(page.indexOf('cool-workbook.css?v=674')>page.indexOf('question-dock.css?v=674'));
 });
 test('offline pack contains new stylesheet and new version',()=>{
- assert.ok(cache.includes('mathaino-v0.6.78'));
+ assert.ok(cache.includes('mathaino-v0.6.79'));
  assert.ok(cache.includes("'./cool-workbook.css?v=674'"));
 });
 test('both theme variants have cool backgrounds',()=>{

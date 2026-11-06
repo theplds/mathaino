@@ -1,8 +1,10 @@
-/* Μαθαίνω! • Original beginner chess exercise + licensed car photo recognition.
+/* Μαθαίνω! v0.6.79 • beginner chess + licensed real-car brand recognition.
    Chess module teaches piece movement only; not a full game engine. */
 (function(){
 'use strict';
-const photoBank=[{"brand":"Ferrari","model":"458 Italia","file":"2012 Ferrari 458 Italia red.jpg","author":"Calreyn88","license":"CC BY 4.0","licenseUrl":"https://creativecommons.org/licenses/by/4.0/"},{"brand":"Lamborghini","model":"Huracán Performante","file":"Lamborghini Huracan Performante green.jpg","author":"Calreyn88","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"Porsche","model":"911 GT3 RS","file":"Porsche 911 GT3RS.jpg","author":"Calreyn88","license":"CC0 1.0","licenseUrl":"https://creativecommons.org/publicdomain/zero/1.0/"},{"brand":"McLaren","model":"720S","file":"McLaren 720s.jpg","author":"Iorisrandombses5001","license":"CC0 1.0","licenseUrl":"https://creativecommons.org/publicdomain/zero/1.0/"},{"brand":"Bugatti","model":"Chiron","file":"Bugatti Chiron (95375).jpg","author":"Calreyn88","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"Aston Martin","model":"DB11","file":"Aston Martin DB11.jpg","author":"Tokumeigakarinoaoshima","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"Koenigsegg","model":"Agera","file":"Koenigsegg Agera 1.jpg","author":"MrWalkr","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"BMW","model":"M4","file":"BMW M4.jpg","author":"Calreyn88","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"}];
+/* Verified Wikimedia Commons images with direct, deterministic thumbnail URLs.
+   localName is reserved for future locally bundled copies, not deployed files. */
+const photoBank=[{"brand":"Ferrari","model":"458 Italia","file":"2012 Ferrari 458 Italia red.jpg","author":"Calreyn88","license":"CC BY 4.0","localName":"ferrari-458.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/2012_Ferrari_458_Italia_red.jpg/960px-2012_Ferrari_458_Italia_red.jpg","licenseUrl":"https://creativecommons.org/licenses/by/4.0/"},{"brand":"Lamborghini","model":"Huracán Performante","file":"Lamborghini Huracan Performante green.jpg","author":"Calreyn88","license":"CC BY-SA 4.0","localName":"lamborghini-huracan.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Lamborghini_Huracan_Performante_green.jpg/960px-Lamborghini_Huracan_Performante_green.jpg","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"Porsche","model":"911 GT3 RS","file":"Porsche 911 GT3RS.jpg","author":"Calreyn88","license":"CC0 1.0","localName":"porsche-911.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Porsche_911_GT3RS.jpg/960px-Porsche_911_GT3RS.jpg","licenseUrl":"https://creativecommons.org/publicdomain/zero/1.0/"},{"brand":"BMW","model":"M4","file":"BMW M4.jpg","author":"Calreyn88","license":"CC BY-SA 4.0","localName":"bmw-m4.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/BMW_M4.jpg/960px-BMW_M4.jpg","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"Mercedes-Benz","model":"AMG GT","file":"2024 Mercedes AMG GT.jpg","author":"Calreyn88","license":"CC0 1.0","localName":"mercedes-amg-gt.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/2024_Mercedes_AMG_GT.jpg/960px-2024_Mercedes_AMG_GT.jpg","licenseUrl":"https://creativecommons.org/publicdomain/zero/1.0/"},{"brand":"Audi","model":"R8 V10 Plus","file":"Audi R8 (front).jpg","author":"AKS.9955","license":"CC BY-SA 4.0","localName":"audi-r8.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Audi_R8_(front).jpg/960px-Audi_R8_(front).jpg","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"Nissan","model":"GT-R","file":"Nissan GT-R.jpg","author":"douglasjose","license":"CC BY 2.0","localName":"nissan-gtr.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Nissan_GT-R.jpg/960px-Nissan_GT-R.jpg","licenseUrl":"https://creativecommons.org/licenses/by/2.0/"},{"brand":"Ford","model":"Mustang GT","file":"Ford Mustang GT.jpg","author":"Calreyn88","license":"CC BY-SA 4.0","localName":"ford-mustang.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Ford_Mustang_GT.jpg/960px-Ford_Mustang_GT.jpg","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"Chevrolet","model":"Corvette C8","file":"Chevrolet Corvette C8 1.jpg","author":"Calreyn88","license":"CC BY-SA 4.0","localName":"chevrolet-corvette.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Chevrolet_Corvette_C8_1.jpg/960px-Chevrolet_Corvette_C8_1.jpg","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"Tesla","model":"Model S","file":"2024 Tesla Model S.jpg","author":"Calreyn88","license":"CC BY-SA 4.0","localName":"tesla-model-s.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/2024_Tesla_Model_S.jpg/960px-2024_Tesla_Model_S.jpg","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"}];
 const chessSteps=[{"piece":"R","from":"d4","to":"d7","title":"Ο πύργος","fact":"Ο πύργος κινείται μόνο οριζόντια ή κάθετα.","hint":"Βρες το σημείο στον ίδιο δρόμο, τρία τετράγωνα πιο πάνω."},{"piece":"B","from":"c1","to":"f4","title":"Ο αξιωματικός","fact":"Ο αξιωματικός κινείται διαγώνια.","hint":"Προχώρησε τρεις θέσεις διαγώνια."},{"piece":"N","from":"g1","to":"f3","title":"Το άλογο","fact":"Το άλογο πηδά σε σχήμα Γ: δύο τετράγωνα στη μία κατεύθυνση και ένα στην άλλη.","hint":"Δύο προς τα πάνω, ένα προς τα αριστερά."},{"piece":"Q","from":"d1","to":"h5","title":"Η βασίλισσα","fact":"Η βασίλισσα μπορεί να κινηθεί σαν πύργος ή αξιωματικός.","hint":"Η διαγώνιος από τη βασίλισσα φτάνει προς τα πάνω και δεξιά."},{"piece":"K","from":"e1","to":"f2","title":"Ο βασιλιάς","fact":"Ο βασιλιάς πηγαίνει ένα τετράγωνο προς οποιαδήποτε κατεύθυνση.","hint":"Μόνο ένα βήμα διαγώνια."},{"piece":"P","from":"e2","to":"e4","title":"Το πιόνι","fact":"Στην πρώτη κίνησή του το πιόνι μπορεί να πάει ένα ή δύο τετράγωνα μπροστά, αν είναι ελεύθερα.","hint":"Δύο τετράγωνα μπροστά από την αρχική θέση."}];
 const $x=id=>document.getElementById(id);
 const shuffleArray=a=>{const arr=a.slice();for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr};
@@ -67,40 +69,71 @@ chessIndex=0;chessSelected=false;chessSolved=false;drawChess();viewAll('chessLes
 $x('chessBack').onclick=()=>viewAll('home');
 $x('chessNext').onclick=()=>{chessIndex=chessIndex===chessSteps.length-1?0:chessIndex+1;chessSelected=false;chessSolved=false;drawChess()};
 $x('chessShowHint').onclick=()=>{$x('chessHelp').textContent=chessSteps[chessIndex].hint};
-let carsRound=[],carIndex=0,carSolved=false,carAttempted=false;
+let carsRound=[],carIndex=0,carSolved=false,carAttempted=false,carLoadToken=0;
 function commonsLink(file){return 'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(file).replace(/%20/g,'_')}
-function photoURL(file){return 'https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(file)+'?width=800'}
+function originalPhotoURL(photo){
+ // Wikimedia uses the same canonical hash path for the full-resolution file.
+ return photo.url.replace('/wikipedia/commons/thumb/','/wikipedia/commons/').replace(/\/960px-[^/]+$/,'')
+}
+function photoCandidates(photo){
+ return [photo.url,originalPhotoURL(photo),
+  'https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(photo.file)+'?width=800']
+}
+function carAnswersFor(current){
+ const pool=shuffleArray(photoBank.filter(x=>x.brand!==current.brand)).slice(0,3).map(x=>x.brand);
+ const options=shuffleArray([current.brand,...pool]);
+ $x('carAnswers').replaceChildren(...options.map(name=>{
+  const b=document.createElement('button');b.type='button';b.className='car-answer';b.textContent=name;
+  b.onclick=()=>{
+   if(carSolved)return;
+   if(name===current.brand){
+    carSolved=true;b.classList.add('good');
+    for(const other of $x('carAnswers').querySelectorAll('button'))other.disabled=true;
+    $x('carFeedback').textContent='Σωστά! Είναι '+current.brand+' '+current.model+'.';
+    $x('carNext').classList.remove('hidden');
+   }else{
+    carAttempted=true;b.classList.add('bad');b.disabled=true;
+    $x('carFeedback').textContent='Δοκίμασε άλλη μάρκα.'
+   }
+  };
+  return b
+ }))
+}
 function nextCar(){
-const current=carsRound[carIndex];carSolved=false;carAttempted=false;
-const img=$x('carPicture'),fallback=$x('carImageFallback');
-img.style.display='block';fallback.classList.add('hidden');fallback.replaceChildren();
-img.alt='Φωτογραφία σπορ αυτοκινήτου. Αναγνώρισε τη μάρκα.';
-img.onload=()=>{fallback.classList.add('hidden')};
-img.onerror=()=>{img.style.display='none';fallback.classList.remove('hidden');fallback.textContent='Η φωτογραφία δεν φορτώθηκε. ';const link=document.createElement('a');link.href=commonsLink(current.file);link.target='_blank';link.rel='noopener noreferrer';link.textContent='Άνοιξε τη φωτογραφία στο Wikimedia Commons';fallback.append(link)};
-img.src=photoURL(current.file);
-$x('carProgress').textContent='Αυτοκίνητο '+(carIndex+1)+' από '+carsRound.length;
-$x('carFeedback').textContent='';
-$x('carNext').classList.add('hidden');
-const credits=$x('carPhotoCredit');
-credits.replaceChildren();
-credits.append(document.createTextNode('Φωτογραφία: '+current.author+' · '));
-const source=document.createElement('a');source.textContent='Wikimedia Commons';source.href=commonsLink(current.file);source.target='_blank';source.rel='noopener noreferrer';
-const license=document.createElement('a');license.textContent=current.license;license.href=current.licenseUrl;license.target='_blank';license.rel='noopener noreferrer';
-credits.append(source,document.createTextNode(' · '),license);
-const pool=shuffleArray(photoBank.filter(x=>x.brand!==current.brand)).slice(0,3).map(x=>x.brand);
-const options=shuffleArray([current.brand,...pool]);
-$x('carAnswers').replaceChildren(...options.map(name=>{
-const b=document.createElement('button');b.type='button';b.className='car-answer';b.textContent=name;
-b.onclick=()=>{
-if(carSolved)return;
-if(name===current.brand){
-carSolved=true;b.classList.add('good');
-for(const other of $x('carAnswers').querySelectorAll('button'))other.disabled=true;
-$x('carFeedback').textContent='Σωστά! Είναι '+current.brand+' '+current.model+'.';
-$x('carNext').classList.remove('hidden');
-}else{carAttempted=true;b.classList.add('bad');b.disabled=true;$x('carFeedback').textContent='Δοκίμασε άλλη μάρκα.'}
-};return b
-}));
+ const current=carsRound[carIndex];carSolved=false;carAttempted=false;
+ const token=++carLoadToken,img=$x('carPicture'),fallback=$x('carImageFallback');
+ img.style.display='block';fallback.classList.add('hidden');fallback.replaceChildren();
+ img.alt='Πραγματική φωτογραφία αυτοκινήτου. Μάντεψε τη μάρκα.';
+ img.loading='eager';img.decoding='async';
+ $x('carProgress').textContent='Αυτοκίνητο '+(carIndex+1)+' από '+carsRound.length;
+ $x('carFeedback').textContent='Φόρτωση φωτογραφίας…';
+ $x('carNext').classList.add('hidden');
+ // Never ask a child to identify a car whose picture has failed to load.
+ $x('carAnswers').replaceChildren();
+ const credits=$x('carPhotoCredit');credits.replaceChildren();
+ credits.append(document.createTextNode('Φωτογραφία: '+current.author+' · '));
+ const source=document.createElement('a');source.textContent='Wikimedia Commons';source.href=commonsLink(current.file);source.target='_blank';source.rel='noopener noreferrer';
+ const license=document.createElement('a');license.textContent=current.license;license.href=current.licenseUrl;license.target='_blank';license.rel='noopener noreferrer';
+ credits.append(source,document.createTextNode(' · '),license);
+ const urls=photoCandidates(current);let tryIndex=0;
+ img.onload=()=>{
+  if(token!==carLoadToken)return;
+  fallback.classList.add('hidden');$x('carFeedback').textContent='';
+  carAnswersFor(current)
+ };
+ img.onerror=()=>{
+  if(token!==carLoadToken)return;
+  tryIndex++;
+  if(tryIndex<urls.length){img.src=urls[tryIndex];return}
+  img.style.display='none';fallback.classList.remove('hidden');
+  fallback.textContent='Η φωτογραφία δεν είναι διαθέσιμη. Δοκίμασε «Παράλειψη» για άλλο αυτοκίνητο. ';
+  const link=document.createElement('a');
+  link.href=commonsLink(current.file);link.target='_blank';link.rel='noopener noreferrer';
+  link.textContent='Πηγή φωτογραφίας';
+  fallback.append(link);
+  $x('carFeedback').textContent='Δεν εμφανίστηκε φωτογραφία, οπότε δεν θα ζητήσουμε μαντεψιά.'
+ };
+ img.src=urls[0]
 }
 function openCars(){
 carsRound=shuffleArray(photoBank);carIndex=0;nextCar();viewAll('carLesson')
