@@ -1,4 +1,4 @@
-name: Import licensed car photo binaries (temporary branch workflow)
+name: Import candidate car images (temporary review workflow)
 on:
   push:
     branches:
@@ -13,16 +13,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        brand: [Ferrari, Lamborghini, Porsche, BMW, Nissan, Ford, Chevrolet, Tesla]
+        photo: [lambo-green-a, lambo-green-b, lambo-green-c, porsche-orange-a, porsche-orange-b, bmw-m4-a, corvette-red-a, corvette-red-b, corvette-red-c]
     runs-on: ubuntu-latest
     timeout-minutes: 9
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - name: Retrieve one CC-licensed photo on this runner
-        run: node scripts/import-car-photo-binaries.cjs "${{ matrix.brand }}"
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Retrieve candidate via Wikimedia Commons
+        run: node scripts/import-car-photo-candidate.cjs "${{ matrix.photo }}"
       - uses: actions/upload-artifact@v4
         with:
-          name: car-${{ matrix.brand }}
+          name: candidate-${{ matrix.photo }}
           path: car-staging/
           if-no-files-found: error
   commit:
@@ -32,28 +32,28 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: feature/car-gallery-cohesive-licensed-set-v0-6-81
       - uses: actions/download-artifact@v4
         with:
-          pattern: car-*
+          pattern: candidate-*
           merge-multiple: true
-          path: assets/cars
-      - name: Validate JPG signatures and publish assets to the review branch
+          path: assets/cars/candidates
+      - name: Validate JPEGs and commit to review branch
         run: |
           node - <<'NODE'
           const fs=require('fs');
-          const files=fs.readdirSync('assets/cars').filter(x=>x.endsWith('.jpg'));
-          if(files.length!==8)throw Error('Expected 8 car JPEGs, got '+files.length);
+          const files=fs.readdirSync('assets/cars/candidates').filter(x=>x.endsWith('.jpg'));
+          if(files.length!==9)throw Error('Expected nine candidates, received '+files.length);
           for(const name of files){
-            const b=fs.readFileSync('assets/cars/'+name);
-            if(b.length<15000||b[0]!==255||b[1]!==216||b[2]!==255)throw Error('Invalid JPEG '+name);
+            const b=fs.readFileSync('assets/cars/candidates/'+name);
+            if(b.length<10000||b[0]!==255||b[1]!==216||b[2]!==255)throw Error('Invalid JPEG '+name);
           }
-          console.log('Validated '+files.length+' real-car JPEGs');
+          console.log('Downloaded '+files.length+' candidate photos');
           NODE
           git config user.name "mathaino-image-import"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/cars
-          git commit -m "Bundle eight licensed real-car JPEGs for offline recognition"
+          git add assets/cars/candidates
+          git commit -m "Import nine car photo candidates for direct visual comparison"
           git push origin HEAD:feature/car-gallery-cohesive-licensed-set-v0-6-81
