@@ -69,40 +69,71 @@ chessIndex=0;chessSelected=false;chessSolved=false;drawChess();viewAll('chessLes
 $x('chessBack').onclick=()=>viewAll('home');
 $x('chessNext').onclick=()=>{chessIndex=chessIndex===chessSteps.length-1?0:chessIndex+1;chessSelected=false;chessSolved=false;drawChess()};
 $x('chessShowHint').onclick=()=>{$x('chessHelp').textContent=chessSteps[chessIndex].hint};
-let carsRound=[],carIndex=0,carSolved=false,carAttempted=false;
+let carsRound=[],carIndex=0,carSolved=false,carAttempted=false,carLoadToken=0;
 function commonsLink(file){return 'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(file).replace(/%20/g,'_')}
-function photoURL(file){return 'https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(file)+'?width=800'}
+function originalPhotoURL(photo){
+ // Wikimedia uses the same canonical hash path for the full-resolution file.
+ return photo.url.replace('/wikipedia/commons/thumb/','/wikipedia/commons/').replace(/\/960px-[^/]+$/,'')
+}
+function photoCandidates(photo){
+ return [photo.url,originalPhotoURL(photo),
+  'https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(photo.file)+'?width=800']
+}
+function carAnswersFor(current){
+ const pool=shuffleArray(photoBank.filter(x=>x.brand!==current.brand)).slice(0,3).map(x=>x.brand);
+ const options=shuffleArray([current.brand,...pool]);
+ $x('carAnswers').replaceChildren(...options.map(name=>{
+  const b=document.createElement('button');b.type='button';b.className='car-answer';b.textContent=name;
+  b.onclick=()=>{
+   if(carSolved)return;
+   if(name===current.brand){
+    carSolved=true;b.classList.add('good');
+    for(const other of $x('carAnswers').querySelectorAll('button'))other.disabled=true;
+    $x('carFeedback').textContent='Σωστά! Είναι '+current.brand+' '+current.model+'.';
+    $x('carNext').classList.remove('hidden');
+   }else{
+    carAttempted=true;b.classList.add('bad');b.disabled=true;
+    $x('carFeedback').textContent='Δοκίμασε άλλη μάρκα.'
+   }
+  };
+  return b
+ }))
+}
 function nextCar(){
-const current=carsRound[carIndex];carSolved=false;carAttempted=false;
-const img=$x('carPicture'),fallback=$x('carImageFallback');
-img.style.display='block';fallback.classList.add('hidden');fallback.replaceChildren();
-img.alt='Φωτογραφία σπορ αυτοκινήτου. Αναγνώρισε τη μάρκα.';
-img.onload=()=>{fallback.classList.add('hidden')};
-img.onerror=()=>{img.style.display='none';fallback.classList.remove('hidden');fallback.textContent='Η φωτογραφία δεν φορτώθηκε. ';const link=document.createElement('a');link.href=commonsLink(current.file);link.target='_blank';link.rel='noopener noreferrer';link.textContent='Άνοιξε τη φωτογραφία στο Wikimedia Commons';fallback.append(link)};
-img.src=photoURL(current.file);
-$x('carProgress').textContent='Αυτοκίνητο '+(carIndex+1)+' από '+carsRound.length;
-$x('carFeedback').textContent='';
-$x('carNext').classList.add('hidden');
-const credits=$x('carPhotoCredit');
-credits.replaceChildren();
-credits.append(document.createTextNode('Φωτογραφία: '+current.author+' · '));
-const source=document.createElement('a');source.textContent='Wikimedia Commons';source.href=commonsLink(current.file);source.target='_blank';source.rel='noopener noreferrer';
-const license=document.createElement('a');license.textContent=current.license;license.href=current.licenseUrl;license.target='_blank';license.rel='noopener noreferrer';
-credits.append(source,document.createTextNode(' · '),license);
-const pool=shuffleArray(photoBank.filter(x=>x.brand!==current.brand)).slice(0,3).map(x=>x.brand);
-const options=shuffleArray([current.brand,...pool]);
-$x('carAnswers').replaceChildren(...options.map(name=>{
-const b=document.createElement('button');b.type='button';b.className='car-answer';b.textContent=name;
-b.onclick=()=>{
-if(carSolved)return;
-if(name===current.brand){
-carSolved=true;b.classList.add('good');
-for(const other of $x('carAnswers').querySelectorAll('button'))other.disabled=true;
-$x('carFeedback').textContent='Σωστά! Είναι '+current.brand+' '+current.model+'.';
-$x('carNext').classList.remove('hidden');
-}else{carAttempted=true;b.classList.add('bad');b.disabled=true;$x('carFeedback').textContent='Δοκίμασε άλλη μάρκα.'}
-};return b
-}));
+ const current=carsRound[carIndex];carSolved=false;carAttempted=false;
+ const token=++carLoadToken,img=$x('carPicture'),fallback=$x('carImageFallback');
+ img.style.display='block';fallback.classList.add('hidden');fallback.replaceChildren();
+ img.alt='Πραγματική φωτογραφία αυτοκινήτου. Μάντεψε τη μάρκα.';
+ img.loading='eager';img.decoding='async';
+ $x('carProgress').textContent='Αυτοκίνητο '+(carIndex+1)+' από '+carsRound.length;
+ $x('carFeedback').textContent='Φόρτωση φωτογραφίας…';
+ $x('carNext').classList.add('hidden');
+ // Never ask a child to identify a car whose picture has failed to load.
+ $x('carAnswers').replaceChildren();
+ const credits=$x('carPhotoCredit');credits.replaceChildren();
+ credits.append(document.createTextNode('Φωτογραφία: '+current.author+' · '));
+ const source=document.createElement('a');source.textContent='Wikimedia Commons';source.href=commonsLink(current.file);source.target='_blank';source.rel='noopener noreferrer';
+ const license=document.createElement('a');license.textContent=current.license;license.href=current.licenseUrl;license.target='_blank';license.rel='noopener noreferrer';
+ credits.append(source,document.createTextNode(' · '),license);
+ const urls=photoCandidates(current);let tryIndex=0;
+ img.onload=()=>{
+  if(token!==carLoadToken)return;
+  fallback.classList.add('hidden');$x('carFeedback').textContent='';
+  carAnswersFor(current)
+ };
+ img.onerror=()=>{
+  if(token!==carLoadToken)return;
+  tryIndex++;
+  if(tryIndex<urls.length){img.src=urls[tryIndex];return}
+  img.style.display='none';fallback.classList.remove('hidden');
+  fallback.textContent='Η φωτογραφία δεν είναι διαθέσιμη. Δοκίμασε «Παράλειψη» για άλλο αυτοκίνητο. ';
+  const link=document.createElement('a');
+  link.href=commonsLink(current.file);link.target='_blank';link.rel='noopener noreferrer';
+  link.textContent='Πηγή φωτογραφίας';
+  fallback.append(link);
+  $x('carFeedback').textContent='Δεν εμφανίστηκε φωτογραφία, οπότε δεν θα ζητήσουμε μαντεψιά.'
+ };
+ img.src=urls[0]
 }
 function openCars(){
 carsRound=shuffleArray(photoBank);carIndex=0;nextCar();viewAll('carLesson')
