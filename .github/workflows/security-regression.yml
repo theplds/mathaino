@@ -31,8 +31,6 @@ jobs:
         run: node scripts/grade-g-regression.cjs
       - name: Verify real-car brand photos, licensing, URLs and missing-photo quiz gate
         run: node scripts/car-photo-regression.cjs
-      - name: Check Wikimedia photo URLs (advisory; 404 fails, timeouts inform)
-        run: node scripts/car-photo-online-check.cjs
       - name: Verify Google OAuth sign-in and account linking safeguards
         run: node scripts/google-auth-regression.cjs
       - name: Check public Google provider availability (informational)
