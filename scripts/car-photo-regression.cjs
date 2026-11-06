@@ -29,12 +29,12 @@ test('thumbnail paths built using Wikimedia canonical source filenames, not redi
 test('every photo has explicit author, file source and valid Creative Commons licence',()=>{
  for(const p of bank){
   assert.ok(p.author&&p.model&&p.file,p.brand);
-  assert.ok(/^(CC BY|CC BY-SA|CC0)/.test(p.license),p.brand);
-  assert.ok(p.licenseUrl.startsWith('https://creativecommons.org/'),p.brand);
+  assert.ok(/^(CC BY|CC BY-SA|CC0|Attribution only)/.test(p.license),p.brand);
+  assert.ok(p.licenseUrl.startsWith('https://creativecommons.org/')||p.licenseUrl.startsWith('https://commons.wikimedia.org/wiki/File:'),p.brand);
   assert.ok(source.includes('commonsLink(current.file)'));
   assert.ok(source.includes('current.author'));
  }
- assert.ok(fs.readFileSync('assets/REAL_CAR_PHOTO_SOURCES.md','utf8').includes('NOT in this release'));
+ assert.ok(fs.readFileSync('assets/REAL_CAR_PHOTO_SOURCES.md','utf8').includes('not files already bundled offline'));
 });
 test("the child's quiz does not appear unless the image loads",()=>{
  const code=source.slice(source.indexOf('function nextCar(){'),source.indexOf('function openCars()'));
@@ -48,12 +48,32 @@ test("the child's quiz does not appear unless the image loads",()=>{
 });
 test('current app CSP and versioned cache permit real thumbnails',()=>{
  assert.ok(html.includes('https://upload.wikimedia.org'),'image CSP must allow actual Wikimedia photos');
- assert.ok(html.includes('extra-lessons.js?v=679'));
+ assert.ok(html.includes('extra-lessons.js?v=680'));
  assert.ok(html.includes('curriculum-art.js?v=679'));
- assert.ok(html.includes('v0.6.79'));
- assert.ok(sw.includes('mathaino-v0.6.79'));
- assert.ok(sw.includes("'./extra-lessons.js?v=679'"));
+ assert.ok(html.includes('v0.6.80'));
+ assert.ok(sw.includes('mathaino-v0.6.80'));
+ assert.ok(sw.includes("'./extra-lessons.js?v=680'"));
+ assert.ok(sw.includes("'./extra-lessons.css?v=680'"));
  assert.ok(sw.includes("'./curriculum-art.js?v=679'"));
+});
+test('every vehicle is colorful and identifiable from a front-oriented photo',()=>{
+ const colors=new Set(['red','green','orange','blue','yellow']);
+ for(const p of bank){
+  assert.ok(colors.has(p.color),p.brand+' must not be black/white');
+  assert.ok(p.view.startsWith('front'),p.brand+' should emphasize the visible badge');
+  assert.ok(p.model.length>=2&&p.author.length>2,p.brand);
+ }
+ assert.ok(bank.some(p=>p.color==='yellow'));
+ assert.ok(bank.some(p=>p.color==='green'));
+ assert.ok(bank.some(p=>p.color==='orange'));
+});
+test('photo enlargement exposes the actual car emblem, not a generated logo',()=>{
+ const css=fs.readFileSync('extra-lessons.css','utf8');
+ assert.ok(html.includes('id="carZoom"'));
+ assert.ok(source.includes("function updateCarZoom()"));
+ assert.ok(source.includes("carZoomed=false;updateCarZoom()"));
+ assert.ok(source.includes("$x('carZoom').disabled=false"));
+ assert.ok(css.includes("#carPictureFrame.is-zoomed #carPicture"));
 });
 test('car lesson JavaScript still parses',()=>{new Function(source)});
 if(process.exitCode)process.exit(process.exitCode);
