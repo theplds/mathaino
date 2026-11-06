@@ -3,7 +3,7 @@
 Rendered for a brand-identification exercise. No manufacturer endorsement.
 Sources and permissions recorded in assets/badges/SOURCES.md.
 """
-import hashlib, io, json, sys, time, urllib.error, urllib.parse, urllib.request
+import base64, hashlib, io, json, sys, time, urllib.error, urllib.parse, urllib.request
 from pathlib import Path
 import cairosvg
 from PIL import Image, ImageOps
@@ -18,8 +18,8 @@ canonical=file.replace(' ','_')
 digest=hashlib.md5(canonical.encode('utf-8')).hexdigest()
 url='https://upload.wikimedia.org/wikipedia/commons/'+digest[0]+'/'+digest[:2]+'/'+urllib.parse.quote(canonical,safe='()')
 other='https://commons.wikimedia.org/wiki/Special:FilePath/'+urllib.parse.quote(file)+'?width=960'
-raw=Path('assets/badges/source-porsche.svg').read_bytes() if brand=='Porsche' else None
-for attempt in range(0 if brand=='Porsche' else 6):
+raw=Path('assets/badges/source-porsche.svg').read_bytes() if brand=='Porsche' else (base64.b64decode(Path('assets/badges/source-chevrolet.b64').read_text()) if brand=='Chevrolet' else None)
+for attempt in range(0 if brand in ('Porsche','Chevrolet') else 6):
     endpoint=url if attempt < 4 else other
     try:
         request=urllib.request.Request(endpoint,headers={'User-Agent':'MathainoEducationalBadgeImporter/0.6.82 (source credit in GitHub)', 'Accept':'image/*'})
@@ -38,7 +38,7 @@ if canonical.lower().endswith('.svg'):
     img=Image.open(io.BytesIO(raster)).convert('RGBA')
 else:
     img=Image.open(io.BytesIO(raw)).convert('RGBA')
-if img.width < 80 or img.height < 60:raise ValueError('Logo resolution too small '+str(img.size))
+if img.width < 80 or img.height < 30:raise ValueError('Logo resolution too small '+str(img.size))
 # Center an authentic logo on a consistent pale neutral card, no brand name added.
 # Keep a 42px quiet inset, while preserving shield / crest aspect ratios.
 frame=Image.new('RGB',(720,480),'#f5f8fa')
