@@ -1,4 +1,5 @@
 name: Temporary badge asset importer
+# Re-run after verifying compact Chevrolet SVG and staging Porsche crest
 on:
   push:
     branches: [feature/car-badge-only-quiz-v0-6-82]
