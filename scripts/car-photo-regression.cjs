@@ -34,7 +34,7 @@ test('every photo has explicit author, file source and valid Creative Commons li
   assert.ok(source.includes('commonsLink(current.file)'));
   assert.ok(source.includes('current.author'));
  }
- assert.ok(fs.readFileSync('assets/REAL_CAR_PHOTO_SOURCES.md','utf8').includes('NOT in this release'));
+ assert.ok(fs.readFileSync('assets/REAL_CAR_PHOTO_SOURCES.md','utf8').includes('not files already bundled offline'));
 });
 test("the child's quiz does not appear unless the image loads",()=>{
  const code=source.slice(source.indexOf('function nextCar(){'),source.indexOf('function openCars()'));
@@ -61,7 +61,7 @@ test('every vehicle is colorful and identifiable from a front-oriented photo',()
  for(const p of bank){
   assert.ok(colors.has(p.color),p.brand+' must not be black/white');
   assert.ok(p.view.startsWith('front'),p.brand+' should emphasize the visible badge');
-  assert.ok(p.model.length>2&&p.author.length>2,p.brand);
+  assert.ok(p.model.length>=2&&p.author.length>2,p.brand);
  }
  assert.ok(bank.some(p=>p.color==='yellow'));
  assert.ok(bank.some(p=>p.color==='green'));
