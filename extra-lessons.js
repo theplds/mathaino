@@ -1,4 +1,4 @@
-/* Μαθαίνω! v0.6.81 • beginner chess + licensed real-car brand recognition.
+/* Μαθαίνω! v0.6.82 • beginner chess + licensed real-car brand recognition.
    Chess module teaches piece movement only; not a full game engine. */
 (function(){
 'use strict';
@@ -9,6 +9,8 @@
    Frame/scene consistency remains a visual review criterion, not a promise. */
 /* Seven reviewed full-car external photographs, locally bundled for offline use. */
 const photoBank=[{"brand":"Ferrari","model":"458 Italia","color":"red","view":"front-three-quarter","file":"2014 Ferrari 458 Italia Rosso Scuderia front three quarter.jpg","author":"Trans-nyan","license":"CC BY-SA 4.0","localName":"ferrari-458-red.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2014_Ferrari_458_Italia_Rosso_Scuderia_front_three_quarter.jpg/960px-2014_Ferrari_458_Italia_Rosso_Scuderia_front_three_quarter.jpg","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"Lamborghini","model":"Huracán","color":"green","view":"front-left","file":"Green 2018 Lamborghini Huracan.jpg","author":"Xboxrocker84","license":"CC BY-SA 4.0","localName":"lamborghini-huracan-green.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Green_2018_Lamborghini_Huracan.jpg/960px-Green_2018_Lamborghini_Huracan.jpg","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/","cropped":true},{"brand":"Porsche","model":"911 GT3 RS","color":"orange","view":"front-left","file":"Porsche 911 GT3 RS front 20090521.jpg","author":"Rudolf Stricker","license":"Attribution only","localName":"porsche-911-orange.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Porsche_911_GT3_RS_front_20090521.jpg/960px-Porsche_911_GT3_RS_front_20090521.jpg","licenseUrl":"https://commons.wikimedia.org/wiki/File:Porsche_911_GT3_RS_front_20090521.jpg"},{"brand":"Nissan","model":"Skyline GT-R R34","color":"blue","view":"front-left","file":"Nissan Skyline GT-R (R34) in Blue, front left 1.jpg","author":"Mr.choppers","license":"CC BY-SA 3.0","localName":"nissan-skyline-gtr-r34.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Nissan_Skyline_GT-R_(R34)_in_Blue%2C_front_left_1.jpg/960px-Nissan_Skyline_GT-R_(R34)_in_Blue%2C_front_left_1.jpg","licenseUrl":"https://creativecommons.org/licenses/by-sa/3.0/"},{"brand":"Ford","model":"Mustang GT","color":"red","view":"front-right-three-quarter","file":"2024 Ford Mustang 5.0 GT in Race Red, front right.jpg","author":"Ethan Llamas","license":"CC BY-SA 4.0","localName":"ford-mustang-red.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/2024_Ford_Mustang_5.0_GT_in_Race_Red%2C_front_right.jpg/960px-2024_Ford_Mustang_5.0_GT_in_Race_Red%2C_front_right.jpg","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"Chevrolet","model":"Corvette C8 Stingray","color":"red","view":"front-left","file":"Chevrolet Corvette C8 Stingray 3LT Coupe Z51 Torch Red 01.jpg","author":"Ethan Llamas","license":"CC BY-SA 4.0","localName":"chevrolet-corvette-red.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Chevrolet_Corvette_C8_Stingray_3LT_Coupe_Z51_Torch_Red_01.jpg/960px-Chevrolet_Corvette_C8_Stingray_3LT_Coupe_Z51_Torch_Red_01.jpg","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"Tesla","model":"Model S 70D","color":"blue","view":"front-left","file":"20180630 Tesla Model S 70D 2015 midnight blue left front.jpg","author":"Granada","license":"CC BY-SA 4.0","localName":"tesla-model-s-blue.jpg","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/20180630_Tesla_Model_S_70D_2015_midnight_blue_left_front.jpg/960px-20180630_Tesla_Model_S_70D_2015_midnight_blue_left_front.jpg","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"}];
+/* Original, manufacturer-identifiable emblems. JPEGs and SVGs normalized to local PNG. */
+const badgeBank=[{"brand":"Ferrari","file":"Ferrari-badge.jpg","localName":"ferrari-badge.png","author":"Ttzavaras","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"Lamborghini","file":"Stemma Lamborghini.jpg","localName":"lamborghini-badge.png","author":"Vllmtt","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0/"},{"brand":"Porsche","file":"Porsche hood emblem.png","localName":"porsche-badge.png","author":"Wikimedia Commons","license":"CC0 1.0","licenseUrl":"https://creativecommons.org/publicdomain/zero/1.0/"},{"brand":"Nissan","file":"Nissan 2020 logo.svg","localName":"nissan-badge.png","author":"Nissan Motor Corporation","license":"Public domain (simple logo)","licenseUrl":"https://commons.wikimedia.org/wiki/File:Nissan_2020_logo.svg"},{"brand":"Ford","file":"Ford Motor Company Logo.svg","localName":"ford-badge.png","author":"Ford Motor Company","license":"Public domain (simple logo)","licenseUrl":"https://commons.wikimedia.org/wiki/File:Ford_Motor_Company_Logo.svg"},{"brand":"Chevrolet","file":"Chevrolet bowtie 2023.svg","localName":"chevrolet-badge.png","author":"Chevrolet","license":"Public domain (simple logo)","licenseUrl":"https://commons.wikimedia.org/wiki/File:Chevrolet_bowtie_2023.svg"},{"brand":"Tesla","file":"Tesla T symbol.svg","localName":"tesla-badge.png","author":"Tesla, Inc.","license":"Public domain (simple logo)","licenseUrl":"https://commons.wikimedia.org/wiki/File:Tesla_T_symbol.svg"}];
 const chessSteps=[{"piece":"R","from":"d4","to":"d7","title":"Ο πύργος","fact":"Ο πύργος κινείται μόνο οριζόντια ή κάθετα.","hint":"Βρες το σημείο στον ίδιο δρόμο, τρία τετράγωνα πιο πάνω."},{"piece":"B","from":"c1","to":"f4","title":"Ο αξιωματικός","fact":"Ο αξιωματικός κινείται διαγώνια.","hint":"Προχώρησε τρεις θέσεις διαγώνια."},{"piece":"N","from":"g1","to":"f3","title":"Το άλογο","fact":"Το άλογο πηδά σε σχήμα Γ: δύο τετράγωνα στη μία κατεύθυνση και ένα στην άλλη.","hint":"Δύο προς τα πάνω, ένα προς τα αριστερά."},{"piece":"Q","from":"d1","to":"h5","title":"Η βασίλισσα","fact":"Η βασίλισσα μπορεί να κινηθεί σαν πύργος ή αξιωματικός.","hint":"Η διαγώνιος από τη βασίλισσα φτάνει προς τα πάνω και δεξιά."},{"piece":"K","from":"e1","to":"f2","title":"Ο βασιλιάς","fact":"Ο βασιλιάς πηγαίνει ένα τετράγωνο προς οποιαδήποτε κατεύθυνση.","hint":"Μόνο ένα βήμα διαγώνια."},{"piece":"P","from":"e2","to":"e4","title":"Το πιόνι","fact":"Στην πρώτη κίνησή του το πιόνι μπορεί να πάει ένα ή δύο τετράγωνα μπροστά, αν είναι ελεύθερα.","hint":"Δύο τετράγωνα μπροστά από την αρχική θέση."}];
 const $x=id=>document.getElementById(id);
 const shuffleArray=a=>{const arr=a.slice();for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr};
@@ -74,6 +76,19 @@ $x('chessBack').onclick=()=>viewAll('home');
 $x('chessNext').onclick=()=>{chessIndex=chessIndex===chessSteps.length-1?0:chessIndex+1;chessSelected=false;chessSolved=false;drawChess()};
 $x('chessShowHint').onclick=()=>{$x('chessHelp').textContent=chessSteps[chessIndex].hint};
 let carsRound=[],carIndex=0,carSolved=false,carAttempted=false,carLoadToken=0;
+let carMode='cars',carScore=0,carFirstTry=true,carCompleted=false;
+function updateCarModeButtons(){
+ const badge=carMode==='badges';
+ $x('carModeCars').setAttribute('aria-pressed',String(!badge));
+ $x('carModeBadges').setAttribute('aria-pressed',String(badge));
+ $x('carQuizHeading').textContent=badge?'Μάντεψε το σήμα':'Γρήγορα αυτοκίνητα';
+ $x('carQuizDescription').textContent=badge?'Κοίταξε μόνο το πραγματικό σήμα. Ποια μάρκα είναι;':'Κοίταξε τη φωτογραφία. Ποια είναι η μάρκα; Διάλεξε μία από τις τέσσερις απαντήσεις.';
+ $x('carPhotoZoomGroup').hidden=badge;
+ $x('carPictureFrame').classList.toggle('badge-only',badge);
+ $x('carNext').textContent='Επόμενο '+(badge?'σήμα':'αυτοκίνητο');
+ $x('carSkip').classList.remove('hidden');
+}
+
 let carZoomed=false;
 function updateCarZoom(){
  const frame=$x('carPictureFrame'),button=$x('carZoom');
@@ -102,40 +117,67 @@ function carAnswersFor(current){
    if(carSolved)return;
    if(name===current.brand){
     carSolved=true;b.classList.add('good');
+    if(carMode==='badges'&&carFirstTry)carScore++;
     for(const other of $x('carAnswers').querySelectorAll('button'))other.disabled=true;
-    $x('carFeedback').textContent='Σωστά! Είναι '+current.brand+' '+current.model+'.';
+    $x('carFeedback').textContent=carMode==='badges'?'Σωστά! Το σήμα είναι της '+current.brand+'.'+(carFirstTry?'':' Πολύ καλά που το βρήκες!'):'Σωστά! Είναι '+current.brand+' '+current.model+'.';
+    if(carMode==='badges')showBadgeCredit(current);
     $x('carNext').classList.remove('hidden');
    }else{
-    carAttempted=true;b.classList.add('bad');b.disabled=true;
+    carAttempted=true;carFirstTry=false;b.classList.add('bad');b.disabled=true;
     $x('carFeedback').textContent='Δοκίμασε άλλη μάρκα.'
    }
   };
   return b
  }))
 }
+function showBadgeCredit(current){
+ const credits=$x('carPhotoCredit');
+ credits.replaceChildren();
+ credits.append(document.createTextNode('Σήμα: '+current.author+' · '));
+ const source=document.createElement('a');
+ source.textContent='Πηγή';source.href=commonsLink(current.file);source.target='_blank';source.rel='noopener noreferrer';
+ const license=document.createElement('a');
+ license.textContent=current.license;license.href=current.licenseUrl;license.target='_blank';license.rel='noopener noreferrer';
+ credits.append(source,document.createTextNode(' · '),license)
+}
+function finishBadgeTest(){
+ carCompleted=true;
+ const token=++carLoadToken;
+ const score=carScore,total=carsRound.length;
+ $x('carPicture').style.display='none';
+ $x('carImageFallback').classList.remove('hidden');
+ $x('carImageFallback').textContent='Ολοκλήρωσες! Αναγνώρισες '+score+' από τα '+total+' σήματα με την πρώτη προσπάθεια.';
+ $x('carAnswers').replaceChildren();
+ $x('carFeedback').textContent=score===total?'Εξαιρετικά! Ξέρεις όλα τα σήματα.':'Μπορείς να ξαναπαίξεις και να αναγνωρίσεις περισσότερα σήματα!';
+ $x('carProgress').textContent='Τέλος δοκιμής';
+ $x('carNext').classList.remove('hidden');
+ $x('carNext').textContent='Παίξε ξανά';
+ $x('carSkip').classList.add('hidden');
+ $x('carPhotoCredit').replaceChildren();
+}
 function nextCar(){
- const current=carsRound[carIndex];carSolved=false;carAttempted=false;
+ const current=carsRound[carIndex];carSolved=false;carAttempted=false;carFirstTry=true;carCompleted=false;
  const token=++carLoadToken,img=$x('carPicture'),fallback=$x('carImageFallback');
  carZoomed=false;updateCarZoom();$x('carZoom').disabled=true;
  img.style.display='block';fallback.classList.add('hidden');fallback.replaceChildren();
- img.alt='Πραγματική φωτογραφία αυτοκινήτου. Μάντεψε τη μάρκα.';
+ img.alt=carMode==='badges'?'Σήμα κατασκευαστή. Αναγνώρισε τη μάρκα.':'Πραγματική φωτογραφία αυτοκινήτου. Μάντεψε τη μάρκα.';
  img.loading='eager';img.decoding='async';
- $x('carProgress').textContent='Αυτοκίνητο '+(carIndex+1)+' από '+carsRound.length;
+ $x('carProgress').textContent=(carMode==='badges'?'Σήμα ':'Αυτοκίνητο ')+(carIndex+1)+' από '+carsRound.length;
  $x('carFeedback').textContent='Φόρτωση φωτογραφίας…';
  $x('carNext').classList.add('hidden');
  // Never ask a child to identify a car whose picture has failed to load.
  $x('carAnswers').replaceChildren();
  const credits=$x('carPhotoCredit');credits.replaceChildren();
- credits.append(document.createTextNode('Φωτογραφία: '+current.author+' · '));
+ if(carMode==='cars')credits.append(document.createTextNode('Φωτογραφία: '+current.author+' · '));
  const source=document.createElement('a');source.textContent='Wikimedia Commons';source.href=commonsLink(current.file);source.target='_blank';source.rel='noopener noreferrer';
  const license=document.createElement('a');license.textContent=current.license;license.href=current.licenseUrl;license.target='_blank';license.rel='noopener noreferrer';
- credits.append(source,document.createTextNode(' · '),license);
+ if(carMode==='cars')credits.append(source,document.createTextNode(' · '),license);
  if(current.cropped)credits.append(document.createTextNode(' · Περικοπή φόντου για εκμάθηση σήματος'));
- const urls=photoCandidates(current);let tryIndex=0;
+ const urls=carMode==='badges'?['./assets/badges/'+encodeURIComponent(current.localName)]:photoCandidates(current);let tryIndex=0;
  img.onload=()=>{
   if(token!==carLoadToken)return;
   fallback.classList.add('hidden');$x('carFeedback').textContent='';
-  $x('carZoom').disabled=false;
+  if(carMode==='cars')$x('carZoom').disabled=false;
   carAnswersFor(current)
  };
  img.onerror=()=>{
@@ -143,21 +185,32 @@ function nextCar(){
   tryIndex++;
   if(tryIndex<urls.length){img.src=urls[tryIndex];return}
   img.style.display='none';fallback.classList.remove('hidden');
-  fallback.textContent='Η φωτογραφία δεν είναι διαθέσιμη. Δοκίμασε «Παράλειψη» για άλλο αυτοκίνητο. ';
+  fallback.textContent='Η εικόνα δεν είναι διαθέσιμη. Δοκίμασε «Παράλειψη» για την επόμενη. ';
   const link=document.createElement('a');
   link.href=commonsLink(current.file);link.target='_blank';link.rel='noopener noreferrer';
   link.textContent='Πηγή φωτογραφίας';
   fallback.append(link);
-  $x('carFeedback').textContent='Δεν εμφανίστηκε φωτογραφία, οπότε δεν θα ζητήσουμε μαντεψιά.'
+  $x('carFeedback').textContent='Δεν εμφανίστηκε εικόνα, οπότε δεν θα ζητήσουμε μαντεψιά.'
  };
  img.src=urls[0]
 }
-function openCars(){
-carsRound=shuffleArray(photoBank);carIndex=0;nextCar();viewAll('carLesson')
+function openCars(mode='cars'){
+carMode=mode==='badges'?'badges':'cars';
+carsRound=shuffleArray(carMode==='badges'?badgeBank:photoBank);carIndex=0;carScore=0;carCompleted=false;
+updateCarModeButtons();nextCar();viewAll('carLesson')
 }
-$x('carBack').onclick=()=>viewAll('home');
-$x('carNext').onclick=()=>{if(carIndex===carsRound.length-1){openCars();return}carIndex++;nextCar()};
-$x('carSkip').onclick=()=>{if(carIndex===carsRound.length-1){openCars();return}carIndex++;nextCar()};
+$x('carModeCars').onclick=()=>openCars('cars');
+$x('carModeBadges').onclick=()=>openCars('badges');
+$x('carBack').onclick=()=>{carLoadToken++;viewAll('home')};
+$x('carNext').onclick=()=>{
+ if(carCompleted){openCars('badges');return}
+ if(carIndex===carsRound.length-1){if(carMode==='badges')finishBadgeTest();else openCars('cars');return}
+ carIndex++;nextCar()
+};
+$x('carSkip').onclick=()=>{
+ if(carIndex===carsRound.length-1){if(carMode==='badges')finishBadgeTest();else openCars('cars');return}
+ carIndex++;nextCar()
+};
 const oldViewAll=viewAll;
 viewAll=function(id){oldViewAll(id);$x('chessLesson').classList.toggle('hidden',id!=='chessLesson');$x('carLesson').classList.toggle('hidden',id!=='carLesson')};
 const oldChooseChild=chooseChild;
@@ -181,5 +234,5 @@ oldTopics()
 const oldStudy=$x('study').onclick,oldPractice=$x('practice').onclick;
 $x('study').onclick=()=>{if(sub==='chess')openChess();else if(sub==='cars')openCars();else oldStudy()};
 $x('practice').onclick=()=>{if(sub==='chess')openChess();else if(sub==='cars')openCars();else oldPractice()};
-window.MathainoExtraLessons=Object.freeze({photoCount:photoBank.length,chessSteps:chessSteps.length,photoSourceLinks:photoBank.map(p=>commonsLink(p.file))});
+window.MathainoExtraLessons=Object.freeze({photoCount:photoBank.length,badgeCount:badgeBank.length,chessSteps:chessSteps.length,photoSourceLinks:photoBank.map(p=>commonsLink(p.file))});
 })();
