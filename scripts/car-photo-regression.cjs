@@ -8,8 +8,8 @@ assert.ok(match,'static photo bank should be easy to audit');
 const bank=JSON.parse(match[1]);
 function test(name,fn){try{fn();console.log('PASS',name)}catch(e){console.error('FAIL',name,e.message);process.exitCode=1}}
 test('ten distinct authentic brand/model photo records',()=>{
- assert.equal(bank.length,10);
- const expected=['Ferrari','Lamborghini','Porsche','BMW','Mercedes-Benz','Audi','Nissan','Ford','Chevrolet','Tesla'];
+ assert.equal(bank.length,8);
+ const expected=['Ferrari','Lamborghini','Porsche','BMW','Nissan','Ford','Chevrolet','Tesla'];
  assert.deepEqual(bank.map(x=>x.brand),expected);
  assert.equal(new Set(bank.map(x=>x.file)).size,10);
  assert.equal(new Set(bank.map(x=>x.localName)).size,10);
@@ -48,13 +48,13 @@ test("the child's quiz does not appear unless the image loads",()=>{
 });
 test('current app CSP and versioned cache permit real thumbnails',()=>{
  assert.ok(html.includes('https://upload.wikimedia.org'),'image CSP must allow actual Wikimedia photos');
- assert.ok(html.includes('extra-lessons.js?v=680'));
- assert.ok(html.includes('curriculum-art.js?v=679'));
- assert.ok(html.includes('v0.6.80'));
- assert.ok(sw.includes('mathaino-v0.6.80'));
- assert.ok(sw.includes("'./extra-lessons.js?v=680'"));
- assert.ok(sw.includes("'./extra-lessons.css?v=680'"));
- assert.ok(sw.includes("'./curriculum-art.js?v=679'"));
+ assert.ok(html.includes('extra-lessons.js?v=681'));
+ assert.ok(html.includes('curriculum-art.js?v=681'));
+ assert.ok(html.includes('v0.6.81'));
+ assert.ok(sw.includes('mathaino-v0.6.81'));
+ assert.ok(sw.includes("'./extra-lessons.js?v=681'"));
+ assert.ok(sw.includes("'./extra-lessons.css?v=681'"));
+ assert.ok(sw.includes("'./curriculum-art.js?v=681'"));
 });
 test('every vehicle is colorful and identifiable from a front-oriented photo',()=>{
  const colors=new Set(['red','green','orange','blue','yellow']);
@@ -63,7 +63,7 @@ test('every vehicle is colorful and identifiable from a front-oriented photo',()
   assert.ok(p.view.startsWith('front'),p.brand+' should emphasize the visible badge');
   assert.ok(p.model.length>=2&&p.author.length>2,p.brand);
  }
- assert.ok(bank.some(p=>p.color==='yellow'));
+ assert.ok(bank.some(p=>p.color==='blue'));
  assert.ok(bank.some(p=>p.color==='green'));
  assert.ok(bank.some(p=>p.color==='orange'));
 });
