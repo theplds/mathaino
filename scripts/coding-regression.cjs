@@ -94,8 +94,8 @@ test('touch navigation, visible actions, dark appearance, offline assets',()=>{
  assert.ok(html.includes('coding-lesson.js?v=676'));
  assert.ok(html.includes('coding-lesson.css?v=676'));
  assert.ok(html.indexOf('coding-core.js?v=676')<html.indexOf('coding-lesson.js?v=676'));
- assert.ok(html.includes('v0.6.80'));
- assert.ok(sw.includes('mathaino-v0.6.80'));
+ assert.ok(html.includes('v0.6.81'));
+ assert.ok(sw.includes('mathaino-v0.6.81'));
  for(const name of ['coding-core.js','coding-lesson.js','coding-lesson.css']){
   assert.ok(sw.includes("'./"+name+"?v=676'"),name+' unavailable offline');
  }

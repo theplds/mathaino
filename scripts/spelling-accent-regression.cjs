@@ -28,6 +28,6 @@ assert.ok(content.includes("accent==='misplaced'"),'wrong accent has targeted fe
 assert.ok(content.includes("'Σωστά τα γράμματα! Πρόσεξε τον τόνο"),'missing accent gets gentle teaching');
 assert.ok(content.includes("'Τα γράμματα είναι σωστά! Ο τόνος όμως"),'misplaced accent prompts retry');
 const sw=fs.readFileSync('sw.js','utf8'),html=fs.readFileSync('index.html','utf8');
-assert.ok(sw.includes('mathaino-v0.6.80')&&sw.includes("'./spelling-a1.js?v=675'"),'offline cached lesson updated');
-assert.ok(html.includes('spelling-a1.js?v=675')&&html.includes('v0.6.80'),'new lesson and version referenced');
+assert.ok(sw.includes('mathaino-v0.6.81')&&sw.includes("'./spelling-a1.js?v=675'"),'offline cached lesson updated');
+assert.ok(html.includes('spelling-a1.js?v=675')&&html.includes('v0.6.81'),'new lesson and version referenced');
 console.log('PASS accent omitted, correctly placed, misplaced, other spelling, Greek capitals, diaeresis; teaching feedback and offline release');

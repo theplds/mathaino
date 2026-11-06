@@ -39,7 +39,7 @@ math:'Μαθαίνω και εξασκώ την προπαίδεια',
 addition:'Μετράω και προσθέτω έως το 10',
 en:'Αγγλικές λέξεις και φράσεις',
 fr:'Γαλλικές λέξεις και φράσεις',
-reading:'Παρατηρώ εικόνες και διαβάζω λέξεις',chess:'Σκάκι · μάθε πώς κινούνται έξι κομμάτια',cars:'Δέκα αληθινά αυτοκίνητα · αναγνώρισε τη μάρκα από φωτογραφία'};
+reading:'Παρατηρώ εικόνες και διαβάζω λέξεις',chess:'Σκάκι · μάθε πώς κινούνται έξι κομμάτια',cars:'Οκτώ αληθινά αυτοκίνητα · μάντεψε τη μάρκα από φωτογραφία'};
 window.MathainoIllustrations=Object.freeze({
 subject,word,descriptions:Object.freeze(descriptions),
 subjectIds:Object.freeze(Object.keys(subjects)),wordIds:Object.freeze([...new Set([...Object.keys(words),...(window.MathainoWarmArt?.wordIds||[])])]),

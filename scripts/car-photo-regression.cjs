@@ -7,12 +7,26 @@ const match=source.match(/^const photoBank=(\[.*\]);$/m);
 assert.ok(match,'static photo bank should be easy to audit');
 const bank=JSON.parse(match[1]);
 function test(name,fn){try{fn();console.log('PASS',name)}catch(e){console.error('FAIL',name,e.message);process.exitCode=1}}
-test('ten distinct authentic brand/model photo records',()=>{
- assert.equal(bank.length,10);
- const expected=['Ferrari','Lamborghini','Porsche','BMW','Mercedes-Benz','Audi','Nissan','Ford','Chevrolet','Tesla'];
+test('seven locally bundled real-car brand/model records',()=>{
+ assert.equal(bank.length,7);
+ const expected=['Ferrari','Lamborghini','Porsche','Nissan','Ford','Chevrolet','Tesla'];
  assert.deepEqual(bank.map(x=>x.brand),expected);
- assert.equal(new Set(bank.map(x=>x.file)).size,10);
- assert.equal(new Set(bank.map(x=>x.localName)).size,10);
+ assert.equal(new Set(bank.map(x=>x.file)).size,7);
+ assert.equal(new Set(bank.map(x=>x.localName)).size,7);
+});
+test('all seven JPEGs are locally present, valid and precached for offline use',()=>{
+ const listed=fs.readdirSync('assets/cars').filter(x=>x.endsWith('.jpg')).sort();
+ const expected=bank.map(x=>x.localName).sort();
+ assert.deepEqual(listed,expected);
+ assert.ok(source.includes("'./assets/cars/'+encodeURIComponent(photo.localName)"));
+ for(const entry of bank){
+  const bytes=fs.readFileSync('assets/cars/'+entry.localName);
+  assert.ok(bytes.length>15000,entry.brand+' photo too small');
+  assert.equal(bytes[0],255);assert.equal(bytes[1],216);assert.equal(bytes[2],255);
+  assert.ok(sw.includes('./assets/cars/'+entry.localName),entry.brand+' not precached');
+ }
+ assert.ok(!html.includes('Απαιτείται σύνδεση για νέες εικόνες.'));
+ assert.ok(html.includes('και χωρίς σύνδεση.'));
 });
 test('thumbnail paths built using Wikimedia canonical source filenames, not redirects',()=>{
  for(const p of bank){
@@ -34,7 +48,7 @@ test('every photo has explicit author, file source and valid Creative Commons li
   assert.ok(source.includes('commonsLink(current.file)'));
   assert.ok(source.includes('current.author'));
  }
- assert.ok(fs.readFileSync('assets/REAL_CAR_PHOTO_SOURCES.md','utf8').includes('not files already bundled offline'));
+ assert.ok(fs.readFileSync('assets/REAL_CAR_PHOTO_SOURCES.md','utf8').includes('pre-cached for offline use'));
 });
 test("the child's quiz does not appear unless the image loads",()=>{
  const code=source.slice(source.indexOf('function nextCar(){'),source.indexOf('function openCars()'));
@@ -48,13 +62,13 @@ test("the child's quiz does not appear unless the image loads",()=>{
 });
 test('current app CSP and versioned cache permit real thumbnails',()=>{
  assert.ok(html.includes('https://upload.wikimedia.org'),'image CSP must allow actual Wikimedia photos');
- assert.ok(html.includes('extra-lessons.js?v=680'));
- assert.ok(html.includes('curriculum-art.js?v=679'));
- assert.ok(html.includes('v0.6.80'));
- assert.ok(sw.includes('mathaino-v0.6.80'));
- assert.ok(sw.includes("'./extra-lessons.js?v=680'"));
- assert.ok(sw.includes("'./extra-lessons.css?v=680'"));
- assert.ok(sw.includes("'./curriculum-art.js?v=679'"));
+ assert.ok(html.includes('extra-lessons.js?v=681'));
+ assert.ok(html.includes('curriculum-art.js?v=681'));
+ assert.ok(html.includes('v0.6.81'));
+ assert.ok(sw.includes('mathaino-v0.6.81'));
+ assert.ok(sw.includes("'./extra-lessons.js?v=681'"));
+ assert.ok(sw.includes("'./extra-lessons.css?v=681'"));
+ assert.ok(sw.includes("'./curriculum-art.js?v=681'"));
 });
 test('every vehicle is colorful and identifiable from a front-oriented photo',()=>{
  const colors=new Set(['red','green','orange','blue','yellow']);
@@ -63,9 +77,10 @@ test('every vehicle is colorful and identifiable from a front-oriented photo',()
   assert.ok(p.view.startsWith('front'),p.brand+' should emphasize the visible badge');
   assert.ok(p.model.length>=2&&p.author.length>2,p.brand);
  }
- assert.ok(bank.some(p=>p.color==='yellow'));
+ assert.ok(bank.some(p=>p.color==='blue'));
  assert.ok(bank.some(p=>p.color==='green'));
  assert.ok(bank.some(p=>p.color==='orange'));
+ assert.ok(bank.filter(p=>/three-quarter|front-left|front-right/.test(p.view)).length>=5);
 });
 test('photo enlargement exposes the actual car emblem, not a generated logo',()=>{
  const css=fs.readFileSync('extra-lessons.css','utf8');
@@ -74,6 +89,8 @@ test('photo enlargement exposes the actual car emblem, not a generated logo',()=
  assert.ok(source.includes("carZoomed=false;updateCarZoom()"));
  assert.ok(source.includes("$x('carZoom').disabled=false"));
  assert.ok(css.includes("#carPictureFrame.is-zoomed #carPicture"));
+ assert.ok(css.includes('object-fit:contain'));
+ assert.ok(css.includes('aspect-ratio:16/9'));
 });
 test('car lesson JavaScript still parses',()=>{new Function(source)});
 if(process.exitCode)process.exit(process.exitCode);

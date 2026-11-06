@@ -61,3 +61,22 @@ html[data-theme="dark"] .extra-lesson-kicker{color:#a9d3ec}
 .car-zoom-actions span{font-size:.82rem;color:#587284}
 html[data-theme="dark"] .car-zoom-actions button{background:#285943;color:#f1fff5;border-color:#7bc5a4}
 html[data-theme="dark"] .car-zoom-actions span{color:#bed6e2}
+
+/* v0.6.81: consistent neutral editorial-style stage. Default never crops the
+   car; zoom is a separately requested mode for inspecting the badge. */
+#carPictureFrame{
+ aspect-ratio:16/9;min-height:0;height:auto;
+ background:#edf0f2;border:1.5px solid #cad6dc;border-radius:16px;
+}
+#carPicture{
+ box-sizing:border-box;width:100%;height:100%;object-fit:contain;
+ object-position:center center;padding:10px;background:transparent;
+}
+#carPictureFrame.is-zoomed #carPicture{transform:scale(1.65)}
+html[data-theme="dark"] #carPictureFrame{
+ background:#304350;border-color:#708b9b;
+}
+@media(max-width:410px){
+ #carPictureFrame{aspect-ratio:4/3;min-height:0}
+ #carPicture{padding:6px}
+}
