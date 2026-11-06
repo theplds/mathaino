@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        photo: [lambo-green-a, lambo-green-b, lambo-green-c, porsche-orange-a, porsche-orange-b, bmw-m4-a, corvette-red-a, corvette-red-b, corvette-red-c]
+        photo: [lambo-green-dealer]
     runs-on: ubuntu-latest
     timeout-minutes: 9
     steps:
@@ -45,7 +45,7 @@ jobs:
           node - <<'NODE'
           const fs=require('fs');
           const files=fs.readdirSync('assets/cars/candidates').filter(x=>x.endsWith('.jpg'));
-          if(files.length!==9)throw Error('Expected nine candidates, received '+files.length);
+          if(files.length!==10)throw Error('Expected ten staged candidates, received '+files.length);
           for(const name of files){
             const b=fs.readFileSync('assets/cars/candidates/'+name);
             if(b.length<10000||b[0]!==255||b[1]!==216||b[2]!==255)throw Error('Invalid JPEG '+name);
