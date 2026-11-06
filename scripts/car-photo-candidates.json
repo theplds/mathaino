@@ -1,0 +1,74 @@
+[
+  {
+    "id": "lambo-green-a",
+    "brand": "Lamborghini",
+    "file": "Lamborghini Huracan Performante green.jpg",
+    "author": "Calreyn88",
+    "license": "CC BY-SA 4.0",
+    "model": "Huracán Performante"
+  },
+  {
+    "id": "lambo-green-b",
+    "brand": "Lamborghini",
+    "file": "Lamborghini Huracan Performante green 1.jpg",
+    "author": "Calreyn88",
+    "license": "CC BY-SA 4.0",
+    "model": "Huracán Performante"
+  },
+  {
+    "id": "lambo-green-c",
+    "brand": "Lamborghini",
+    "file": "2022 Lamborghini Huracan Performante.jpg",
+    "author": "Calreyn88",
+    "license": "CC BY-SA 4.0",
+    "model": "Huracán Performante"
+  },
+  {
+    "id": "porsche-orange-a",
+    "brand": "Porsche",
+    "file": "Porsche 911 GT3 RS front 20090521.jpg",
+    "author": "Rudolf Stricker",
+    "license": "Attribution",
+    "model": "911 GT3 RS"
+  },
+  {
+    "id": "porsche-orange-b",
+    "brand": "Porsche",
+    "file": "2017 Porsche 911 GT3 RS orange.jpg",
+    "author": "MrWalkr",
+    "license": "CC BY-SA 4.0",
+    "model": "911 GT3 RS"
+  },
+  {
+    "id": "bmw-m4-a",
+    "brand": "BMW",
+    "file": "BMW M4 front left side (21023102711).jpg",
+    "author": "Zytonits",
+    "license": "CC BY-SA 2.0",
+    "model": "M4"
+  },
+  {
+    "id": "corvette-red-a",
+    "brand": "Chevrolet",
+    "file": "Chevrolet Corvette C8 Stingray 3LT Coupe Z51 Torch Red 01.jpg",
+    "author": "Ethan Llamas",
+    "license": "CC BY-SA 4.0",
+    "model": "Corvette C8"
+  },
+  {
+    "id": "corvette-red-b",
+    "brand": "Chevrolet",
+    "file": "Chevrolet Corvette C8 Stingray 3LT Coupe Z51 Torch Red 02.jpg",
+    "author": "Ethan Llamas",
+    "license": "CC BY-SA 4.0",
+    "model": "Corvette C8"
+  },
+  {
+    "id": "corvette-red-c",
+    "brand": "Chevrolet",
+    "file": "Chevrolet Corvette C8 Stingray 3LT Coupe Z51 Torch Red.jpg",
+    "author": "Ethan Llamas",
+    "license": "CC BY-SA 4.0",
+    "model": "Corvette C8"
+  }
+]
