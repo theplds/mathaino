@@ -90,8 +90,8 @@ test('Γ΄ available in lesson library, 44 count dynamic, and dedicated lesson n
  assert.ok(ui.includes("if(!l||!keys.has(l.subject)||!canAccess(p,l.subject))return"));
 });
 test('Greek lesson assets bundled offline, subject cards responsive, source loaded before library',()=>{
- assert.ok(html.includes('v0.6.78'));
- assert.ok(sw.includes('mathaino-v0.6.78'));
+ assert.ok(html.includes('v0.6.79'));
+ assert.ok(sw.includes('mathaino-v0.6.79'));
  for(const path of ['lessons-grade-g.js','grade-g-subjects.js','grade-g-subjects.css']){
   assert.ok(html.includes('./'+path+'?v=678'),path+' missing HTML');
   assert.ok(sw.includes("'./"+path+"?v=678'"),path+' missing SW');
