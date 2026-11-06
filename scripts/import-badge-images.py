@@ -26,12 +26,12 @@ for attempt in range(6):
         with urllib.request.urlopen(request,timeout=28) as response:
             raw=response.read(13000000)
             typ=response.headers.get('Content-Type','')
-        if len(raw)<1000 or raw[:4]==b'<!DO':raise ValueError('Invalid image payload '+typ)
+        if len(raw)<(150 if canonical.lower().endswith('.svg') else 1000) or raw[:4]==b'<!DO':raise ValueError('Invalid image payload '+typ)
         break
     except Exception as e:
         print('retry',attempt+1,'on',brand,type(e).__name__,str(e)[:120],flush=True)
         time.sleep(2+attempt*3)
-if raw is None or len(raw)<1000:raise SystemExit('Missing badge '+brand)
+if raw is None or len(raw)<(150 if canonical.lower().endswith('.svg') else 1000):raise SystemExit('Missing badge '+brand)
 if canonical.lower().endswith('.svg'):
     if b'<svg' not in raw[:3000] and b'<svg' not in raw[:3000].lower():raise ValueError('SVG not found')
     raster=cairosvg.svg2png(bytestring=raw,output_width=900)
