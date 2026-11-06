@@ -29,6 +29,8 @@ jobs:
         run: node scripts/new-curriculum-regression.cjs
       - name: Verify Grade Γ curriculum, parent access, offline and regression protections
         run: node scripts/grade-g-regression.cjs
+      - name: Verify seven authentic badge images, offline cache, mode switch and scoring
+        run: node scripts/car-badge-regression.cjs
       - name: Verify real-car brand photos, licensing, URLs and missing-photo quiz gate
         run: node scripts/car-photo-regression.cjs
       - name: Verify Google OAuth sign-in and account linking safeguards
