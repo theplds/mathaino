@@ -7,12 +7,26 @@ const match=source.match(/^const photoBank=(\[.*\]);$/m);
 assert.ok(match,'static photo bank should be easy to audit');
 const bank=JSON.parse(match[1]);
 function test(name,fn){try{fn();console.log('PASS',name)}catch(e){console.error('FAIL',name,e.message);process.exitCode=1}}
-test('eight licensed real-car brand/model photo records',()=>{
- assert.equal(bank.length,8);
- const expected=['Ferrari','Lamborghini','Porsche','BMW','Nissan','Ford','Chevrolet','Tesla'];
+test('seven locally bundled real-car brand/model records',()=>{
+ assert.equal(bank.length,7);
+ const expected=['Ferrari','Lamborghini','Porsche','Nissan','Ford','Chevrolet','Tesla'];
  assert.deepEqual(bank.map(x=>x.brand),expected);
- assert.equal(new Set(bank.map(x=>x.file)).size,8);
- assert.equal(new Set(bank.map(x=>x.localName)).size,8);
+ assert.equal(new Set(bank.map(x=>x.file)).size,7);
+ assert.equal(new Set(bank.map(x=>x.localName)).size,7);
+});
+test('all seven JPEGs are locally present, valid and precached for offline use',()=>{
+ const listed=fs.readdirSync('assets/cars').filter(x=>x.endsWith('.jpg')).sort();
+ const expected=bank.map(x=>x.localName).sort();
+ assert.deepEqual(listed,expected);
+ assert.ok(source.includes("'./assets/cars/'+encodeURIComponent(photo.localName)"));
+ for(const entry of bank){
+  const bytes=fs.readFileSync('assets/cars/'+entry.localName);
+  assert.ok(bytes.length>15000,entry.brand+' photo too small');
+  assert.equal(bytes[0],255);assert.equal(bytes[1],216);assert.equal(bytes[2],255);
+  assert.ok(sw.includes('./assets/cars/'+entry.localName),entry.brand+' not precached');
+ }
+ assert.ok(!html.includes('Απαιτείται σύνδεση για νέες εικόνες.'));
+ assert.ok(html.includes('και χωρίς σύνδεση.'));
 });
 test('thumbnail paths built using Wikimedia canonical source filenames, not redirects',()=>{
  for(const p of bank){
@@ -34,7 +48,7 @@ test('every photo has explicit author, file source and valid Creative Commons li
   assert.ok(source.includes('commonsLink(current.file)'));
   assert.ok(source.includes('current.author'));
  }
- assert.ok(fs.readFileSync('assets/REAL_CAR_PHOTO_SOURCES.md','utf8').includes('not files already'));
+ assert.ok(fs.readFileSync('assets/REAL_CAR_PHOTO_SOURCES.md','utf8').includes('pre-cached for offline use'));
 });
 test("the child's quiz does not appear unless the image loads",()=>{
  const code=source.slice(source.indexOf('function nextCar(){'),source.indexOf('function openCars()'));
