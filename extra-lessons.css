@@ -50,3 +50,14 @@ html[data-theme="dark"] #carPhotoCredit a{color:#b4dbff}
 html[data-theme="dark"] .extra-lesson-kicker{color:#a9d3ec}
 @media(max-width:410px){#chessBoard{border-width:3px}#carAnswers{gap:8px}#carAnswers button{min-height:57px;padding:6px;font-size:.96rem}#carPictureFrame{min-height:155px}.chess-learning-card{padding:10px}}
 @media(prefers-reduced-motion:reduce){#chessBoard *,#carPicture{transition:none!important;animation:none!important}}
+
+/* v0.6.80: optical enlargement of the actual car photograph, not a fake emblem. */
+#carPictureFrame{position:relative}
+#carPicture{transition:transform .24s ease;transform-origin:50% 60%}
+#carPictureFrame.is-zoomed #carPicture{transform:scale(1.8)}
+.car-zoom-actions{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:9px 0}
+.car-zoom-actions button{background:#e4f5ed;color:#20694b;border:2px solid #89c2a5;min-height:44px;font-weight:750}
+.car-zoom-actions button:disabled{opacity:.54}
+.car-zoom-actions span{font-size:.82rem;color:#587284}
+html[data-theme="dark"] .car-zoom-actions button{background:#285943;color:#f1fff5;border-color:#7bc5a4}
+html[data-theme="dark"] .car-zoom-actions span{color:#bed6e2}
