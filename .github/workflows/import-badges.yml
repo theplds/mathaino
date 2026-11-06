@@ -1,0 +1,59 @@
+name: Temporary badge asset importer
+on:
+  push:
+    branches: [feature/car-badge-only-quiz-v0-6-82]
+    paths: [.github/workflows/import-badges.yml]
+permissions:
+  contents: write
+jobs:
+  import:
+    if: github.repository == 'theplds/mathaino'
+    strategy:
+      fail-fast: false
+      matrix:
+        brand: [Ferrari, Lamborghini, Porsche, Nissan, Ford, Chevrolet, Tesla]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Prepare image converters
+        run: python3 -m pip install --quiet pillow cairosvg
+      - name: Import brand badge to neutral image
+        run: python3 scripts/import-badge-images.py "${{ matrix.brand }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: badge-${{ matrix.brand }}
+          path: badge-staging/
+          if-no-files-found: error
+  finalize:
+    if: github.repository == 'theplds/mathaino'
+    needs: import
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: feature/car-badge-only-quiz-v0-6-82
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: badge-*
+          merge-multiple: true
+          path: assets/badges/
+      - name: Validate seven local PNGs and commit them
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          names=list(Path('assets/badges').glob('*.png'))
+          if len(names)!=7:raise ValueError('Expected seven PNGs, got '+str(len(names)))
+          for p in names:
+              b=p.read_bytes()
+              if b[:8]!=bytes((137,80,78,71,13,10,26,10)) or len(b)<2500:raise ValueError('Invalid PNG '+str(p))
+              print(p,len(b))
+          PY
+          git config user.name "mathaino-assets"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/badges
+          git commit -m "Bundle seven real manufacturer badge illustrations for offline quiz"
+          git push origin HEAD:feature/car-badge-only-quiz-v0-6-82
