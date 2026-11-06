@@ -18,8 +18,8 @@ canonical=file.replace(' ','_')
 digest=hashlib.md5(canonical.encode('utf-8')).hexdigest()
 url='https://upload.wikimedia.org/wikipedia/commons/'+digest[0]+'/'+digest[:2]+'/'+urllib.parse.quote(canonical,safe='()')
 other='https://commons.wikimedia.org/wiki/Special:FilePath/'+urllib.parse.quote(file)+'?width=960'
-raw=None
-for attempt in range(6):
+raw=Path('assets/badges/source-porsche.svg').read_bytes() if brand=='Porsche' else None
+for attempt in range(0 if brand=='Porsche' else 6):
     endpoint=url if attempt < 4 else other
     try:
         request=urllib.request.Request(endpoint,headers={'User-Agent':'MathainoEducationalBadgeImporter/0.6.82 (source credit in GitHub)', 'Accept':'image/*'})
