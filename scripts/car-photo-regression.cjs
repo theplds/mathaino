@@ -36,7 +36,7 @@ test('every photo has explicit author, file source and valid Creative Commons li
  }
  assert.ok(fs.readFileSync('assets/REAL_CAR_PHOTO_SOURCES.md','utf8').includes('NOT in this release'));
 });
-test('the child's quiz does not appear unless the image loads',()=>{
+test("the child's quiz does not appear unless the image loads",()=>{
  const code=source.slice(source.indexOf('function nextCar(){'),source.indexOf('function openCars()'));
  assert.ok(code.includes("$x('carAnswers').replaceChildren();"),'answers initially cleared');
  assert.ok(code.includes('img.onload=()=>{'));
