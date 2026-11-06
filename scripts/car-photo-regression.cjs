@@ -66,6 +66,7 @@ test('every vehicle is colorful and identifiable from a front-oriented photo',()
  assert.ok(bank.some(p=>p.color==='blue'));
  assert.ok(bank.some(p=>p.color==='green'));
  assert.ok(bank.some(p=>p.color==='orange'));
+ assert.ok(bank.filter(p=>/three-quarter|front-left|front-right/.test(p.view)).length>=5);
 });
 test('photo enlargement exposes the actual car emblem, not a generated logo',()=>{
  const css=fs.readFileSync('extra-lessons.css','utf8');
@@ -74,6 +75,8 @@ test('photo enlargement exposes the actual car emblem, not a generated logo',()=
  assert.ok(source.includes("carZoomed=false;updateCarZoom()"));
  assert.ok(source.includes("$x('carZoom').disabled=false"));
  assert.ok(css.includes("#carPictureFrame.is-zoomed #carPicture"));
+ assert.ok(css.includes('object-fit:contain'));
+ assert.ok(css.includes('aspect-ratio:16/9'));
 });
 test('car lesson JavaScript still parses',()=>{new Function(source)});
 if(process.exitCode)process.exit(process.exitCode);
