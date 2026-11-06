@@ -67,7 +67,7 @@ test('catalog has dynamic count and subject-specific modes',()=>{
  assert.ok(ui.includes("const oldStudy=$x('study').onclick,oldPractice=$x('practice').onclick"));
 });
 test('asset ordering and offline cache are versioned',()=>{
- assert.ok(html.includes('v0.6.80'));assert.ok(sw.includes('mathaino-v0.6.80'));
+ assert.ok(html.includes('v0.6.81'));assert.ok(sw.includes('mathaino-v0.6.81'));
  for(const path of ['lessons-grade-d-e-expanded.js','extra-subjects.js','extra-subjects.css']){
   assert.ok(html.includes('./'+path+'?v=677'),path+' missing from HTML');
   assert.ok(sw.includes("'./"+path+"?v=677'"),path+' missing from offline cache');
