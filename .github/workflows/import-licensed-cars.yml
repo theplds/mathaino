@@ -1,4 +1,4 @@
-name: Import candidate car images (temporary review workflow)
+name: Finalize seven offline licensed car photos (temporary)
 on:
   push:
     branches:
@@ -8,52 +8,57 @@ on:
 permissions:
   contents: write
 jobs:
-  download:
+  finalize:
     if: github.repository == 'theplds/mathaino'
-    strategy:
-      fail-fast: false
-      matrix:
-        photo: [lambo-green-dealer]
     runs-on: ubuntu-latest
-    timeout-minutes: 9
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Retrieve candidate via Wikimedia Commons
-        run: node scripts/import-car-photo-candidate.cjs "${{ matrix.photo }}"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: candidate-${{ matrix.photo }}
-          path: car-staging/
-          if-no-files-found: error
-  commit:
-    if: github.repository == 'theplds/mathaino'
-    needs: download
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: feature/car-gallery-cohesive-licensed-set-v0-6-81
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: candidate-*
-          merge-multiple: true
-          path: assets/cars/candidates
-      - name: Validate JPEGs and commit to review branch
+      - name: Use visually approved real-car photographs
+        shell: bash
         run: |
-          node - <<'NODE'
-          const fs=require('fs');
-          const files=fs.readdirSync('assets/cars/candidates').filter(x=>x.endsWith('.jpg'));
-          if(files.length!==10)throw Error('Expected ten staged candidates, received '+files.length);
-          for(const name of files){
-            const b=fs.readFileSync('assets/cars/candidates/'+name);
-            if(b.length<10000||b[0]!==255||b[1]!==216||b[2]!==255)throw Error('Invalid JPEG '+name);
-          }
-          console.log('Downloaded '+files.length+' candidate photos');
-          NODE
+          set -euo pipefail
+          cp assets/cars/candidates/porsche-orange-a.jpg assets/cars/porsche-911-orange.jpg
+          cp assets/cars/candidates/corvette-red-a.jpg assets/cars/chevrolet-corvette-red.jpg
+          cp assets/cars/candidates/lambo-green-dealer.jpg assets/cars/lamborghini-huracan-green.jpg
+          python3 -m pip install --quiet pillow
+          # Prefer full source resolution for the Lamborghini badge. A fallback
+          # to the already verified CC JPEG keeps this workflow reproducible.
+          curl --fail --location --silent --show-error --retry 2 --max-time 20 --user-agent "Mathaino educational app CC image importer"             "https://upload.wikimedia.org/wikipedia/commons/b/be/Green_2018_Lamborghini_Huracan.jpg"             -o /tmp/mathaino-lambo-original.jpg || true
+          python3 - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          original=Path('/tmp/mathaino-lambo-original.jpg')
+          fallback=Path('assets/cars/lamborghini-huracan-green.jpg')
+          try:
+              img=Image.open(original if original.exists() else fallback).convert('RGB')
+          except Exception:
+              img=Image.open(fallback).convert('RGB')
+          w,h=img.size
+          # Exact reviewed full-car area: remove dealership brand sign at top,
+          # retain all four wheels / bumpers and the authentic hood emblem.
+          box=(int(w*.255),int(h*.315),int(w*.80),int(h*.785))
+          cropped=img.crop(box)
+          cropped.thumbnail((1600,1200))
+          cropped.save(fallback,'JPEG',quality=88,optimize=True,subsampling=0)
+          print('Lamborghini crop:',img.size,'->',cropped.size)
+          PY
+          rm -f assets/cars/bmw-m4-blue.jpg assets/cars/lamborghini-huracan-sto.jpg
+          rm -rf assets/cars/candidates
+          python3 - <<'PY'
+          from pathlib import Path
+          files=list(Path('assets/cars').glob('*.jpg'))
+          if len(files)!=7: raise ValueError(f'Expected 7 approved photos, got {len(files)}')
+          for p in files:
+              data=p.read_bytes()
+              if len(data)<15000 or data[:3]!=b'\xff\xd8\xff':
+                  raise ValueError('Invalid JPEG: '+str(p))
+              print(p.name,len(data))
+          PY
           git config user.name "mathaino-image-import"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/cars/candidates
-          git commit -m "Import nine car photo candidates for direct visual comparison"
+          git add -A assets/cars
+          git commit -m "Approve seven local full-car photos and crop distracting dealership text"
           git push origin HEAD:feature/car-gallery-cohesive-licensed-set-v0-6-81
