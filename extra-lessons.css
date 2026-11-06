@@ -80,3 +80,17 @@ html[data-theme="dark"] #carPictureFrame{
  #carPictureFrame{aspect-ratio:4/3;min-height:0}
  #carPicture{padding:6px}
 }
+
+/* v0.6.82 — two quiz modes, same calm visual scale and tap-first controls */
+.car-mode-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:10px 0 16px}
+.car-mode-switch button{min-height:49px;border:2px solid #9cbfcf;border-radius:12px;background:#ebf5fa;color:#2b566c;font-weight:780}
+.car-mode-switch button[aria-pressed="true"]{background:#d3eee2;color:#185e44;border-color:#2b9671}
+.car-mode-switch button:focus-visible{outline:3px solid #258b9b;outline-offset:3px}
+#carPhotoZoomGroup[hidden]{display:none!important}
+#carPictureFrame.badge-only{aspect-ratio:4/3;min-height:220px;background:#f5f8fa;border-color:#cbdce3}
+#carPictureFrame.badge-only #carPicture{object-fit:contain;transform:none!important;padding:8px;max-width:100%;max-height:100%;background:transparent}
+#carPictureFrame.badge-only #carImageFallback{width:100%}
+html[data-theme="dark"] .car-mode-switch button{background:#304d62;border-color:#6a90a5;color:#eefaff}
+html[data-theme="dark"] .car-mode-switch button[aria-pressed="true"]{background:#2b7155;border-color:#98dab7;color:white}
+html[data-theme="dark"] #carPictureFrame.badge-only{background:#eef4f7;border-color:#6c8a99}
+@media(max-width:410px){.car-mode-switch button{font-size:.92rem;padding:8px 5px}#carPictureFrame.badge-only{min-height:190px}}
