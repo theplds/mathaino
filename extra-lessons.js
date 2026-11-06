@@ -84,6 +84,7 @@ function updateCarModeButtons(){
  $x('carQuizHeading').textContent=badge?'Μάντεψε το σήμα':'Γρήγορα αυτοκίνητα';
  $x('carQuizDescription').textContent=badge?'Κοίταξε μόνο το πραγματικό σήμα. Ποια μάρκα είναι;':'Κοίταξε τη φωτογραφία. Ποια είναι η μάρκα; Διάλεξε μία από τις τέσσερις απαντήσεις.';
  $x('carPhotoZoomGroup').hidden=badge;
+ $x('carSourceNote').textContent=badge?'Αυθεντικά σήματα για εκπαιδευτική αναγνώριση · καμία συνεργασία με τους κατασκευαστές · χωρίς σύνδεση.':'Αληθινές φωτογραφίες με άδεια χρήσης · αποθηκεύονται για παιχνίδι και χωρίς σύνδεση.';
  $x('carPictureFrame').classList.toggle('badge-only',badge);
  $x('carNext').textContent='Επόμενο '+(badge?'σήμα':'αυτοκίνητο');
  $x('carSkip').classList.remove('hidden');
@@ -187,7 +188,7 @@ function nextCar(){
   img.style.display='none';fallback.classList.remove('hidden');
   fallback.textContent='Η εικόνα δεν είναι διαθέσιμη. Δοκίμασε «Παράλειψη» για την επόμενη. ';
   const link=document.createElement('a');
-  link.href=commonsLink(current.file);link.target='_blank';link.rel='noopener noreferrer';
+  link.href=current.sourceUrl||commonsLink(current.file);link.target='_blank';link.rel='noopener noreferrer';
   link.textContent='Πηγή φωτογραφίας';
   fallback.append(link);
   $x('carFeedback').textContent='Δεν εμφανίστηκε εικόνα, οπότε δεν θα ζητήσουμε μαντεψιά.'
