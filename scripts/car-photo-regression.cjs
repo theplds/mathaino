@@ -62,12 +62,12 @@ test("the child's quiz does not appear unless the image loads",()=>{
 });
 test('current app CSP and versioned cache permit real thumbnails',()=>{
  assert.ok(html.includes('https://upload.wikimedia.org'),'image CSP must allow actual Wikimedia photos');
- assert.ok(html.includes('extra-lessons.js?v=681'));
+ assert.ok(html.includes('extra-lessons.js?v=682'));
  assert.ok(html.includes('curriculum-art.js?v=681'));
- assert.ok(html.includes('v0.6.81'));
- assert.ok(sw.includes('mathaino-v0.6.81'));
- assert.ok(sw.includes("'./extra-lessons.js?v=681'"));
- assert.ok(sw.includes("'./extra-lessons.css?v=681'"));
+ assert.ok(html.includes('v0.6.82'));
+ assert.ok(sw.includes('mathaino-v0.6.82'));
+ assert.ok(sw.includes("'./extra-lessons.js?v=682'"));
+ assert.ok(sw.includes("'./extra-lessons.css?v=682'"));
  assert.ok(sw.includes("'./curriculum-art.js?v=681'"));
 });
 test('every vehicle is colorful and identifiable from a front-oriented photo',()=>{
